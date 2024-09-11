@@ -1,0 +1,274 @@
+﻿@page
+@model RazorWebUI.Areas.ITrainings.Pages.Admin.UpdateModel
+@{
+}
+<div class="card card-default">
+    <div class="card-header">
+        <h3 class="card-title">UPDATE TRAINING</h3>
+
+    </div>
+    <!-- /.card-header -->
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <form method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Training.Id" />
+                    <div class="form-group">
+                        <label class="control-label">Update Category</label>
+                        <select asp-for="Training.TrainingCategoryId" class="form-control select2 select2-primary js-example-basic-single" data-dropdown-css-class="select2-primary" asp-items="ViewBag.TrainingCategoryId">
+                            <option value="">Choose</option>
+                        </select>
+
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Training.Title" class="control-label"></label>
+                        <input asp-for="Training.Title" class="form-control" id="upper1" oninput="myUppercase('upper1')" />
+                        <span asp-validation-for="Training.Title" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Training.Address" class="control-label"></label>
+                        <input asp-for="Training.Address" class="form-control" />
+                        <span asp-validation-for="Training.Address" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Training.State" class="control-label"></label>
+                        <input asp-for="Training.State" class="form-control" />
+                        <span asp-validation-for="Training.State" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Training.LGA" class="control-label"></label>
+                        <input asp-for="Training.LGA" class="form-control" />
+                        <span asp-validation-for="Training.LGA" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Training.Ward" class="control-label"></label>
+                        <input asp-for="Training.Ward" class="form-control" />
+                        <span asp-validation-for="Training.Ward" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Training.StartDate" class="control-label"></label>
+                        <input asp-for="Training.StartDate" class="form-control" />
+                        <span asp-validation-for="Training.StartDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Training.EndDate" class="control-label"></label>
+                        <input asp-for="Training.EndDate" class="form-control" />
+                        <span asp-validation-for="Training.EndDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Training.DialyStartTime" class="control-label"></label>
+                        <input asp-for="Training.DialyStartTime" class="form-control" />
+                        <span asp-validation-for="Training.DialyStartTime" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Training.DialyEndTime" class="control-label"></label>
+                        <input asp-for="Training.DialyEndTime" class="form-control" />
+                        <span asp-validation-for="Training.DialyEndTime" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Training.TrainingStatus" class="control-label"></label>
+                        @Html.DropDownListFor(model => model.Training.TrainingStatus, new SelectList(Enum.GetValues(typeof(Domain.Models.EnumStatus.TrainingStatus))), new { @class = "form-control" })
+                        <span asp-validation-for="Training.TrainingStatus" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Training.EnablePreTest" class="control-label"></label>
+                        <input asp-for="Training.EnablePreTest" />
+                        <span asp-validation-for="Training.EnablePreTest" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Training.PreTestInstruction" class="control-label"></label>
+                        <textarea asp-for="Training.PreTestInstruction" class="form-control"></textarea>
+                        <span asp-validation-for="Training.PreTestInstruction" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Training.EnablePostTest" class="control-label"></label>
+                        <input asp-for="Training.EnablePostTest" />
+                        <span asp-validation-for="Training.EnablePostTest" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Training.PostTestInstruction" class="control-label"></label>
+                        <textarea asp-for="Training.PostTestInstruction" class="form-control"></textarea>
+                        <span asp-validation-for="Training.PostTestInstruction" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Training.EvaluationInstruction" class="control-label"></label>
+                        <textarea asp-for="Training.EvaluationInstruction" class="form-control"></textarea>
+                        <span asp-validation-for="Training.EvaluationInstruction" class="text-danger"></span>
+                    </div>
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin") || User.IsInRole("mSuperAdmin"))
+                    {
+
+                        <div class="form-group">
+                            <label asp-for="Training.SignInStartTime" class="control-label"></label>
+                            <input asp-for="Training.SignInStartTime" class="form-control" placeholder="00:00" type="time" />
+                            <span asp-validation-for="Training.SignInStartTime" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Training.SignInStopTime" class="control-label"></label>
+                            <input asp-for="Training.SignInStopTime" class="form-control" type="time" />
+                            <span asp-validation-for="Training.SignInStopTime" class="text-danger"></span>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label asp-for="Training.SignOutStartTime" class="control-label"></label>
+                            <input asp-for="Training.SignOutStartTime" class="form-control" placeholder="00:00" type="time" />
+                            <span asp-validation-for="Training.SignOutStartTime" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Training.SignOutStopTime" class="control-label"></label>
+                            <input asp-for="Training.SignOutStopTime" class="form-control" type="time" />
+                            <span asp-validation-for="Training.SignOutStopTime" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Training.PostTestStartTime" class="control-label"></label>
+                            <input asp-for="Training.PostTestStartTime" class="form-control" type="time" />
+                            <span asp-validation-for="Training.PostTestStartTime" class="text-danger"></span>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label asp-for="Training.CertificateUseRightSidePhysicalSignature" class="control-label"></label>
+                            <input asp-for="Training.CertificateUseRightSidePhysicalSignature" />
+                            <span asp-validation-for="Training.CertificateUseRightSidePhysicalSignature" class="text-danger"></span>
+                        </div>
+
+                        @if (!String.IsNullOrEmpty(Model.Training.CertificateRightSideSignatureUrl))
+                        {
+                            <div class="form-group">
+                                <label class="control-label">Certificate Right Side Signature Image</label><br />
+                                <img src="@Model.Training.CertificateRightSideSignatureUrl" style="max-height:200px;" />
+                            </div>
+                        }
+                        <div class="form-group">
+                            <label class="control-label">Upload/Change Certificate Right Side Signature Image</label><br />
+                            <input type="file" class="control-label" asp-for="rightsignaturefile" accept="image/*" />
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Training.CertificateRightSideName" class="control-label"></label>
+                            <input asp-for="Training.CertificateRightSideName" class="form-control" />
+                            <span asp-validation-for="Training.CertificateRightSideName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Training.CertificateRightSideOfficePosition" class="control-label"></label>
+                            <input asp-for="Training.CertificateRightSideOfficePosition" class="form-control" />
+                            <span asp-validation-for="Training.CertificateRightSideOfficePosition" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Training.CertificateRightSideOfficeTitle" class="control-label"></label>
+                            <input asp-for="Training.CertificateRightSideOfficeTitle" class="form-control" />
+                            <span asp-validation-for="Training.CertificateRightSideOfficeTitle" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Training.CertificateUseLeftSidePhysicalSignature" class="control-label"></label>
+                            <input asp-for="Training.CertificateUseLeftSidePhysicalSignature" />
+                            <span asp-validation-for="Training.CertificateUseLeftSidePhysicalSignature" class="text-danger"></span>
+                        </div>
+
+                        @if (!String.IsNullOrEmpty(Model.Training.CertificateLeftSideSignatureUrl))
+                        {
+                            <div class="form-group">
+                                <label class="control-label">Certificate Left Side Signature Image</label><br />
+                                <img src="@Model.Training.CertificateLeftSideSignatureUrl" style="max-height:200px;" />
+                            </div>
+                        }
+                        <div class="form-group">
+                            <label class="control-label">Upload/Change Certificate Left Side Signature Image</label><br />
+                            <input type="file" class="control-label" asp-for="leftsignaturefile" accept="image/*" />
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Training.CertificateLeftSideName" class="control-label"></label>
+                            <input asp-for="Training.CertificateLeftSideName" class="form-control" />
+                            <span asp-validation-for="Training.CertificateLeftSideName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Training.CertificateLeftSideOfficePosition" class="control-label"></label>
+                            <input asp-for="Training.CertificateLeftSideOfficePosition" class="form-control" />
+                            <span asp-validation-for="Training.CertificateLeftSideOfficePosition" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Training.CertificateLeftSideOfficeTitle" class="control-label"></label>
+                            <input asp-for="Training.CertificateLeftSideOfficeTitle" class="form-control" />
+                            <span asp-validation-for="Training.CertificateLeftSideOfficeTitle" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Training.CertificateTitle" class="control-label"></label>
+                            <input asp-for="Training.CertificateTitle" class="form-control" />
+                            <span asp-validation-for="Training.CertificateTitle" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Training.CertificateCourseTitle" class="control-label"></label>
+                            <input asp-for="Training.CertificateCourseTitle" class="form-control" />
+                            <span asp-validation-for="Training.CertificateCourseTitle" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Training.CertificateAddress" class="control-label"></label>
+                            <input asp-for="Training.CertificateAddress" class="form-control" />
+                            <span asp-validation-for="Training.CertificateAddress" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Training.CertificateDate" class="control-label"></label>
+                            <input asp-for="Training.CertificateDate" class="form-control" placeholder="5th to 12th March, 2024" />
+                            <span asp-validation-for="Training.CertificateDate" class="text-danger"></span>
+                        </div>
+
+
+                    }
+                    else
+                    {
+                        <input type="hidden" asp-for="Training.SignInStartTime" />
+                        <input type="hidden" asp-for="Training.SignInStopTime" />
+                        <input type="hidden" asp-for="Training.SignOutStartTime" />
+                        <input type="hidden" asp-for="Training.SignOutStopTime" />
+                        <input type="hidden" asp-for="Training.PostTestStartTime" />
+
+
+                        <input type="hidden" asp-for="Training.CertificateUseRightSidePhysicalSignature" />
+                        <input type="hidden" asp-for="Training.CertificateRightSideName" />
+                        <input type="hidden" asp-for="Training.CertificateRightSideOfficePosition" />
+                        <input type="hidden" asp-for="Training.CertificateRightSideOfficeTitle" />
+                        <input type="hidden" asp-for="Training.CertificateUseLeftSidePhysicalSignature" />
+                        <input type="hidden" asp-for="Training.CertificateLeftSideName" />
+                        <input type="hidden" asp-for="Training.CertificateLeftSideOfficePosition" />
+                        <input type="hidden" asp-for="Training.CertificateLeftSideOfficeTitle" />
+                        <input type="hidden" asp-for="Training.CertificateTitle" />
+                        <input type="hidden" asp-for="Training.CertificateCourseTitle" />
+                        <input type="hidden" asp-for="Training.CertificateAddress" />
+                        <input type="hidden" asp-for="Training.CertificateDate" />
+                    }
+                    <input type="hidden" asp-for="Training.CertificateRightSideSignatureUrl" />
+                    <input type="hidden" asp-for="Training.CertificateRightSideSignatureKey" />
+                    <input type="hidden" asp-for="Training.CertificateLeftSideSignatureUrl" />
+                    <input type="hidden" asp-for="Training.CertificateLeftSideSignatureKey" />
+
+                    <div class="form-group">
+                        <input type="submit" value="Update" class="btn btn-primary" />
+                        <a asp-page="./Index" class="btn bg-gradient-warning btn-sm" style="float:right;">Back</a>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+        <!-- /.row -->
+    </div>
+    <!-- /.card-body -->
+    <div class="card-footer">
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

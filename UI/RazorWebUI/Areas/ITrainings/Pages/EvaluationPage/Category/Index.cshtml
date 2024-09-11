@@ -1,0 +1,64 @@
+﻿@page
+@model RazorWebUI.Areas.ITrainings.Pages.EvaluationPage.Category.IndexModel
+@{
+}
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">MANAGE EVALUATION QUESTIONS CATEGORY</h3>
+
+
+        <a asp-page="./Add" class="btn bg-gradient-warning btn-sm" style="float:right;">New Question Category</a>
+        <a asp-page="/EvaluationPage/Index" class="btn bg-gradient-warning btn-sm" style="float:right;">Back to Question</a>
+
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <div style=" box-shadow: 0px 10px 20px 0px rgb(50 50 50 / 83%);padding:10px;">
+
+             
+            <div class="table-responsive">
+                <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>S/N</th>
+                            <th>
+                                Category
+                            </th>
+                              
+
+                        </tr>
+                    </thead>
+
+                    @{
+                        int sn = 0;
+                    }
+                    <tbody>
+                        @foreach (var item in Model.Datas)
+                        {
+                            <tr>
+
+                                <td>
+                                    @{
+                                        sn++;
+                                    }
+                                    @sn
+                                </td>
+                                <td>
+                                    <a asp-page="./Update" asp-route-id="@item.Id">
+                                        @Html.DisplayFor(modelItem => item.Name)
+
+                                    </a>
+                                </td>
+                                
+                                
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+     
+</div>

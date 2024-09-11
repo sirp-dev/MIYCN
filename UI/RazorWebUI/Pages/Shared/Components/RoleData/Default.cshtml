@@ -1,0 +1,11 @@
+﻿@model Domain.Models.AppRole
+
+
+<form asp-route-id="@Model.Id" method="post" style="display:inline !important;">
+
+    <input hidden="" name="UserId" value="@TempData["UserID"]" />
+    <input hidden="" name="fullname" value="@TempData["fullname"]" />
+    <button class="btn btn-@TempData["style"]">
+        @Model.Name
+    </button>
+</form>

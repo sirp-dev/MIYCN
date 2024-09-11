@@ -1,0 +1,613 @@
+﻿@page
+@model RazorWebUI.Areas.ITrainings.Pages.Admin.AttendanceModel
+@{
+    ViewData["Title"] = $"ATTENDANCE FOR {Model.Training.Title}({Model.Training.StartDate.ToString("ddd dd MMM, yyyy")} - {Model.Training.EndDate.ToString("ddd dd MMM, yyyy")})";
+    var currentTime = DateTime.UtcNow.AddHours(1).TimeOfDay;
+    var isSignInWithinTimeRange = currentTime >= Model.Training.SignInStartTime && currentTime <= Model.Training.SignInStopTime;
+    var isSignOutWithinTimeRange = currentTime >= Model.Training.SignOutStartTime && currentTime <= Model.Training.SignOutStopTime;
+
+}
+
+<div class="card card-default">
+    <div class="card-header">
+        <h3 class="card-title text-uppercase">
+            ATTENDANCE ON TRAINING
+        </h3>
+
+    </div>
+    <div class="card-header">
+        <h5 class="text-uppercase">Training Information</h5>
+        <h5 class="card-title">
+            @Model.Training.Title ( @Model.Training.StartDate.ToString("ddd dd MMM, yyyy") -
+            @Model.Training.EndDate.ToString("ddd dd MMM, yyyy"))
+            <br /><span style="font-size:13px;">
+                @Model.Training.Address
+            </span>
+        </h5>
+    </div>
+    <div class="card-header">
+        <h3 class="card-title text-uppercase">
+            @Model.DialyActivity.Title (@Model.DialyActivity.Date.ToString("dddd dd MMM, yyyy"))
+        </h3>
+
+    </div>
+
+    <div class="card-body">
+        <h6>KINDLY SELECT FROM THE DROPDOWN TO MARK THEIR ATTENDANCE AND SUBMIT AFTER SELECTING FOR ALL.</h6>
+        @if (TempData["response"] != null)
+        {
+            <div class="alert alert-warning" role="alert">
+                @TempData["response"]
+            </div>
+        }
+    </div>
+    <div class="card-header">
+        <h6>Sign In and Sign Out Time for the Participants</h6>
+        <table class="table">
+            <tr>
+                <th></th>
+                <th>Start</th>
+                <th>End</th>
+            </tr>
+            <tr>
+                <th>Sign In</th>
+                <th>@DateTime.Today.Add(Model.Training.SignInStartTime).ToString("hh:mm tt")</th>
+                <th>@DateTime.Today.Add(Model.Training.SignInStopTime).ToString("hh:mm tt")</th>
+            </tr>
+            <tr>
+                <th>Sign Out</th>
+                <th>@DateTime.Today.Add(Model.Training.SignOutStartTime).ToString("hh:mm tt")</th>
+                <th>@DateTime.Today.Add(Model.Training.SignOutStopTime).ToString("hh:mm tt")</th>
+            </tr>
+        </table>
+    </div>
+    <div class="card card-primary card-tabs">
+        <div class="card-header p-0 pt-1">
+            <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="custom-tabs-one-signin-tab" data-toggle="pill" href="#custom-tabs-one-signin" role="tab" aria-controls="custom-tabs-one-signin" aria-selected="false">
+                        SIGNIN ATTENDANCE <br />
+
+
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="custom-tabs-one-signout-tab" data-toggle="pill" href="#custom-tabs-one-signout" role="tab" aria-controls="custom-tabs-one-signout" aria-selected="true">SIGNOUT ATTENDANCE</a>
+                </li>
+
+            </ul>
+        </div>
+        <div class="card-body">
+            <div class="tab-content" id="custom-tabs-one-tabContent">
+                <div class="tab-pane fade active show" id="custom-tabs-one-signin" role="tabpanel" aria-labelledby="custom-tabs-one-signin-tab">
+                    <div class="card-body">
+                        <button class="btn-primary">Participants (@Model.Datas.Where(x => x.AccountType == 1).Count())</button>
+                        <button class="btn-success">Facilitators (@Model.Datas.Where(x => x.AccountType == 2).Count())</button>
+                        <form method="post" asp-page-handler="SignIn">
+                            <input asp-for="TrainingId" type="hidden" value="@Model.Training.Id" />
+                            <input asp-for="DialyActivityId" type="hidden" value="@Model.DialyActivity.Id" />
+                            <div class="table-responsive">
+                                <div>
+                                    <h5 colspan="5" class="text-center bg-primary"><strong>Participants</strong></h5>
+                                </div>
+                                <table id="" class="example-table table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>S/N</th>
+                                            <th>Name</th>
+                                            <th>
+                                                Email
+                                            </th>
+                                            <th>Phone</th>
+                                            <th>Role</th>
+
+                                            <th>Sign In</th>
+
+                                        </tr>
+                                    </thead>
+
+                                    @{
+                                        int sn = 0;
+                                    }
+
+
+                                    <tbody>
+
+                                        @foreach (var item in Model.Datas.OrderBy(x => x.User.FirstName).Where(x => x.AccountType == 1))
+                                        {
+                                            <tr>
+
+                                                <td>
+                                                    @{
+                                                        sn++;
+                                                    }
+                                                    @sn
+                                                </td>
+                                                <td>
+                                                    <a asp-page="/Admin/Info" asp-route-area="User" asp-route-id="@item.Id">
+                                                        @item.User.FullnameX
+
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    @item.User.Email
+                                                </td>
+                                                <td>
+                                                    @item.User.PhoneNumber
+                                                </td>
+                                                <td>
+                                                   Participant
+                                                </td>
+                                                <td>
+                                                    <div class="form-group">
+
+                                                        @{
+                                                            var selectedSignInValue = item.AttendanceSignInStatus.ToString() ?? "NILL";
+
+                                                            var selectSignInList = Enum.GetValues(typeof(Domain.Models.EnumStatus.AttendanceSignInStatus)).Cast<Domain.Models.EnumStatus.AttendanceSignInStatus>
+                                                                ()
+
+                                                                .Select(e => new SelectListItem
+                                                                {
+                                                                    Value = e.ToString(),
+                                                                    Text = e.ToString(),
+                                                                    Selected = e.ToString() == selectedSignInValue
+                                                                });
+
+
+                                                        }
+
+                                                        @if (isSignInWithinTimeRange)
+                                                        {
+                                                            @*@Html.DropDownList($"AttendanceSignInResult_{item.Id}", selectSignInList, new { @class = "form-control", required = "required" })*@
+
+                                                            <div class="form-group">
+                                                                <div class="form-check form-check-inline">
+                                                                    <input class="form-check-input" id="AttendanceSignInResult_@item.Id" name="AttendanceSignInResult_@item.Id" required="required" type="radio" value="3" style=" width: 20px; height: 20px;"
+                                                                           @(item.AttendanceSignInStatus == Domain.Models.EnumStatus.AttendanceSignInStatus.Present ? "checked" : "")>
+                                                                    <label class="form-check-label" for="AttendanceSignInResult_@item.Id">Present</label>
+                                                                </div>
+                                                                <div class="form-check form-check-inline">
+                                                                    <input class="form-check-input" id="AttendanceSignInResult_@item.Id" name="AttendanceSignInResult_@item.Id" required="required" type="radio" value="2" style=" width: 20px; height: 20px;"
+                                                                           @(item.AttendanceSignInStatus == Domain.Models.EnumStatus.AttendanceSignInStatus.Absent ? "checked" : "")>
+                                                                    <label class="form-check-label" for="AttendanceSignInResult_@item.Id">Absent</label>
+                                                                </div>
+                                                            </div>
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <span>
+                                                                @if (item.AttendanceSignInStatus == Domain.Models.EnumStatus.AttendanceSignInStatus.Present)
+                                                                {
+                                                                    <span>present</span>
+                                                                }
+                                                                else if (item.AttendanceSignInStatus == Domain.Models.EnumStatus.AttendanceSignInStatus.Absent)
+                                                                {
+                                                                    <span>absent</span>
+                                                                }
+                                                                else if (item.AttendanceSignInStatus == Domain.Models.EnumStatus.AttendanceSignInStatus.Null)
+                                                                {
+                                                                    <span>---</span>
+                                                                }
+
+
+                                                            </span>
+                                                        }
+
+
+
+                                                    </div>
+
+                                                </td>
+
+
+
+                                            </tr>
+                                        }
+
+                                    </tbody>
+                                </table>
+
+                                <div>
+                                    <h5 colspan="5" class="text-center bg-primary" style="margin-top:30px;"><strong>Faciliators</strong></h5>
+                                </div>
+
+                                <table id="" class="example-table table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>S/N</th>
+                                            <th>Name</th>
+                                            <th>
+                                                Email
+                                            </th>
+                                            <th>Phone</th>
+                                            <th>Role</th>
+
+                                            <th>Sign In</th>
+
+                                        </tr>
+                                    </thead>
+
+                                    @{
+                                        int ssn = 0;
+                                    }
+                                    <tbody>
+                                      
+                                        @foreach (var item in Model.Datas.OrderBy(x => x.User.FirstName).Where(x => x.AccountType == 2))
+                                        {
+                                            <tr>
+
+                                                <td>
+                                                    @{
+                                                        ssn++;
+                                                    }
+                                                    @ssn
+                                                </td>
+                                                <td>
+                                                    <a asp-page="/Admin/Info" asp-route-area="User" asp-route-id="@item.Id">
+                                                        @item.User.FullnameX
+
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    @item.User.Email
+                                                </td>
+                                                <td>
+                                                    @item.User.PhoneNumber
+                                                </td>
+                                                <td>
+                                                   Facilitator
+                                                </td>
+
+                                                <td>
+                                                    <div class="form-group">
+
+                                                        @{
+                                                            var selectedSignInValue = item.AttendanceSignInStatus.ToString() ?? "NILL";
+
+                                                            var selectSignInList = Enum.GetValues(typeof(Domain.Models.EnumStatus.AttendanceSignInStatus)).Cast<Domain.Models.EnumStatus.AttendanceSignInStatus>
+                                                                ()
+
+                                                                .Select(e => new SelectListItem
+                                                                {
+                                                                    Value = e.ToString(),
+                                                                    Text = e.ToString(),
+                                                                    Selected = e.ToString() == selectedSignInValue
+                                                                });
+
+
+                                                        }
+
+                                                        @if (isSignInWithinTimeRange)
+                                                        {
+                                                            @*@Html.DropDownList($"AttendanceSignInResult_{item.Id}", selectSignInList, new { @class = "form-control", required = "required" })*@
+
+                                                            <div class="form-group">
+                                                                <div class="form-check form-check-inline">
+                                                                    <input class="form-check-input" id="AttendanceSignInResult_@item.Id" name="AttendanceSignInResult_@item.Id" required="required" type="radio" value="3" style=" width: 20px; height: 20px;"
+                                                                           @(item.AttendanceSignInStatus == Domain.Models.EnumStatus.AttendanceSignInStatus.Present ? "checked" : "")>
+                                                                    <label class="form-check-label" for="AttendanceSignInResult_@item.Id">Present</label>
+                                                                </div>
+                                                                <div class="form-check form-check-inline">
+                                                                    <input class="form-check-input" id="AttendanceSignInResult_@item.Id" name="AttendanceSignInResult_@item.Id" required="required" type="radio" value="2" style=" width: 20px; height: 20px;"
+                                                                           @(item.AttendanceSignInStatus == Domain.Models.EnumStatus.AttendanceSignInStatus.Absent ? "checked" : "")>
+                                                                    <label class="form-check-label" for="AttendanceSignInResult_@item.Id">Absent</label>
+                                                                </div>
+                                                            </div>
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <span>
+                                                                @if (item.AttendanceSignInStatus == Domain.Models.EnumStatus.AttendanceSignInStatus.Present)
+                                                                {
+                                                                    <span>present</span>
+                                                                }
+                                                                else if (item.AttendanceSignInStatus == Domain.Models.EnumStatus.AttendanceSignInStatus.Absent)
+                                                                {
+                                                                    <span>absent</span>
+                                                                }
+                                                                else if (item.AttendanceSignInStatus == Domain.Models.EnumStatus.AttendanceSignInStatus.Null)
+                                                                {
+                                                                    <span>---</span>
+                                                                }
+
+
+                                                            </span>
+                                                        }
+
+
+
+                                                    </div>
+
+                                                </td>
+
+
+
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                            @if (isSignInWithinTimeRange)
+                            {
+                                <button type="submit" class="btn btn-primary" style="margin-left: 20px;">Update Attendance (Sign In)</button>
+                            }
+                            <a asp-page="./Info" asp-route-id="@Model.Training.Id" class="btn btn-warning">Back</a>
+                        </form>
+
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="custom-tabs-one-signout" role="tabpanel" aria-labelledby="custom-tabs-one-signout-tab">
+                    <div class="card-body">
+                        <button class="btn-primary">Participants (@Model.Datas.Where(x => x.AccountType == 1).Count())</button>
+                        <button class="btn-success">Facilitators (@Model.Datas.Where(x => x.AccountType == 2).Count())</button>
+                        <form method="post" asp-page-handler="SignOut">
+                            <input asp-for="TrainingId" type="hidden" value="@Model.Training.Id" />
+                            <input asp-for="DialyActivityId" type="hidden" value="@Model.DialyActivity.Id" />
+                            <div class="table-responsive">
+                                <table id="" class="example-table table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>S/N</th>
+                                            <th>Name</th>
+                                            <th>
+                                                Email
+                                            </th>
+                                            <th>Phone</th>
+
+                                            <th>Sign Out</th>
+
+                                        </tr>
+                                    </thead>
+
+                                    @{
+                                        int snn = 0;
+                                    }
+
+
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="5" class="text-center bg-primary"><strong>Participants</strong></td>
+                                        </tr>
+                                        @foreach (var item in Model.Datas.OrderBy(x => x.User.FirstName).Where(x => x.AccountType == 1))
+                                        {
+                                            <tr>
+
+                                                <td>
+                                                    @{
+                                                        snn++;
+                                                    }
+                                                    @snn
+                                                </td>
+                                                <td>
+                                                    <a asp-page="/Admin/Info" asp-route-area="User" asp-route-id="@item.Id">
+                                                        @item.User.FullnameX
+
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    @item.User.Email
+                                                </td>
+                                                <td>
+                                                    @item.User.PhoneNumber
+                                                </td>
+
+
+                                                <td>
+                                                    <div class="form-group">
+
+                                                        @{
+                                                            var selectedSignOutValue = item.AttendanceSignOutStatus.ToString() ?? "NILL";
+
+                                                            var selectSignOutList = Enum.GetValues(typeof(Domain.Models.EnumStatus.AttendanceSignOutStatus)).Cast<Domain.Models.EnumStatus.AttendanceSignOutStatus>
+                                                                ()
+
+                                                                .Select(e => new SelectListItem
+                                                                {
+                                                                    Value = e.ToString(),
+                                                                    Text = e.ToString(),
+                                                                    Selected = e.ToString() == selectedSignOutValue
+                                                                });
+                                                        }
+
+                                                        @if (isSignOutWithinTimeRange)
+                                                        {
+                                                            <div class="form-group">
+                                                                <div class="form-check form-check-inline">
+                                                                    <input class="form-check-input" id="AttendanceSignOutResult_@item.Id" name="AttendanceSignOutResult_@item.Id" required="required" type="radio" value="3" style="width: 20px; height: 20px;"
+                                                                           @(item.AttendanceSignOutStatus == Domain.Models.EnumStatus.AttendanceSignOutStatus.Present ? "checked" : "")>
+                                                                    <label class="form-check-label" for="AttendanceSignOutResult_@item.Id">Present</label>
+                                                                </div>
+                                                                <div class="form-check form-check-inline">
+                                                                    <input class="form-check-input" id="AttendanceSignOutResult_@item.Id" name="AttendanceSignOutResult_@item.Id" required="required" type="radio" value="2" style="width: 20px; height: 20px;"
+                                                                           @(item.AttendanceSignOutStatus == Domain.Models.EnumStatus.AttendanceSignOutStatus.Absent ? "checked" : "")>
+                                                                    <label class="form-check-label" for="AttendanceSignOutResult_@item.Id">Absent</label>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span>
+                                                                @if (item.AttendanceSignOutStatus == Domain.Models.EnumStatus.AttendanceSignOutStatus.Present)
+                                                                {
+                                                                    <span>present</span>
+                                                                }
+                                                                else if (item.AttendanceSignOutStatus == Domain.Models.EnumStatus.AttendanceSignOutStatus.Absent)
+                                                                {
+                                                                    <span>absent</span>
+                                                                }
+                                                                else if (item.AttendanceSignOutStatus == Domain.Models.EnumStatus.AttendanceSignOutStatus.Null)
+                                                                {
+                                                                    <span>---</span>
+                                                                }
+                                                            </span>
+                                                        }
+
+                                                        @*}
+                                                            else
+                                                            {
+                                                                <span>
+                                                                    @if (item.AttendanceSignOutStatus == Domain.Models.EnumStatus.AttendanceSignOutStatus.Present)
+                                                                    {
+                                                                        <span>present</span>
+                                                                    }
+                                                                    else if (item.AttendanceSignOutStatus == Domain.Models.EnumStatus.AttendanceSignOutStatus.Absent)
+                                                                    {
+                                                                        <span>absent</span>
+                                                                    }
+                                                                    else if (item.AttendanceSignOutStatus == Domain.Models.EnumStatus.AttendanceSignOutStatus.Null)
+                                                                    {
+                                                                        <span>---</span>
+                                                                    }
+
+
+                                                                </span>
+                                                            }*@
+                                                    </div>
+
+                                                </td>
+
+
+                                            </tr>
+                                        }
+
+
+                                    </tbody>
+                                </table>
+                                <table id="" class="example-table table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>S/N</th>
+                                            <th>Name</th>
+                                            <th>
+                                                Email
+                                            </th>
+                                            <th>Phone</th>
+
+                                            <th>Sign Out</th>
+
+                                        </tr>
+                                    </thead>
+
+                                    @{
+                                        int xsnn = 0;
+                                    }
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="5" class="text-center bg-primary"><strong>Facilitators</strong></td>
+                                        </tr>
+                                        @foreach (var item in Model.Datas.OrderBy(x => x.User.FirstName).Where(x => x.AccountType == 2))
+                                        {
+                                            <tr>
+
+                                                <td>
+                                                    @{
+                                                        xsnn++;
+                                                    }
+                                                    @xsnn
+                                                </td>
+                                                <td>
+                                                    <a asp-page="/Admin/Info" asp-route-area="User" asp-route-id="@item.Id">
+                                                        @item.User.FullnameX
+
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    @item.User.Email
+                                                </td>
+                                                <td>
+                                                    @item.User.PhoneNumber
+                                                </td>
+
+
+                                                <td>
+                                                    <div class="form-group">
+
+                                                        @{
+                                                            var selectedSignOutValue = item.AttendanceSignOutStatus.ToString() ?? "NILL";
+
+                                                            var selectSignOutList = Enum.GetValues(typeof(Domain.Models.EnumStatus.AttendanceSignOutStatus)).Cast<Domain.Models.EnumStatus.AttendanceSignOutStatus>
+                                                                ()
+
+                                                                .Select(e => new SelectListItem
+                                                                {
+                                                                    Value = e.ToString(),
+                                                                    Text = e.ToString(),
+                                                                    Selected = e.ToString() == selectedSignOutValue
+                                                                });
+                                                        }
+
+                                                        @if (isSignOutWithinTimeRange)
+                                                        {
+                                                            <div class="form-group">
+                                                                <div class="form-check form-check-inline">
+                                                                    <input class="form-check-input" id="AttendanceSignOutResult_@item.Id" name="AttendanceSignOutResult_@item.Id" required="required" type="radio" value="3" style="width: 20px; height: 20px;"
+                                                                           @(item.AttendanceSignOutStatus == Domain.Models.EnumStatus.AttendanceSignOutStatus.Present ? "checked" : "")>
+                                                                    <label class="form-check-label" for="AttendanceSignOutResult_@item.Id">Present</label>
+                                                                </div>
+                                                                <div class="form-check form-check-inline">
+                                                                    <input class="form-check-input" id="AttendanceSignOutResult_@item.Id" name="AttendanceSignOutResult_@item.Id" required="required" type="radio" value="2" style="width: 20px; height: 20px;"
+                                                                           @(item.AttendanceSignOutStatus == Domain.Models.EnumStatus.AttendanceSignOutStatus.Absent ? "checked" : "")>
+                                                                    <label class="form-check-label" for="AttendanceSignOutResult_@item.Id">Absent</label>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span>
+                                                                @if (item.AttendanceSignOutStatus == Domain.Models.EnumStatus.AttendanceSignOutStatus.Present)
+                                                                {
+                                                                    <span>present</span>
+                                                                }
+                                                                else if (item.AttendanceSignOutStatus == Domain.Models.EnumStatus.AttendanceSignOutStatus.Absent)
+                                                                {
+                                                                    <span>absent</span>
+                                                                }
+                                                                else if (item.AttendanceSignOutStatus == Domain.Models.EnumStatus.AttendanceSignOutStatus.Null)
+                                                                {
+                                                                    <span>---</span>
+                                                                }
+                                                            </span>
+                                                        }
+
+
+                                                    </div>
+
+                                                </td>
+
+
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                            @if (isSignOutWithinTimeRange)
+                            {
+                                <button type="submit" class="btn btn-primary" style="margin-left: 20px;">Update Attendance (Sign Out)</button>
+                            }    <a asp-page="./Info" asp-route-id="@Model.Training.Id" class="btn btn-warning">Back</a>
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- /.card -->
+    </div>
+
+
+</div>
+@if (User.IsInRole("ManageAttendance"))
+    {
+<form method="post" asp-page-handler="DeleteAttendance">
+    <input type="hidden" asp-for="DialyActivityId" value="@Model.DialyActivity.Id" />
+    <input type="hidden" asp-for="TrainingId" value="@Model.DialyActivity.TrainingId" />
+    <input type="submit" value="Remove Attence for Activity @Model.DialyActivity.Date" class="btn btn-danger" />
+</form>
+}
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

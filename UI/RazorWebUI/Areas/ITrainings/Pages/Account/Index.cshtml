@@ -1,0 +1,73 @@
+﻿@page
+@model RazorWebUI.Areas.ITrainings.Pages.Account.IndexModel
+@{
+}
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">TRAINING MANAGER</h3>
+
+
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <h6>This is where all the trainings you have attended shows</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>S/N</th>
+                            <th>
+                                Training
+                            </th>
+
+                            <th>Date</th>
+                            <th>State</th>
+                            <th>LGA</th>
+                            <th>Status</th>
+                             
+
+                        </tr>
+                    </thead>
+
+                    @{
+                        int sn = 0;
+                    }
+                    <tbody>
+                        @foreach (var item in Model.TrainingByUserDto)
+                        {
+                            <tr>
+
+                                <td>
+                                    @{
+                                        sn++;
+                                    }
+                                    @sn
+                                </td>
+                                <td>
+                                    <a asp-page="./Info" asp-route-id="@item.TrainingId">
+                                        @Html.DisplayFor(modelItem => item.TrainingTitle)
+
+                                    </a>
+                                </td>
+                                <td>
+                                    @item.TrainingDate.ToString("ddd dd MMM, yyyy")
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TrainingState)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TrainingLGA)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TrainingStatus)
+                                </td>
+                                 
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>

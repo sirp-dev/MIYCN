@@ -1,0 +1,87 @@
+﻿@page
+@model RazorWebUI.Areas.Identity.Pages.Account.LockedModel
+
+
+    @{
+        Layout = null;
+
+        ViewData["Title"] = "Log in";
+    }
+
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Locked | MIYCN Portal | Maternal Infant and Young Child Nutrition</title>
+        <link rel="icon" href="~/img/icon.jpg" type="image/x-icon" />
+        <!-- Google Font: Source Sans Pro -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="~/dashboard/plugins/fontawesome-free/css/all.min.css">
+        <!-- Theme style -->
+        <link rel="stylesheet" href="~/dashboard/dist/css/adminlte.min.css">
+    </head>
+    <body class="hold-transition lockscreen">
+        <!-- Automatic element centering -->
+        <div class="lockscreen-wrapper">
+            <div class="lockscreen-logo">
+                <a href="/">
+
+                    <img src="~/img/miycn-logo-x2.png" alt="MIYCN Portal" class="" style=" height: 30px; text-align: center; margin: 0 auto;">
+
+                </a>
+            </div>
+            <!-- User name -->
+            <div class="lockscreen-name">@Model.BasicProfileDto.FullnameX</div>
+
+            <!-- START LOCK SCREEN ITEM -->
+            <div class="lockscreen-item">
+                <!-- lockscreen image -->
+                <div class="lockscreen-image">
+                    <img src="~/dashboard/user_lock.png" alt="Image">
+                </div>
+                <!-- /.lockscreen-image -->
+                <!-- lockscreen credentials (contains the form) -->
+                <form class="lockscreen-credentials">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Account Locked">
+
+                        <div class="input-group-append">
+                            <button type="button" class="btn">
+                                <i class="fas fa-lock text-muted"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <!-- /.lockscreen credentials -->
+
+            </div>
+            <!-- /.lockscreen-item -->
+            <div class="help-block text-center">
+                Kindly Contact Your Manage
+            </div>
+            <div class="text-center">
+                <a asp-page="./Login">Or sign in as a different user</a>
+            </div>
+            <div class="lockscreen-footer text-center">
+                <strong>   Copyright &copy; @DateTime.UtcNow.Year Powered By <a href="">HLADI</a> and Developed by <a href="">Juray Smart Solutions</a></strong><br>
+                All rights reserved
+            </div>
+        </div>
+        <!-- /.center -->
+        <!-- jQuery -->
+        <script src="~/dashboard/plugins/jquery/jquery.min.js"></script>
+        <!-- Bootstrap 4 -->
+        <script src="~/dashboard/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    </body>
+</html>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+
+
+}

@@ -1,0 +1,142 @@
+﻿@page
+@model RazorWebUI.Areas.ITrainings.Pages.Account.ResultModel
+@{
+}
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">
+            @if (Model.BasicProfileDto != null)
+            {
+                <span style="font-weight:900;">
+                    Name: @Model.BasicProfileDto.FullnameX
+                </span><br />
+            }
+
+            @Model.Title ON @Model.Training.Title (@Model.Training.StartDate.ToString("ddd dd MMM, yyyy") -
+            @Model.Training.EndDate.ToString("ddd dd MMM, yyyy"))
+
+            <br />
+            <span style="font-size:15px;">
+                @Model.Training.Address
+            </span>
+
+
+
+        </h3>
+
+        @if (User.IsInRole("Participant"))
+        {
+            <a asp-page="./Info" asp-route-id="@Model.Training.Id" class="btn bg-gradient-warning btn-sm" style="float:right;">Back</a>
+
+        }
+        else
+        {
+            <a asp-page="/Admin/Test" asp-route-id="@Model.Training.Id" class="btn bg-gradient-warning btn-sm" style="float:right;">Back</a>
+
+        }
+
+
+    </div>
+
+
+    <hr />
+    <div class="card-header">
+        <h6>
+            @Model.Instruction
+        </h6>
+        <h4>Questions (@Model.UserTestResultDto.TotalQuestions)</h4>
+        <h4>Result (@Model.UserTestResultDto.PercentageResult)</h4>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <div style=" box-shadow: 0px 10px 20px 0px rgb(50 50 50 / 83%);padding:10px;">
+
+
+
+            <div class="table-responsive">
+                <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>S/N</th>
+                            <th>
+                                Question
+                            </th>
+
+                            <th>Answer</th>
+
+
+
+                        </tr>
+                    </thead>
+
+                    @{
+                        int sn = 0;
+                    }
+                    <tbody>
+                        @foreach (var item in Model.UserTestResultDto.UserTest)
+                        {
+                            <tr>
+
+                                <td>
+                                    @{
+                                        sn++;
+                                    }
+                                    @sn
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TrainingTest.Question)
+
+                                </td>
+                                <td>
+                                    @if (item.Answer == 1)
+                                    {
+                                        <span>Yes</span>
+                                    }
+                                    else if (item.Answer == 2)
+                                    {
+                                        <span>No</span>
+                                    }
+                                    else if (item.Answer == 3)
+                                    {
+                                        <span>I Don't Know</span>
+                                    }
+
+                                    @if (item.Answer == item.TrainingTest.CorrectAnswer)
+                                    {
+                                        <span><i class="fa fa-check" style="color:green;"></i></span>
+                                    }
+                                    else
+                                    {
+                                        <span><i class="fa fa-times" style="color:red;"></i></span>
+
+                                        @if (item.TrainingTest.CorrectAnswer == 1)
+                                        {
+                                            <span>(Yes)</span>
+                                        }
+                                        else if (item.TrainingTest.CorrectAnswer == 2)
+                                        {
+                                            <span>(No)</span>
+                                        }
+                                        else if (item.TrainingTest.CorrectAnswer == 3)
+                                        {
+                                <span>(I Don't know)</span>
+                                        }
+
+
+
+                                    }
+
+
+
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+</div>

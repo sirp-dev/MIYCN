@@ -1,0 +1,94 @@
+﻿@page
+@model RazorWebUI.Areas.ITrainings.Pages.Admin.TrainingStatisticsModel
+@{    ViewData["Title"] = $"COMPREHENSIVE STATISTICS OF PARTICIPANTS FOR SUB-NATIONAL TRAINING OF TRAINERS ON MIYCN IN ALL THE STATES ({@Model.Datas.Count()})";
+
+}
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">
+            SUB-NATIONAL TRAINING OF TRAINERS ON MIYCN IN ALL THE STATES
+        </h3>
+    </div>
+    <div class="card-header">
+        <h3 class="card-title">
+            COMPREHENSIVE LIST OF TRAININGS (@Model.Datas.Count() TRAININGS)
+        </h3>
+    </div>
+
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="example-table table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>S/N</th>
+                        <th>
+                            State
+                        </th>
+
+                        <th>Date</th>
+                        <th>Participants</th>
+                        @*<th>Facilitators</th>*@
+                    </tr>
+                </thead>
+
+                @{
+                    int sn = 0;
+                }
+                <tbody>
+                    @foreach (var item in Model.Datas.OrderBy(x => x.State))
+                    {
+                        <tr>
+
+                            <td>
+                                @{
+                                    sn++;
+                                }
+                                @sn
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.State)
+                            </td>
+                            <td>
+                                @item.StartDate.ToString("ddd dd MMM, yyyy") - @item.EndDate.ToString("ddd dd MMM, yyyy")
+                            </td>
+                            <td>
+                                @item.TrainingParticipants.Where(x => x.ParticipantTrainingStatus == Domain.Models.EnumStatus.ParticipantTrainingStatus.Active).Count()
+                            </td>
+                            @*<td>
+                                @item.TrainingFacilitators.Where(x => x.FacilitatorTrainingStatus == Domain.Models.EnumStatus.FacilitatorTrainingStatus.Active).Count()
+                            </td>*@
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- /.card-header -->
+    @*@foreach (var item in Model.Datas.OrderBy(x => x.State))
+    {
+        <div class="card" style="box-shadow: 1px 5px 5px 1px rgb(8 176 240 / 86%); ">
+
+        </div>
+        <div class="card-body">
+            <div class="card-header bg-primary">
+                <h3 class="card-title">@item.State</h3>
+            </div>
+            <div class="card-header">
+                <h3 class="card-title">@item.Title</h3>
+            </div>
+            <div class="card-header">
+                <h3 class="card-title">FROM <i>@item.StartDate.ToString("ddd dd MMM, yyyy")</i> TO <i>@item.EndDate.ToString("ddd dd MMM, yyyy")</i></h3>
+            </div>
+            <div class="card-header">
+                <button class="btn-success btn">PARTICIPANTS (@item.TrainingParticipants.Where(x => x.ParticipantTrainingStatus == Domain.Models.EnumStatus.ParticipantTrainingStatus.Active).Count())</button>
+                <button class="btn-success btn">FACILITATORS (@item.TrainingFacilitators.Where(x => x.FacilitatorTrainingStatus == Domain.Models.EnumStatus.FacilitatorTrainingStatus.Active).Count())</button>
+            </div>
+        </div>
+
+
+
+
+    }*@
+</div>

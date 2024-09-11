@@ -1,0 +1,141 @@
+﻿@page
+@model RazorWebUI.Areas.ITrainings.Pages.Admin.TestModel
+@{
+    ViewData["Title"] = $"PRETEST AND POSTTEST FOR {Model.Training.Title}({Model.Training.StartDate.ToString("ddd dd MMM, yyyy")} - {Model.Training.EndDate.ToString("ddd dd MMM, yyyy")})";
+
+}
+
+<div class="card card-default">
+    <div class="card-header">
+        <h3 class="card-title text-uppercase">
+            TRAINING TEST RESULT
+        </h3>
+        <a asp-page="./Info" asp-route-id="@Model.Training.Id" class="btn bg-gradient-warning btn-sm" style="float:right;">Bact to Training</a>
+
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <h3 class="text-uppercase">Training Information</h3>
+        <h3 class="card-title">
+            @Model.Training.Title ( @Model.Training.StartDate.ToString("ddd dd MMM, yyyy") -
+            @Model.Training.EndDate.ToString("ddd dd MMM, yyyy"))
+        </h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="" class="example-table table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>S/N</th>
+                            <th>Name</th>
+                            <th>Gender</th>
+                            <th>
+                                Office
+                            </th>
+
+                            <th>Pre Test Result</th>
+                            <th>Post Test Result</th>
+
+                        </tr>
+                    </thead>
+
+                    @{
+                        int sn = 0;
+                    }
+                    <tbody>
+                        @foreach (var item in Model.UserTest)
+                        {
+                            <tr>
+
+                                <td>
+                                    @{
+                                        sn++;
+                                    }
+                                    @sn
+                                </td>
+                                <td>
+                                    @item.User.FullnameX
+
+
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.User.Gender)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.User.PlaceOfWork)
+                                </td>
+
+                                <td>
+                                    @if (item.PreTestTaken == false)
+                                    {
+                                        <a asp-page="/Account/Result" class="btn btn-warning" asp-route-tid="@Model.Training.Id" asp-route-userId="@item.UserId" asp-route-xty="0">
+
+                                            <span>Not Taken</span>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a asp-page="/Account/Result" class="btn btn-primary" asp-route-tid="@Model.Training.Id" asp-route-userId="@item.UserId" asp-route-xty="0">
+
+                                            @item.PreTestScore
+                                        </a>
+                                    }
+                                    @*<a asp-page="/Account/Result" class="btn btn-primary" asp-route-tid="@Model.Training.Id" asp-route-userId="@item.UserId" asp-route-xty="0">
+                                        @if (item.PreTestTaken == false)
+                                        {
+                                            <span>Not Taken</span>
+                                        }
+                                        else
+                                        {
+                                            @item.PreTestScore
+                                        }
+                                    </a>*@
+                                </td>
+
+                                <td>
+                                    @*<a asp-page="/Account/Result" class="btn btn-primary" asp-route-tid="@Model.Training.Id" asp-route-userId="@item.UserId" asp-route-xty="2">
+                                        @if (item.PostTestTaken == false)
+                                        {
+                                            <span>Not Taken</span>
+                                        }
+                                        else
+                                        { @item.PostTestScore
+
+                                    }
+                                    </a>*@
+
+
+
+
+                                    @if (item.PostTestTaken == false)
+                                    {
+                                        <a asp-page="/Account/Result" class="btn btn-warning" asp-route-tid="@Model.Training.Id" asp-route-userId="@item.UserId" asp-route-xty="2">
+
+                                            <span>Not Taken</span>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a asp-page="/Account/Result" class="btn btn-primary" asp-route-tid="@Model.Training.Id" asp-route-userId="@item.UserId" asp-route-xty="2">
+
+                                            @item.PostTestScore
+                                        </a>
+                                    }
+                                </td>
+
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

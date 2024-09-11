@@ -1,0 +1,84 @@
+﻿@page
+@model RazorWebUI.Areas.ITrainings.Pages.SponsorPage.IndexModel
+@{
+}
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">SPONSORS</h3>
+
+        @if (User.IsInRole("AdminEditor") || Model.Training.TrainingStatus != Domain.Models.EnumStatus.TrainingStatus.Completed)
+        {
+            <a asp-page="./Add" asp-route-id="@Model.Training.Id" class="btn bg-gradient-warning btn-sm" style="float:right;">New Sponsor</a>
+        }
+        </div> 
+    <div class="card-body">
+        <h3 class="text-uppercase">Training Information</h3>
+        <h3 class="card-title">
+            @Model.Training.Title ( @Model.Training.StartDate.ToString("ddd dd MMM, yyyy") -
+            @Model.Training.EndDate.ToString("ddd dd MMM, yyyy"))
+        </h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+
+        <div class="table-responsive">
+            <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>S/N</th>
+                        <th>
+                            Name
+                        </th>
+
+                        <th>Description</th>
+                        <th>Location</th>
+                        <th>Website/Email</th>
+
+                        <th>Logo</th>
+
+
+                    </tr>
+                </thead>
+
+                @{
+                    int sn = 0;
+                }
+                <tbody>
+                    @foreach (var item in Model.Datas)
+                    {
+                        <tr>
+
+                            <td>
+                                @{
+                                    sn++;
+                                }
+                                @sn
+                            </td>
+                            <td>
+                                <a asp-page="./Update" asp-route-id="@item.Id">
+                                    @Html.DisplayFor(modelItem => item.Name)
+
+                                </a>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Location)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Website)<br />
+                                @Html.DisplayFor(modelItem => item.Email)
+                            </td>
+                            <td>
+                                <img src="@item.LogoUrl" class="img-fluid" style="max-height:200px;" />
+                            </td>
+
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

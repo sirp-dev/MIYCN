@@ -1,0 +1,33 @@
+﻿@page
+@model RazorWebUI.Areas.Dashboard.Pages.Admin.ParticipantsModel
+@{
+}
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">
+            DASHBOARD (FACILITATORS BY STATES)
+        </h3>
+
+
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <div class="row">
+
+            @foreach (var data in Model.DataListDto)
+            {
+                <div class="col-lg-3 col-6 dashboard-1">
+                    <!-- small box -->
+                    <div class="small-box @data.DataColor">
+                        <div class="inner">
+                            <h3>@data.DataCount</h3>
+
+                            <p>@data.DataTitle (Facilitators)</p>
+                        </div>
+
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

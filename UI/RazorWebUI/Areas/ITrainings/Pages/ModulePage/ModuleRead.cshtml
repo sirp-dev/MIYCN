@@ -1,0 +1,38 @@
+﻿@page
+@model RazorWebUI.Areas.ITrainings.Pages.ModulePage.ModuleReadModel
+@{
+}
+<div class="card card-default">
+    <div class="card-header">
+        <h3 class="card-title">MODULE</h3>
+        <a asp-page="./Info" asp-route-id="@Model.ModuleTopic.ModuleId" class="btn bg-gradient-warning btn-sm" style="float:right;">Back</a>
+
+    </div>
+    <!-- /.card-header -->
+    <div class="card-header">
+        <div class="table-responsive">
+
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <th>Module</th>
+                        <td>@Model.ModuleTopic.Module.Title</td>
+                    </tr>
+                    <tr>
+                        <th>Module Topic</th>
+                        <td>@Model.ModuleTopic.Title</td>
+                    </tr>
+                    <tr>
+                        <th>Topic Description</th>
+                        <td>@Model.ModuleTopic.Description</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        @Html.Raw(Model.ModuleTopic.Content)
+    </div>        </div>

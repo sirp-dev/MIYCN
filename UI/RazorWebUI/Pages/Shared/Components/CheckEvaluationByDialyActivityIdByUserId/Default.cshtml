@@ -1,0 +1,11 @@
+﻿
+@if (TempData["check"] != null)
+{
+    <a class="btn bg-gradient-success btn-sm" style="float:right;">Evaluation Taken</a>
+
+}
+else
+{
+    <a asp-page="./Evaluation" asp-route-id="@TempData["id"]" class="btn bg-gradient-warning btn-sm" style="float:right;">Evaluation</a>
+
+}

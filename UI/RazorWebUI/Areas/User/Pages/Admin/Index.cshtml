@@ -1,0 +1,96 @@
+﻿@page
+@model RazorWebUI.Areas.User.Pages.Admin.IndexModel
+@{
+}
+ 
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">USER MANAGER (@Model.Datas.Count())</h3>
+
+
+        <a asp-page="./Add" class="btn bg-gradient-warning btn-sm" style="float:right;">Register New Account</a> 
+
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <div class="table-responsive">
+            <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>S/N</th>
+                        <th>
+                            Fullname
+                        </th>
+
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Category</th>
+                        <th>Status</th>
+
+                        <th>Action</th>
+
+                    </tr>
+                </thead>
+
+                @{
+                    int sn = 0;
+                }
+                <tbody>
+                    @foreach (var item in Model.Datas.OrderBy(x=>x.Fullname))
+                    {
+                        <tr>
+
+                            <td>
+                                @{
+                                    sn++;
+                                }
+                                @sn
+                            </td>
+                            <td>
+                                <a asp-page="./Info" asp-route-id="@item.Id">
+                                    @Html.DisplayFor(modelItem => item.Fullname)
+
+                                </a>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Email)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Phone)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Category)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Status)
+                            </td>
+
+                            <td>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-success">Action</button>
+
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-success dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
+                                        </button>
+                                        <div class="dropdown-menu" style="">
+
+                                            <a class="dropdown-item" asp-page="./Update" asp-route-id="@item.Id">Edit</a>
+                                            <a class="dropdown-item" asp-page="./UpdateEmail" asp-route-id="@item.Id">Update Email</a>
+                                            <a class="dropdown-item" asp-page="./Reset" asp-route-id="@item.Id">Reset Password</a>
+                                            <a class="dropdown-item" asp-page="./RegistrationStatus" asp-route-id="@item.Id">Registration Status</a>
+                                            <a class="dropdown-item" asp-page="./UpdateUserPermission" asp-route-id="@item.Id">Update User Permission</a>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

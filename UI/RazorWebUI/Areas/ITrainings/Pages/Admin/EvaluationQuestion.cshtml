@@ -1,0 +1,168 @@
+﻿@page
+@model RazorWebUI.Areas.ITrainings.Pages.Admin.EvaluationQuestionModel
+@{
+}
+<div class="card card-default">
+    <div class="card-header">
+        <h3 class="card-title text-uppercase">
+            DAILY EVALUATION QUESTION
+        </h3>
+        <a asp-page="./ActivityDetails" asp-route-id="@Model.DialyActivity.Id" class="btn bg-gradient-warning btn-sm" style="float:right;">Bact to Activity</a>
+
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <h3 class="text-uppercase">Training Information</h3>
+        <h3 class="card-title">
+            @Model.Training.Title ( @Model.Training.StartDate.ToString("ddd dd MMM, yyyy") -
+            @Model.Training.EndDate.ToString("ddd dd MMM, yyyy"))
+        </h3>
+    </div>
+    <div class="card-body">
+        <h5 class="text-uppercase">Dialy Activity Information</h5>
+        <h5 class="">
+            Date:  @Model.DialyActivity.Date.ToString("dddd dd/MM/yyyy") (@Model.DialyActivity.StartTime - @Model.DialyActivity.FinishTime))
+            <br />Title: @Model.DialyActivity.Title
+        </h5>
+    </div>
+    <!-- /.card-header -->
+
+
+    <div class="card-body">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>S/N</th>
+                            <th>Question</th>
+                            <th>Is Module Topic</th>
+                            <th>
+                                Answer Type
+                            </th>
+
+                            <th>SortOrder</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    @{
+                        int sn = 0;
+                    }
+                    <tbody>
+                        @foreach (var item in Model.ListDialyEvaluationQuestion.OrderBy(x => x.SortOrder))
+                        {
+                            <tr>
+
+                                <td>
+                                    @{
+                                        sn++;
+                                    }
+                                    @sn
+                                </td>
+                                <td>
+                                    @item.Question
+
+
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.IsModuleTopic)
+                                    @if (item.IsModuleTopic == true)
+                                    {
+                                        <span class="bg-success" style="padding:2px;">module</span>
+                                    }
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.EvaluationAnswerType)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SortOrder)
+                                </td>
+                                <td>
+                                    <form method="post" asp-page-handler="Delete">
+                                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                        <input type="hidden" asp-for="DialyEvaluationQuestion.DialyActivityId" value="@item.DialyActivityId" />
+                                        <input type="hidden" asp-for="DialyEvaluationQuestion.Id" value="@item.Id" />
+                                        <input type="submit" value="Delete" class="btn btn-danger" />
+                                    </form>
+
+                                </td>
+
+
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <div class="row">
+
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Add Evaluation Question</h3>
+
+                    </div>
+                    <div class="card-body">
+                        <form method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="hidden" asp-for="DialyEvaluationQuestion.DialyActivityId" value="@Model.DialyActivity.Id" />
+
+                            <div class="" style="padding:5px;border:2px dashed #808080;">
+
+
+                                <div class="form-group">
+                                    <label asp-for="GeneralQuestion" class="control-label">General Evaluation Question</label>
+                                    <select asp-for="GeneralQuestion" class="form-control">
+                                        <option value="">Choose Question</option>
+                                        @foreach (var question in Model.EvaluationQuestionDropdownDto)
+                                        {
+                                            <option value="@question.Value">@question.Text</option>
+                                        }
+                                    </select>
+                                    <span asp-validation-for="GeneralQuestion" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">OR</label>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label asp-for="ModuleTopicQuestion" class="control-label">Module Topics</label>
+                                    <select asp-for="ModuleTopicQuestion" class="form-control">
+                                        <option value="">Choose Question</option>
+                                        @foreach (var question in Model.ModuleTopicDropdownDto)
+                                        {
+                                            <option value="@question.Value">@question.Text</option>
+                                        }
+                                    </select>
+                                    <span asp-validation-for="ModuleTopicQuestion" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="DialyEvaluationQuestion.EvaluationAnswerType" class="control-label"></label>
+                                @Html.DropDownListFor(model => model.DialyEvaluationQuestion.EvaluationAnswerType, new SelectList(Enum.GetValues(typeof(Domain.Models.EnumStatus.EvaluationAnswerType))), new { @class = "form-control" })
+                                <span asp-validation-for="DialyEvaluationQuestion.EvaluationAnswerType" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="DialyEvaluationQuestion.SortOrder" class="control-label"></label>
+                                <input asp-for="DialyEvaluationQuestion.SortOrder" class="form-control" />
+                                <span asp-validation-for="DialyEvaluationQuestion.SortOrder" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" value="Add Question" class="btn btn-primary" />
+                            </div>
+                        </form>
+                    </div>
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

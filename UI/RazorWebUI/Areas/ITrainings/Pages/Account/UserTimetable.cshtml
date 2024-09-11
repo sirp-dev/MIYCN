@@ -1,0 +1,85 @@
+﻿@page
+@model RazorWebUI.Areas.ITrainings.Pages.Account.UserTimetableModel
+@{
+}
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">TIMETABLE</h3>
+
+
+        <a asp-page="./Info" asp-route-id="@Model.Id" class="btn bg-gradient-warning btn-sm" style="float:right;">Back</a>
+
+    </div>
+    <div class="card-body">
+        <h3 class="text-uppercase">Training Information</h3>
+        <h3 class="card-title">
+            @Model.Training.Title ( @Model.Training.StartDate.ToString("ddd dd MMM, yyyy") -
+            @Model.Training.EndDate.ToString("ddd dd MMM, yyyy"))
+        </h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+
+        <div class="table-responsive">
+            <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>S/N</th>
+                        <th>
+                            Date
+                        </th>
+
+                        <th>Activity</th>
+                        <th>Module</th>
+                        <th>Facilitator</th>
+                         
+                    </tr>
+                </thead>
+
+                @{
+                    int sn = 0;
+                }
+                <tbody>
+                    @foreach (var item in Model.Datas)
+                    {
+                        <tr>
+
+                            <td>
+                                @{
+                                    sn++;
+                                }
+                                @sn
+                            </td>
+                            <td>
+                                @item.DateTime.ToString("ddd dd/MM/yyyy (hh:mm tt)")
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Activity)
+
+                            </td>
+
+
+                            <td>
+                                @if (item.ModuleTopic != null)
+                                {
+                                    @Html.DisplayFor(modelItem => item.ModuleTopic.Title)
+                                    @if (item.ModuleTopic.Module != null)
+                                    {
+                                        <span> (@Html.DisplayFor(modelItem => item.ModuleTopic.Module.Title))</span>
+                                    }
+                                }
+                            </td>
+                            <td>
+                                @if (item.Facilitator != null)
+                                {
+                                    @Html.DisplayFor(modelItem => item.Facilitator.FullnameX)
+                                }
+                            </td>
+                            
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

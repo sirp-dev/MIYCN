@@ -1,0 +1,67 @@
+﻿@page
+@model RazorWebUI.Areas.ITrainings.Pages.Account.TestModel
+@{
+}
+
+<div class="card card-default">
+    <div class="card-header">
+        <h3 class="card-title">PRE TEST AND POST TEST MANAGER</h3>
+
+    </div>
+    <!-- /.card-header -->
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4>PRE TEST</h4>
+                        @if (Model.Training.EnablePreTest == true)
+                        {
+
+
+                            <div class="row">
+                                <div class="col-sm-6"><a class="btn btn-primary">Start Pre Test</a></div>
+                                <div class="col-sm-6"><a class="btn btn-success">View Result (0%)</a></div>
+                            </div>
+                        }
+                        else
+                        {
+                            <h6>NOT ACTIVATED</h6>
+                        }
+                    </div>
+                    <div class="col-md-6">
+                        <h4>POST TEST</h4>
+                        @if (Model.Training.EnablePostTest == true)
+                        {
+
+
+                            <div class="row">
+                                <div class="col-sm-6"><a class="btn btn-primary">Start Post Test</a></div>
+                                <div class="col-sm-6"><a class="btn btn-success">View Result (0%)</a></div>
+                            </div>
+                        }
+                        else
+                        {
+                            <h6>NOT ACTIVATED</h6>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- /.row -->
+    </div>
+    <!-- /.card-body -->
+    <div class="card-footer">
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script src="~/js/lga.js"></script>
+}

@@ -1,0 +1,89 @@
+﻿@page
+@model RazorWebUI.Areas.ITrainings.Pages.Account.ViewModuleModel
+@{
+}
+
+<style>
+    .readonly-div {
+        user-select: text; /* Allows text selection for copying */
+        pointer-events: none; /* Prevents any kind of interaction */
+        background-color: #f0f0f0; /* Optional: visually indicate read-only state */
+        padding: 20px;
+        border: 1px solid #ccc;
+    }
+
+    /* Hide the div when printing */
+    @@media print {
+        .readonly-div {
+            display: none;
+        }
+    }
+</style>
+
+<div class="card card-default">
+    <div class="card-header">
+        <h3 class="card-title">MODULE</h3>
+        <a href="#" onclick="history.back(); return false;" class="btn bg-gradient-warning btn-sm" style="float:right;">Back</a>
+
+    </div>
+    <!-- /.card-header -->
+    <div class="card-header">
+        <div class="table-responsive">
+
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <th>Module</th>
+                        <td>@Model.ModuleTopic.Module.Title</td>
+                    </tr>
+                    <tr>
+                        <th>Module Topic</th>
+                        <td>@Model.ModuleTopic.Title</td>
+                    </tr>
+                    <tr>
+                        <th>Topic Description</th>
+                        <td>@Model.ModuleTopic.Description</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <div class="readonly-div">
+            @Html.Raw(Model.ModuleTopic.Content)
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        // Prevent right-click context menu (optional)
+        document.querySelector('.readonly-div').addEventListener('contextmenu', function (e) {
+            e.preventDefault();
+        });
+
+        // Allow text selection and copying
+        document.querySelector('.readonly-div').addEventListener('mousedown', function (e) {
+            if (e.button === 0) { // Left click
+                e.preventDefault(); // Prevents text selection via mouse drag
+            }
+        });
+
+        // Enable text selection and copying using keyboard (Ctrl+C)
+        document.querySelector('.readonly-div').style.pointerEvents = 'auto';
+    </script>
+
+    <script>
+        // This script is optional, but shows how to add the event listener via JavaScript if preferred.
+        document.querySelector('.btn').addEventListener('click', function (event) {
+            event.preventDefault();
+            history.back();
+        });
+    </script>
+}

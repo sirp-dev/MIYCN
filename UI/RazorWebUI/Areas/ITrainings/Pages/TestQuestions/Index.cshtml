@@ -1,0 +1,172 @@
+﻿@page
+@model RazorWebUI.Areas.ITrainings.Pages.TestQuestions.IndexModel
+@{
+    ViewData["Title"] = $"TEST QUESTIONS";
+
+}
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">MANAGE TRAININGS QUESTIONS</h3>
+
+
+        <a asp-page="./Add" class="btn bg-gradient-warning btn-sm" style="float:right;">New Question</a>
+
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <div style=" box-shadow: 0px 10px 20px 0px rgb(50 50 50 / 83%);padding:10px;">
+
+
+            <h3>PRE TEST</h3>
+            <div class="table-responsive">
+                <table id="" class="example-table table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>S/N</th>
+                            <th>
+                                Question
+                            </th>
+
+                            <th>Correct Answer</th>
+                            <th>Publish</th>
+                            <th>Type</th>
+
+                            <th>SortOrder</th>
+
+
+                        </tr>
+                    </thead>
+
+                    @{
+                        int sn = 0;
+                    }
+                    <tbody>
+                        @foreach (var item in Model.Datas.Where(x => x.TrainingTestType == Domain.Models.EnumStatus.TrainingTestType.PreTest).OrderBy(x => x.SortOrder))
+                        {
+                            <tr>
+
+                                <td>
+                                    @{
+                                        sn++;
+                                    }
+                                    @sn
+                                </td>
+                                <td>
+                                    <a asp-page="./Update" asp-route-id="@item.Id">
+                                        @Html.DisplayFor(modelItem => item.Question)
+
+                                    </a>
+                                </td>
+                                <td>
+                                    @if (item.CorrectAnswer == 1)
+                                    {
+                                        <span>Yes</span>
+                                    }
+                                    else if (item.CorrectAnswer == 2)
+                                    {
+                                        <span>No</span>
+                                    }
+                                    else if (item.CorrectAnswer == 3)
+                                    {
+                                        <span>I Don't Know</span>
+                                    }
+
+                                     
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Publish)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TrainingTestType)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SortOrder)
+                                </td>
+
+
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <div style=" box-shadow: 0px 10px 20px 0px rgb(50 50 50 / 83%);padding:10px;">
+
+
+            <h3>POST TEST</h3>
+            <div class="table-responsive">
+                <table id="" class="example-table table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>S/N</th>
+                            <th>
+                                Question
+                            </th>
+                            <th>Correct Answer</th>
+                            <th>Publish</th>
+                            <th>Type</th>
+
+                            <th>SortOrder</th>
+
+
+                        </tr>
+                    </thead>
+
+                    @{
+                        int xsn = 0;
+                    }
+                    <tbody>
+                        @foreach (var item in Model.Datas.Where(x => x.TrainingTestType == Domain.Models.EnumStatus.TrainingTestType.PostTest).OrderBy(x => x.SortOrder))
+                        {
+                            <tr>
+
+                                <td>
+                                    @{
+                                        xsn++;
+                                    }
+                                    @xsn
+                                </td>
+                                <td>
+                                    <a asp-page="./Update" asp-route-id="@item.Id">
+                                        @Html.DisplayFor(modelItem => item.Question)
+
+                                    </a>
+                                </td>
+                                <td>
+                                    @if (item.CorrectAnswer == 1)
+                                    {
+                                        <span>Yes</span>
+                                    }
+                                    else if (item.CorrectAnswer == 2)
+                                    {
+                                        <span>No</span>
+                                    }
+                                    else if (item.CorrectAnswer == 3)
+                                    {
+                                        <span>I Don't Know</span>
+                                    }
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Publish)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TrainingTestType)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SortOrder)
+                                </td>
+
+
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

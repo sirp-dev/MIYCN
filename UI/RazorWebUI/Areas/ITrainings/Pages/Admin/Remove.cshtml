@@ -1,0 +1,56 @@
+﻿@page
+@model RazorWebUI.Areas.ITrainings.Pages.Admin.RemoveModel
+@{
+}
+
+<div class="card card-danger">
+    <div class="card-header">
+        <h3 class="card-title">REMOVE TRAINING</h3>
+
+    </div>
+    <!-- /.card-header -->
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <form method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Training.Id" />
+
+                    <div class="form-group">
+                        <label asp-for="Training.Title" class="control-label"></label>
+                        <input asp-for="Training.Title" class="form-control" id="upper1" oninput="myUppercase('upper1')" />
+                        <span asp-validation-for="Training.Title" class="text-danger"></span>
+                    </div>
+
+ 
+                    <div class="form-group">
+                        <label asp-for="Training.TrainingStatus" class="control-label"></label>
+                        @Html.DropDownListFor(model => model.Training.TrainingStatus, new SelectList(Enum.GetValues(typeof(Domain.Models.EnumStatus.TrainingStatus))), new { @class = "form-control" })
+                        <span asp-validation-for="Training.TrainingStatus" class="text-danger"></span>
+                    </div>
+
+
+                    <div class="form-group">
+                        <input type="submit" value="Delete" class="btn btn-danger" />
+                        <a asp-page="./Index" class="btn bg-gradient-warning btn-sm" style="float:right;">Back</a>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+        <!-- /.row -->
+    </div>
+    <!-- /.card-body -->
+    <div class="card-footer">
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

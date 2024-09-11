@@ -1,0 +1,51 @@
+﻿@page
+@model RazorWebUI.Areas.ITrainings.Pages.Admin.ActivityDetailsModel
+@{
+}
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Dialy Activity</h3>
+
+
+        <a asp-page="./Activities" asp-route-id="@Model.Training.Id" class="btn bg-gradient-warning btn-sm" style="float:right;">Activities</a>
+        @if (User.IsInRole("AdminEditor") || Model.Training.TrainingStatus != Domain.Models.EnumStatus.TrainingStatus.Completed)
+        {
+            <a asp-page="./UpdateActivity" asp-route-id="@Model.DialyActivity.Id" class="btn bg-gradient-warning btn-sm" style="float:right;">
+                Update
+            </a>
+        }
+        </div>
+    <div class="card-body">
+        <h5 class="text-uppercase">Training Information</h5>
+        <h5 class="card-title">
+            @Model.Training.Title ( @Model.Training.StartDate.ToString("ddd dd MMM, yyyy") -
+            @Model.Training.EndDate.ToString("ddd dd MMM, yyyy"))
+            <br /><span style="font-size:13px;">
+                @Model.Training.Address
+            </span>
+        </h5>
+    </div>
+    <div class="card-body">
+        <h5 class="text-uppercase">Dialy Activity Information</h5>
+        <h5 class="">
+            Date:  @Model.DialyActivity.Date.ToString("dddd dd/MM/yyyy") (@Model.DialyActivity.StartTime - @Model.DialyActivity.FinishTime))
+                <br />Title: @Model.DialyActivity.Title
+        </h5>
+    </div>
+
+
+
+    <div class="row">
+        <div class="col-md-6">
+            <a asp-page="./Attendance" asp-route-id="@Model.Training.Id" asp-route-aid="@Model.DialyActivity.Id" class="btn btn-primary" style="width:100%;padding:30px;">Attendance</a>
+
+        </div>
+        <div class="col-md-6">
+            <a asp-page="./Evaluation" asp-route-id="@Model.Training.Id"  asp-route-aid="@Model.DialyActivity.Id" class="btn btn-warning" style="width: 100%; padding: 30px;">Evaluation</a>
+
+        </div>
+    </div>
+
+
+
+</div>

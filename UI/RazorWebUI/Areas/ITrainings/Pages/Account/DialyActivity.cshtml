@@ -1,0 +1,151 @@
+﻿@page
+@model RazorWebUI.Areas.ITrainings.Pages.Account.DialyActivityModel
+@{
+}
+
+<div class="card card-default">
+    <div class="card-header">
+        <h3 class="card-title text-uppercase">
+            TRAINING DIALY ACTIVITIES
+        </h3>
+        <a asp-page="./Info" asp-route-id="@Model.Training.Id" class="btn bg-gradient-warning btn-sm" style="float:right;">Bact to Training</a>
+
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <h3 class="text-uppercase">Training Information</h3>
+        <h3 class="card-title">
+            @Model.Training.Title ( @Model.Training.StartDate.ToString("ddd dd MMM, yyyy") -
+            @Model.Training.EndDate.ToString("ddd dd MMM, yyyy"))
+        </h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>S/N</th>
+                            <th>Day</th>
+                            <th>
+                                Title
+                            </th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Sign In</th>
+                            <th>Sign Out</th>
+
+                        </tr>
+                    </thead>
+
+                    @{
+                        int sn = 0;
+                    }
+                    <tbody>
+                        @foreach (var item in Model.Datas.OrderBy(x => x.Date.Date))
+                        {
+                            <tr>
+
+                                <td>
+                                    @{
+                                        sn++;
+                                    }
+                                    @sn
+                                </td>
+                                <td>
+                                    <a asp-page="./ActivityDetails" asp-route-id="@item.Id">
+                                        @item.Date.ToString("dddd")
+
+                                    </a>
+                                    <a asp-page="./Evaluation" asp-route-id="@item.Id" class="btn bg-gradient-warning btn-sm" style="float:right;">Evaluation</a>
+
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Title)
+                                </td>
+                                <td>
+                                    @item.Date.ToString("dd/MM/yyyy")
+                                </td>
+                                <td>
+                                    @item.StartTime - @item.FinishTime
+                                </td>
+                                <td>
+                                    @if (item.Attendances != null)
+                                    {
+                                        @if (item.Attendances.Count() > 0)
+                                        {
+                                            var presentCount = item.Attendances.FirstOrDefault(x => x.UserId == Model.UserId);
+                                            if(presentCount != null) { 
+                                            <span>
+                                                @if (presentCount.AttendanceSignInStatus == Domain.Models.EnumStatus.AttendanceSignInStatus.Present)
+                                                {
+                                                    <span><i class="fa fa-check"></i></span>
+                                                }
+                                                else if (presentCount.AttendanceSignInStatus == Domain.Models.EnumStatus.AttendanceSignInStatus.Absent)
+                                                {
+                                                    <span><i class="fa fa-times"></i></span>
+                                                }
+                                                else if (presentCount.AttendanceSignInStatus == Domain.Models.EnumStatus.AttendanceSignInStatus.Null)
+                                                {
+                                                    <span>---</span>
+                                                }
+
+
+                                            </span>
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                        <span>0/0/0</span>
+                                    }
+                                </td>
+
+                                <td>
+                                    @if (item.Attendances != null)
+                                    {
+                                        @if (item.Attendances.Count() > 0)
+                                        {
+                                            var presentCount = item.Attendances.FirstOrDefault(x => x.UserId == Model.UserId);
+                                            if (presentCount != null)
+                                            {
+                                            <span>
+                                                @if (presentCount.AttendanceSignOutStatus == Domain.Models.EnumStatus.AttendanceSignOutStatus.Present)
+                                                {
+                                                    <span><i class="fa fa-check"></i></span>
+                                                }
+                                                else if (presentCount.AttendanceSignOutStatus == Domain.Models.EnumStatus.AttendanceSignOutStatus.Absent)
+                                                {
+                                                    <span><i class="fa fa-times"></i></span>
+                                                }
+                                                else if (presentCount.AttendanceSignOutStatus == Domain.Models.EnumStatus.AttendanceSignOutStatus.Null)
+                                                {
+                                                    <span>---</span>
+                                                }
+
+                                            </span>
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                        <span>0/0/0</span>
+                                    }
+                                </td>
+
+
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

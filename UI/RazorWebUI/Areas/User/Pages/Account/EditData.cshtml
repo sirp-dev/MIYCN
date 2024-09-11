@@ -1,0 +1,202 @@
+﻿@page
+@model RazorWebUI.Areas.User.Pages.Account.EditDataModel
+@{
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h6 class="card-title">
+                    UPDATE @Model.LK
+                </h6>
+
+            </div>
+
+            @if (TempData["noteerror"] != null)
+            {
+                <div class="alert alert-danger">
+                    <strong>@TempData["noteerror"]</strong>
+                </div>
+            }
+            <div class="card-body">
+                <form method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="ProfileCategoryList.Id" />
+                    <input type="hidden" asp-for="ProfileCategoryList.AppUserId" />
+                    <input type="hidden" asp-for="ProfileCategoryList.ProfileCategoryId" />
+                    <input type="hidden" asp-for="LK" />
+                    @foreach (var item in Model.ProfileCategories)
+                    {
+                        @if (item.Title.ToUpper().Contains("EDUCATION"))
+                        {
+
+                            <div class="form-group">
+                                <label asp-for="ProfileCategoryList.Title" class="control-label">Institution</label>
+                                <input asp-for="ProfileCategoryList.Title" class="form-control" />
+                                <span asp-validation-for="ProfileCategoryList.Title" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="ProfileCategoryList.FieldOfStudy" class="control-label"></label>
+                                <input asp-for="ProfileCategoryList.FieldOfStudy" class="form-control" />
+                                <span asp-validation-for="ProfileCategoryList.FieldOfStudy" class="text-danger"></span>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label asp-for="ProfileCategoryList.Qualification" class="control-label"></label>
+                                <input asp-for="ProfileCategoryList.Qualification" class="form-control" />
+                                <span asp-validation-for="ProfileCategoryList.Qualification" class="text-danger"></span>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label asp-for="ProfileCategoryList.City" class="control-label"></label>
+                                <input asp-for="ProfileCategoryList.City" class="form-control" />
+                                <span asp-validation-for="ProfileCategoryList.City" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="ProfileCategoryList.StartDate" class="control-label"></label>
+                                <input asp-for="ProfileCategoryList.StartDate" class="form-control" />
+                                <span asp-validation-for="ProfileCategoryList.StartDate" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="ProfileCategoryList.EndDate" class="control-label"></label>
+                                <input asp-for="ProfileCategoryList.EndDate" class="form-control" />
+                                <span asp-validation-for="ProfileCategoryList.EndDate" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="ProfileCategoryList.Currently" class="control-label"></label>
+                                <input asp-for="ProfileCategoryList.Currently" class="checkbox" />
+                                <span asp-validation-for="ProfileCategoryList.Currently" class="text-danger"></span>
+                            </div>
+
+                        }
+
+                        @if (item.Title.ToUpper().Contains("EXPERIENCE"))
+                        {
+
+                            <div class="form-group">
+                                <label asp-for="ProfileCategoryList.Title" class="control-label"></label>
+                                <input asp-for="ProfileCategoryList.Title" class="form-control" />
+                                <span asp-validation-for="ProfileCategoryList.Title" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="ProfileCategoryList.Description" class="control-label"></label>
+                                <textarea asp-for="ProfileCategoryList.Description" class="form-control summernote"></textarea>
+                                <span asp-validation-for="ProfileCategoryList.Description" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="ProfileCategoryList.Employer" class="control-label"></label>
+                                <input asp-for="ProfileCategoryList.Employer" class="form-control" />
+                                <span asp-validation-for="ProfileCategoryList.Employer" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="ProfileCategoryList.City" class="control-label"></label>
+                                <input asp-for="ProfileCategoryList.City" class="form-control" />
+                                <span asp-validation-for="ProfileCategoryList.City" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="ProfileCategoryList.StartDate" class="control-label"></label>
+                                <input asp-for="ProfileCategoryList.StartDate" class="form-control" />
+                                <span asp-validation-for="ProfileCategoryList.StartDate" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="ProfileCategoryList.EndDate" class="control-label"></label>
+                                <input asp-for="ProfileCategoryList.EndDate" class="form-control" />
+                                <span asp-validation-for="ProfileCategoryList.EndDate" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="ProfileCategoryList.Currently" class="control-label"></label>
+                                <input asp-for="ProfileCategoryList.Currently" class="checkbox" />
+                                <span asp-validation-for="ProfileCategoryList.Currently" class="text-danger"></span>
+                            </div>
+
+                        }
+
+                        @if (item.Title.ToUpper().Contains("CERTIFICATIONS"))
+                        {
+                            <div class="form-group">
+                                <label asp-for="ProfileCategoryList.Title" class="control-label"></label>
+                                <input asp-for="ProfileCategoryList.Title" class="form-control" />
+                                <span asp-validation-for="ProfileCategoryList.Title" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="ProfileCategoryList.StartDate" class="control-label">Date</label>
+                                <input asp-for="ProfileCategoryList.StartDate" class="form-control" />
+                                <span asp-validation-for="ProfileCategoryList.StartDate" class="text-danger"></span>
+                            </div>
+
+                        }
+
+                        @if (item.Title.ToUpper().Contains("AWARDS"))
+                        {
+                            <div class="form-group">
+                                <label asp-for="ProfileCategoryList.Title" class="control-label"></label>
+                                <input asp-for="ProfileCategoryList.Title" class="form-control" />
+                                <span asp-validation-for="ProfileCategoryList.Title" class="text-danger"></span>
+                            </div>
+
+                        }
+
+                        @if (item.Title.ToUpper().Contains("SKILLS"))
+                        {
+                            <div class="form-group">
+                                <label asp-for="ProfileCategoryList.Title" class="control-label"></label>
+                                <input asp-for="ProfileCategoryList.Title" class="form-control" />
+                                <span asp-validation-for="ProfileCategoryList.Title" class="text-danger"></span>
+                            </div>
+
+                        }
+
+                        @if (item.Title.ToUpper().Contains("LANGUAGES"))
+                        {
+                            <div class="form-group">
+                                <label asp-for="ProfileCategoryList.Title" class="control-label"></label>
+                                <input asp-for="ProfileCategoryList.Title" class="form-control" />
+                                <span asp-validation-for="ProfileCategoryList.Title" class="text-danger"></span>
+                            </div>
+                        }
+
+                        @if (item.Title.ToUpper().Contains("INTEREST"))
+                        {
+                            <div class="form-group">
+                                <label asp-for="ProfileCategoryList.Title" class="control-label"></label>
+                                <input asp-for="ProfileCategoryList.Title" class="form-control" />
+                                <span asp-validation-for="ProfileCategoryList.Title" class="text-danger"></span>
+                            </div>
+                        }
+
+                        @if (item.Title.ToUpper().Contains("REFERENCES"))
+                        {
+                            <div class="form-group">
+                                @*<label asp-for="ProfileCategoryList.Description" class="control-label"></label>*@
+                                <textarea asp-for="ProfileCategoryList.Description" class="form-control summernote"></textarea>
+                                <span asp-validation-for="ProfileCategoryList.Description" class="text-danger"></span>
+                            </div>
+                        }
+
+                    }
+                    <div class="form-group">
+                        <input type="submit" value="Update" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,200 @@
+﻿@page
+@model RazorWebUI.Areas.ITrainings.Pages.Account.EvaluationResultModel
+@{
+}
+<div class="card">
+    <div class="card-header">
+        <div class="card-header">
+            <h3 class="card-title">
+                DIALY EVALUTION RESULT
+            </h3>
+            <a asp-page="./Info" asp-route-id="@Model.Training.Id" class="btn bg-gradient-warning btn-sm" style="float:right;">Back</a>
+
+        </div>
+        <div class="card-body">
+            <h3 class="text-uppercase">Training Information</h3>
+            <h3 class="card-title">
+                @Model.Training.Title ( @Model.Training.StartDate.ToString("ddd dd MMM, yyyy") -
+                @Model.Training.EndDate.ToString("ddd dd MMM, yyyy"))
+            </h3>
+        </div>
+        <div class="card-body">
+            <h5 class="text-uppercase">Dialy Activity Information</h5>
+            <h5 class="">
+                Date:  @Model.DialyActivity.Date.ToString("dddd dd/MM/yyyy") (@Model.DialyActivity.StartTime - @Model.DialyActivity.FinishTime))
+                <br />Title: @Model.DialyActivity.Title
+            </h5>
+        </div>
+
+        <hr />
+        <div class="card-body">
+            <h5 class="text-uppercase">INSTRUCTIONS:</h5>
+            <h6 class="">
+
+                Please indicate your satisfaction using the ranking system where<br />
+                1 = Poor, 2 = Fair, 3 = Good, 4 = Very Good, 5 = Excellent
+
+            </h6>
+        </div>
+
+
+    </div>
+
+
+    <hr />
+
+    <!-- /.card-header -->
+    <div class="card-body">
+        <div style=" box-shadow: 0px 10px 20px 0px rgb(50 50 50 / 83%);padding:10px;">
+
+
+
+            <div class="row">
+                <div class="col-md-12">
+                    @{ int sn = 2;}
+                    @foreach (var item in Model.DialyUserEvaluationResultDto.DialyUserEvaluation.Where(x => x.DialyEvaluationQuestion.IsModuleTopic == false).Take(1))
+                    {
+                        <div style=" box-shadow: 0px 2px 2px 0px rgb(50 50 50 / 83%);padding:10px;margin-bottom:5px;">
+                            <div class="row">
+                                <div class="col-md-6">
+
+                                    <h5><b style="margin-right:15px;font-size:20px;">1</b>@item.DialyEvaluationQuestion.Question</h5>
+                                </div>
+                                <div class="col-md-6">
+                                    @if (item.DialyEvaluationQuestion.EvaluationAnswerType == Domain.Models.EnumStatus.EvaluationAnswerType.Options)
+                                    {
+
+                                        if (item.Answer == "1")
+                                        {
+                                            <span class="btn btn-default">Poor</span>
+                                        }
+                                        else if (item.Answer == "2")
+                                        {
+                                            <span class="btn btn-default">Fair</span>
+                                        }
+                                        else if (item.Answer == "3")
+                                        {
+                                            <span class="btn btn-default">Good</span>
+                                        }
+                                        else if (item.Answer == "4")
+                                        {
+                                            <span class="btn btn-default">Very Good</span>
+                                        }
+                                        else if (item.Answer == "5")
+                                        {
+                                            <span class="btn btn-default">Excellent</span>
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        <span class="btn btn-default">@item.Answer</span>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <div style=" box-shadow: 0px 2px 2px 0px rgb(50 50 50 / 83%);padding:10px;margin-bottom:5px;">
+                        <div class="row">
+
+                            <div class="col-md-6">
+
+                                <h5><b style="margin-right:15px;font-size:20px;">2</b>Rank the relevance of content of Topics covered to the Session objectives: </h5>
+                            </div>
+                            <div class="col-md-6">
+
+                            </div>
+                        </div>
+                    </div>
+                    @foreach (var item in Model.DialyUserEvaluationResultDto.DialyUserEvaluation.Where(x => x.DialyEvaluationQuestion.IsModuleTopic == true))
+                    {
+
+                        <div style=" box-shadow: 0px 2px 2px 0px rgb(50 50 50 / 83%);padding:10px;margin-bottom:5px;">
+                            <div class="row">
+
+                                <div class="col-md-6">
+
+                                    <h5><b style="margin-right:5px;font-size:10px;margin-left:20px;"></b>@item.DialyEvaluationQuestion.Question</h5>
+                                </div>
+                                <div class="col-md-6">
+                                    @if (item.DialyEvaluationQuestion.EvaluationAnswerType == Domain.Models.EnumStatus.EvaluationAnswerType.Options)
+                                    {
+                                        if (item.Answer == "1")
+                                        {
+                                            <span class="btn btn-default">Poor</span>
+                                        }
+                                        else if (item.Answer == "2")
+                                        {
+                                            <span class="btn btn-default">Fair</span>
+                                        }
+                                        else if (item.Answer == "3")
+                                        {
+                                            <span class="btn btn-default">Good</span>
+                                        }
+                                        else if (item.Answer == "4")
+                                        {
+                                            <span class="btn btn-default">Very Good</span>
+                                        }
+                                        else if (item.Answer == "5")
+                                        {
+                                            <span class="btn btn-default">Excellent</span>
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        <span class="btn btn-default">@item.Answer</span>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    @foreach (var item in Model.DialyUserEvaluationResultDto.DialyUserEvaluation.Where(x => x.DialyEvaluationQuestion.IsModuleTopic == false).Skip(1))
+                    {
+                        <div style=" box-shadow: 0px 2px 2px 0px rgb(50 50 50 / 83%);padding:10px;margin-bottom:5px;">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    @{ sn++;}
+                                    <h5><b style="margin-right:15px;font-size:20px;">@sn</b>@item.DialyEvaluationQuestion.Question</h5>
+                                </div>
+                                <div class="col-md-6">
+                                    @if (item.DialyEvaluationQuestion.EvaluationAnswerType == Domain.Models.EnumStatus.EvaluationAnswerType.Options)
+                                    {
+                                        if (item.Answer == "1")
+                                        {
+                                            <span class="btn btn-default">Poor</span>
+                                        }
+                                        else if (item.Answer == "2")
+                                        {
+                                            <span class="btn btn-default">Fair</span>
+                                        }
+                                        else if (item.Answer == "3")
+                                        {
+                                            <span class="btn btn-default">Good</span>
+                                        }
+                                        else if (item.Answer == "4")
+                                        {
+                                            <span class="btn btn-default">Very Good</span>
+                                        }
+                                        else if (item.Answer == "5")
+                                        {
+                                            <span class="btn btn-default">Excellent</span>
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        <span class="btn btn-default">@item.Answer</span>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>

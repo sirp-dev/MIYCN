@@ -1,0 +1,154 @@
+﻿@page
+@model RazorWebUI.Areas.ITrainings.Pages.Admin.AddModel
+@{
+}
+
+<div class="card card-default">
+    <div class="card-header">
+        <h3 class="card-title">ADD NEW TRAINING</h3>
+
+    </div>
+    <!-- /.card-header -->
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <form method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+
+                    <div class="form-group">
+                        <label asp-for="Training.Title" class="control-label"></label>
+                        <input asp-for="Training.Title" class="form-control" id="upper1" oninput="myUppercase('upper1')" />
+                        <span asp-validation-for="Training.Title" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Training.Address" class="control-label"></label>
+                        <input asp-for="Training.Address" class="form-control" />
+                        <span asp-validation-for="Training.Address" class="text-danger"></span>
+                    </div>
+
+                    <label asp-for="Training.State"></label>
+                    <select asp-for="Training.State" class="form-control" id="state1" onchange="handleStateLGASelection(this, 'state1', 'lga1')">
+                        <option value="" selected disabled>Select State...</option>
+                        <option value="Abia">Abia</option>
+                        <option value="Adamawa">Adamawa</option>
+                        <option value="AkwaIbom">AkwaIbom</option>
+                        <option value="Anambra">Anambra</option>
+                        <option value="Bauchi">Bauchi</option>
+                        <option value="Bayelsa">Bayelsa</option>
+                        <option value="Benue">Benue</option>
+                        <option value="Borno">Borno</option>
+                        <option value="Cross River">Cross River</option>
+                        <option value="Delta">Delta</option>
+                        <option value="Ebonyi">Ebonyi</option>
+                        <option value="Edo">Edo</option>
+                        <option value="Ekiti">Ekiti</option>
+                        <option value="Enugu">Enugu</option>
+                        <option value="FCT">FCT</option>
+                        <option value="Gombe">Gombe</option>
+                        <option value="Imo">Imo</option>
+                        <option value="Jigawa">Jigawa</option>
+                        <option value="Kaduna">Kaduna</option>
+                        <option value="Kano">Kano</option>
+                        <option value="Katsina">Katsina</option>
+                        <option value="Kebbi">Kebbi</option>
+                        <option value="Kogi">Kogi</option>
+                        <option value="Kwara">Kwara</option>
+                        <option value="Lagos">Lagos</option>
+                        <option value="Nasarawa">Nasarawa</option>
+                        <option value="Niger">Niger</option>
+                        <option value="Ogun">Ogun</option>
+                        <option value="Ondo">Ondo</option>
+                        <option value="Osun">Osun</option>
+                        <option value="Oyo">Oyo</option>
+                        <option value="Plateau">Plateau</option>
+                        <option value="Rivers">Rivers</option>
+                        <option value="Sokoto">Sokoto</option>
+                        <option value="Taraba">Taraba</option>
+                        <option value="Yobe">Yobe</option>
+                        <option value="Zamfara">Zamafara</option>
+                    </select>
+
+                    <label asp-for="Training.LGA"></label>
+                    <select asp-for="Training.LGA" class="form-control" id="lga1">
+                        <option value="" selected disabled>Select LGA...</option>
+                    </select>
+
+                    <div class="form-group">
+                        <label asp-for="Training.StartDate" class="control-label"></label>
+                        <input asp-for="Training.StartDate" class="form-control" type="date" />
+                        <span asp-validation-for="Training.StartDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Training.EndDate" class="control-label"></label>
+                        <input asp-for="Training.EndDate" class="form-control" type="date" />
+                        <span asp-validation-for="Training.EndDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Training.DialyStartTime" class="control-label"></label>
+                        <input asp-for="Training.DialyStartTime" class="form-control" placeholder="00:00" />
+                        <span asp-validation-for="Training.DialyStartTime" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Training.DialyEndTime" class="control-label"></label>
+                        <input asp-for="Training.DialyEndTime" class="form-control" placeholder="00:00" />
+                        <span asp-validation-for="Training.DialyEndTime" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Training.TrainingStatus" class="control-label"></label>
+                        @Html.DropDownListFor(model => model.Training.TrainingStatus, new SelectList(Enum.GetValues(typeof(Domain.Models.EnumStatus.TrainingStatus))), new { @class = "form-control" })
+                        <span asp-validation-for="Training.TrainingStatus" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Training.SignInStartTime" class="control-label"></label>
+                        <input asp-for="Training.SignInStartTime" class="form-control" placeholder="00:00" type="time" />
+                        <span asp-validation-for="Training.SignInStartTime" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Training.SignInStopTime" class="control-label"></label>
+                        <input asp-for="Training.SignInStopTime" class="form-control" type="time" />
+                        <span asp-validation-for="Training.SignInStopTime" class="text-danger"></span>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label asp-for="Training.SignOutStartTime" class="control-label"></label>
+                        <input asp-for="Training.SignOutStartTime" class="form-control" placeholder="00:00" type="time" />
+                        <span asp-validation-for="Training.SignOutStartTime" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Training.SignOutStopTime" class="control-label"></label>
+                        <input asp-for="Training.SignOutStopTime" class="form-control" type="time" />
+                        <span asp-validation-for="Training.SignOutStopTime" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Training.PostTestStartTime" class="control-label"></label>
+                        <input asp-for="Training.PostTestStartTime" class="form-control" type="time" />
+                        <span asp-validation-for="Training.PostTestStartTime" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="Add" class="btn btn-primary" />
+                        <a asp-page="./Index" class="btn bg-gradient-warning btn-sm" style="float:right;">Back</a>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+        <!-- /.row -->
+    </div>
+    <!-- /.card-body -->
+    <div class="card-footer">
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script src="~/js/lga.js"></script>
+}

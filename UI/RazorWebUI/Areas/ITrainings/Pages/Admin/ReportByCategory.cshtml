@@ -1,0 +1,278 @@
+﻿@page
+@model RazorWebUI.Areas.ITrainings.Pages.Admin.ReportByCategoryModel
+@{
+}
+@{
+    ViewData["Title"] = $"COMPREHENSIVE REPORT FOR {Model.TrainingCategory.Title}";
+
+}
+<style>
+    @@media print {
+        body {
+            -webkit-print-color-adjust: exact;
+        }
+
+        #printableArea {
+            page-break-inside: avoid;
+        }
+
+        table {
+            page-break-inside: auto;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        thead {
+            display: table-header-group;
+        }
+
+        tfoot {
+            display: table-footer-group;
+        }
+
+        tr {
+            page-break-inside: avoid;
+            page-break-after: auto;
+        }
+
+        td, th {
+            page-break-inside: avoid;
+            page-break-after: auto;
+        }
+
+        .card-header, .table-responsive {
+            page-break-inside: avoid;
+        }
+
+        .keep-together {
+            page-break-inside: avoid;
+            page-break-after: auto;
+        }
+
+        a.btn {
+            display: none; /* Hide buttons on print */
+        }
+
+        .bg-primary {
+            background-color: #007bff !important; /* Ensure this matches your bg-primary color */
+            -webkit-print-color-adjust: exact;
+        }
+    }
+    @@media print {
+    /* Hide the comprehensive report header after the first page */
+    .print-only-first-page {
+        display: table-header-group;
+    }
+
+    /* Ensure the header only shows on the first page */
+    .print-only-first-page + thead {
+        display: none;
+    }
+
+    /* Ensure the next page-specific theads (Facilitators, Participants) are visible */
+    thead {
+        display: table-header-group;
+    }
+}
+
+</style>
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card keep-together">
+
+
+            <div class="card-body">
+                <div class="">
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped" style="border-top:2px solid black;">
+                            @{
+                                bool isFirstPage = true;
+                            }
+                            @if (isFirstPage)
+                            {
+                                <thead class="print-only-first-page">
+                                    <tr>
+                                        <th colspan="5" style="text-align:center;font-size:25px;">
+                                            COMPREHENSIVE REPORT FOR @Model.TrainingCategory.Title
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="5" style="text-align:center;font-size:20px;">
+                                        </th>
+                                    </tr>
+                                </thead>
+                                isFirstPage = false; // Set to false after rendering the first header
+                            }
+
+                            @foreach (var item in Model.Datas.OrderBy(x => x.StartDate))
+                            {
+                                <thead>
+
+                                    <tr>
+                                        <th colspan="5" style="text-align:center;font-size:20px;">
+                                            @item.CategoryAbbreviation in @item.State.ToUpper()
+                                        </th>
+
+                                    </tr>
+
+                                    <tr>
+                                        <th>Venue</th>
+                                        <td colspan="4">@item.Address</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Date</th>
+                                        <td colspan="4">
+                                            @item.StartDate.ToString("ddd dd MMM, yyyy") -
+                                            @item.EndDate.ToString("ddd dd MMM, yyyy")
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Sponsor</th>
+                                        <td colspan="4">
+                                            @foreach (var xmx in item.SponsorsList)
+                                            {
+                                                <img src="@xmx.LogoUrl" style="height: 70px;" />
+                                                <br />
+                                                <h6>@xmx.Name</h6>
+                                            }
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Facilitator</th>
+                                        <td colspan="4">@item.TrainingFacilitators</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Participants</th>
+                                        <td colspan="4">@item.TrainingParticipants</td>
+                                    </tr>
+                                    <tr style="border-left:none;border-right:none;">
+                                        <th colspan="5"></th>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="5" style="text-align:center;font-size:20px;">
+                                            FACILITATORS - @item.TrainingFacilitators
+                                        </th>
+
+                                    </tr>
+                                    <tr>
+                                        <th>S/N</th>
+                                        <th>NAME</th>
+                                        <th>EMAIL</th>
+                                        <th>PHONE NUMBER</th>
+                                        <th>PLACE OF WORK</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        int xsn = 0;
+                                    }
+                                    @foreach (var participant in item.TrainingFacilitatorsList.Where(x => x.User != null && x.FacilitatorTrainingStatus == Domain.Models.EnumStatus.FacilitatorTrainingStatus.Active).OrderByDescending(x => x.User.FullnameX))
+                                    {
+                                        if (participant.FacilitatorTrainingStatus == Domain.Models.EnumStatus.FacilitatorTrainingStatus.Active)
+                                        {
+                                            <tr>
+                                                <td>@(++xsn)</td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => participant.User.FullnameX)
+
+                                                </td>
+                                                <td>@Html.DisplayFor(modelItem => participant.User.Email)</td>
+                                                <td>@Html.DisplayFor(modelItem => participant.User.PhoneNumber)</td>
+                                                <td>@Html.DisplayFor(modelItem => participant.User.PlaceOfWork)</td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+
+
+                                <thead>
+                                    <tr style="border-left:none;border-right:none;">
+                                        <th colspan="5"></th>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="5" style="text-align:center;font-size:20px;">
+                                            PARTICIPANTS - @item.TrainingParticipants
+                                        </th>
+
+                                    </tr>
+                                    <tr>
+                                        <th>S/N</th>
+                                        <th>NAME</th>
+                                        <th>EMAIL</th>
+                                        <th>PHONE NUMBER</th>
+                                        <th>PLACE OF WORK</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        int sn = 0;
+                                    }
+                                    @foreach (var participant in item.TrainingParticipantsList.Where(x => x.User != null && x.ParticipantTrainingStatus == Domain.Models.EnumStatus.ParticipantTrainingStatus.Active).OrderByDescending(x => x.User.FullnameX))
+                                    {
+                                        if (participant.ParticipantTrainingStatus == Domain.Models.EnumStatus.ParticipantTrainingStatus.Active)
+                                        {
+                                            <tr>
+                                                <td>@(++sn)</td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => participant.User.FullnameX)
+
+                                                </td>
+                                                <td>@Html.DisplayFor(modelItem => participant.User.Email)</td>
+                                                <td>@Html.DisplayFor(modelItem => participant.User.PhoneNumber)</td>
+                                                <td>@Html.DisplayFor(modelItem => participant.User.PlaceOfWork)</td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            }
+                        </table>
+                    </div>
+
+
+
+                </div>
+            </div>
+            <a class="btn bg-gradient-primary btn-sm" style="float:right; margin-right: 10px;" onclick="printReport()">Print Report</a>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        string titlex = $"COMPREHENSIVE REPORT FOR MIYCN";
+        string mxtitle = titlex.ToUpper();
+    }
+
+    <script>
+        function printSection(sectionId) {
+            var originalContents = document.body.innerHTML;
+            var printContents = document.getElementById(sectionId).innerHTML;
+            document.body.innerHTML = printContents;
+            window.print();
+            document.body.innerHTML = originalContents;
+            location.reload(); // Reload to restore original contents
+        }
+
+        function printReport() {
+
+            // Save the original title
+            var originalTitle = document.title;
+
+            // Set a new title for printing
+            document.title = mxtitle;
+;
+
+            // Trigger the print dialog
+            window.print();
+
+            // Restore the original title after printing
+            document.title = originalTitle;
+        }
+    </script>
+}
+

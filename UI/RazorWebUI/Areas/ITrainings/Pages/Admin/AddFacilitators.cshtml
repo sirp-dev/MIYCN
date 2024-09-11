@@ -1,0 +1,75 @@
+﻿@page
+@model RazorWebUI.Areas.ITrainings.Pages.Admin.AddFacilitatorsModel
+@{
+}
+
+<div class="card card-default">
+    <div class="card-header">
+        <h3 class="card-title text-uppercase">
+           ASSIGN FACILITATORS/STAFF TO TRAINING
+        </h3>
+
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <h3 class="text-uppercase">Training Information</h3>
+        <h3 class="card-title">
+            @Model.Training.Title ( @Model.Training.StartDate.ToString("ddd dd MMM, yyyy") -
+            @Model.Training.EndDate.ToString("ddd dd MMM, yyyy"))
+        </h3>
+    </div>
+    <!-- /.card-header -->
+
+    <div class="card-body">
+        <div class="row">
+             
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Add Facilitators to the Training</h3>
+
+                    </div>
+                    <div class="card-body">
+                        <form method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="hidden" asp-for="TrainingFacilitator.TrainingId" value="@Model.Training.Id" />
+
+                            <div class="form-group">
+                                <label class="control-label">Select a Facilitator</label>
+                                <select asp-for="TrainingFacilitator.UserId" class="form-control select2 select2-primary js-example-basic-single" data-dropdown-css-class="select2-primary" asp-items="ViewBag.UserId">
+                                    <option value="">Choose</option>
+                                </select>
+
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="TrainingFacilitator.Position" class="control-label"></label>
+                                <select asp-for="TrainingFacilitator.Position" class="form-control" required="required">
+                                    <option value="">Choose</option>
+                                    <option value="National Admin">National Admin</option>
+                                    <option value="State Admin">State Admin</option>
+                                    <option value="Support Staff">Support Staff</option>
+                                    <option value="Team Lead">Team Lead</option>
+                                    <option value="Assistant Team Lead">Assistant Team Lead</option>
+                                    <option value="Trainner">Trainner</option>
+                                    <option value="Trainner">Trainner</option>
+                                    <option value="MIYCN Portal IT Support Manager">MIYCN Portal IT Support Manager</option>
+                                    
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" value="Add Facilitator" class="btn btn-primary" />
+                            </div>
+                        </form>
+                    </div>
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

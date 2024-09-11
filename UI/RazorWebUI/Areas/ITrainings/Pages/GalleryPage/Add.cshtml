@@ -1,0 +1,64 @@
+﻿@page
+@model RazorWebUI.Areas.ITrainings.Pages.GalleryPage.AddModel
+@{
+}
+
+<div class="card card-default">
+    <div class="card-header">
+        <h3 class="card-title">ADD NEW GALLERY</h3>
+    </div>
+    <div class="card-body">
+        <h3 class="text-uppercase">Training Information</h3>
+        <h3 class="card-title">
+            @Model.Training.Title ( @Model.Training.StartDate.ToString("ddd dd MMM, yyyy") -
+            @Model.Training.EndDate.ToString("ddd dd MMM, yyyy"))
+        </h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <form method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Gallery.TrainingId" value="@Model.Training.Id" />
+                    <div class="form-group">
+                        <label asp-for="Gallery.Title" class="control-label"></label>
+                        <input asp-for="Gallery.Title" class="form-control" />
+                        <span asp-validation-for="Gallery.Title" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Gallery.ImageDescription" class="control-label"></label>
+                        <textarea asp-for="Gallery.ImageDescription" class="form-control"></textarea>
+                        <span asp-validation-for="Gallery.ImageDescription" class="text-danger"></span>
+                    </div>
+
+
+                     
+                    <div class="form-group">
+                        <label class="control-label">Image</label><br />
+                        <input type="file" class="control-label" asp-for="imagefile" required="required" />
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Add" class="btn btn-primary" />
+                        <a asp-page="./Index" class="btn bg-gradient-warning btn-sm" style="float:right;">Back</a>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+        <!-- /.row -->
+    </div>
+    <!-- /.card-body -->
+    <div class="card-footer">
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script src="~/js/lga.js"></script>
+}

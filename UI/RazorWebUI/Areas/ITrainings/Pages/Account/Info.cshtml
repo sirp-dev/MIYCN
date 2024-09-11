@@ -1,0 +1,228 @@
+﻿@page
+@model RazorWebUI.Areas.ITrainings.Pages.Account.InfoModel
+@{
+}
+
+<style>
+    .input-group-sm > .custom-select, .input-group-sm > .form-control:not(textarea) {
+        height: auto;
+    }
+
+    .daiv {
+        box-shadow: 0px 11px 35px 0px #c5b5b4;
+        padding: 20px;
+    }
+
+    .secdaiv {
+        box-shadow: 0px 4px 5px 0px #c5b5b4;
+        padding: 10px;
+    }
+
+    .m-border {
+        margin-bottom: 6px;
+    }
+</style>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h6 class="card-title">TRAINING MANAGEMENT</h6>
+
+                <a asp-page="./Download" class="btn bg-gradient-warning btn-sm" style="float:right;">Download Report</a>
+                <a asp-page="./Index" class="btn bg-gradient-warning btn-sm" style="float:right;">Back</a>
+
+            </div>
+
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <dl class="row">
+
+
+                                        <dt class="col-sm-2">
+                                            @Html.DisplayNameFor(model => model.Training.Title)
+                                        </dt>
+                                        <dd class="col-sm-10">
+                                            @Html.DisplayFor(model => model.Training.Title)
+                                        </dd>
+                                        <dt class="col-sm-2">
+                                            @Html.DisplayNameFor(model => model.Training.Address)
+                                        </dt>
+                                        <dd class="col-sm-10">
+                                            @Html.DisplayFor(model => model.Training.Address)
+                                        </dd>
+
+
+
+                                        <dt class="col-sm-2">
+                                            @Html.DisplayNameFor(model => model.Training.State)
+                                        </dt>
+                                        <dd class="col-sm-10">
+                                            @Html.DisplayFor(model => model.Training.State)
+                                        </dd>
+
+                                        <dt class="col-sm-2">
+                                            @Html.DisplayNameFor(model => model.Training.LGA)
+                                        </dt>
+                                        <dd class="col-sm-10">
+                                            @Html.DisplayFor(model => model.Training.LGA)
+                                        </dd>
+
+
+                                        <dt class="col-sm-2">
+                                            Date
+                                        </dt>
+                                        <dd class="col-sm-10">
+                                            @Model.Training.StartDate.ToString("ddd dd MMM, yyyy") -
+                                            @Model.Training.EndDate.ToString("ddd dd MMM, yyyy")
+                                        </dd>
+                                        <dt class="col-sm-2">
+                                            Dialy Start/Finish Time
+                                        </dt>
+                                        <dd class="col-sm-10">
+                                            @Model.Training.DialyStartTime -
+                                            @Model.Training.DialyEndTime
+                                        </dd>
+
+                                        <dt class="col-sm-2">
+                                            @Html.DisplayNameFor(model => model.Training.TrainingStatus)
+                                        </dt>
+                                        <dd class="col-sm-10">
+                                            @Html.DisplayFor(model => model.Training.TrainingStatus)
+                                        </dd>
+                                    </dl>
+                                </div>
+                                 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="card-header">
+                <h3 class="card-title">Dialy Activities</h3>
+
+            </div>
+            <!-- /.card-header -->
+
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="btn btn-warning" style="width:100%;">
+
+
+                                    <div class="row">
+                                        <div class="col-sm-12">
+
+                                            <a class="btn btn-default" asp-page="./DialyActivity" asp-route-id="@Model.Training.Id"
+                                               style="width:100%;">View Activity</a>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="btn btn-danger" style="width:100%;"> 
+                                    <div class="row">
+                                        <div class="col-sm-12">
+
+                                            <a class="btn btn-default" asp-page="./UserTimetable" asp-route-id="@Model.Training.Id"
+                                               style="width:100%;">Timetable</a>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+
+                <!-- /.row -->
+            </div>
+            <hr />
+            <div class="card-header">
+                <h3 class="card-title">PRE TEST AND POST TEST MANAGER</h3>
+
+            </div>
+            <!-- /.card-header -->
+
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="btn btn-primary" style="width:100%;">
+
+
+                                    <h3 style="font-weight:900;">PRE TEST</h3>
+                                    @if (Model.Training.EnablePreTest == true)
+                                    {
+
+                                        <div class="row">
+                                            <div class="col-sm-6">
+
+                                                <a class="btn btn-default" asp-page="./Assessment" asp-route-xty="0" asp-route-tid="@Model.Training.Id"
+                                                   style="width:100%;">Start Pre Test</a>
+
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <a class="btn btn-default"
+                                                   asp-page="./Result" asp-route-tid="@Model.Training.Id" asp-route-xty="0" style="width:100%;">View Result (%)</a>
+                                            </div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <h6>NOT ACTIVATED</h6>
+                                    }
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="btn btn-success" style="width:100%;">
+                                    <h3 style="font-weight:900;">POST TEST</h3>
+                                    @if (Model.Training.EnablePostTest == true)
+                                    {
+                                        var currentTime = DateTime.UtcNow.AddHours(1).TimeOfDay; // Adjusting to your specific timezone if needed
+                                        var postTestStartTime = Model.Training.PostTestStartTime; // Example: new TimeSpan(14, 0, 0) for 2:00 PM
+
+                                        var isPostTestStartTimeReached = currentTime >= postTestStartTime;
+
+                                        if (isPostTestStartTimeReached)
+                                        {
+                                        <div class="row">
+                                            <div class="col-sm-6"><a class="btn btn-default" style="width:100%;" asp-page="./Assessment" asp-route-xty="2" asp-route-tid="@Model.Training.Id">Start Post Test</a></div>
+                                            <div class="col-sm-6"><a class="btn btn-default" style="width:100%;" asp-page="./Result" asp-route-tid="@Model.Training.Id" asp-route-xty="2">View Result (0%)</a></div>
+                                        </div>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <h6>NOT ACTIVATED</h6>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- /.row -->
+            </div>
+            <div class="card-footer">
+                <a href="javascript:history.back()" class="btn bg-gradient-warning btn-sm">Back</a>
+
+            </div>
+        </div>
+    </div>
+</div>

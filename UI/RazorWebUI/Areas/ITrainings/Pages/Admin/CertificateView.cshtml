@@ -1,0 +1,681 @@
+﻿@page
+@model RazorWebUI.Areas.ITrainings.Pages.Admin.CertificateViewModel
+@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    @*<meta name="viewport" content="width=device-width, initial-scale=1.0">*@
+    <title>@Model.Certificate.FullName | MIYCN CERTIFICATE</title>
+    <link rel="icon" href="~/img/icon.jpg" type="image/x-icon" />
+
+    <!-- Add any additional meta tags, stylesheets, or scripts here -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <style>
+        @@font-face {
+            font-family: 'Open Sans';
+            font-style: normal;
+            font-weight: 400;
+            font-stretch: normal;
+            src: url(https://fonts.gstatic.com/s/opensans/v40/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsjZ0B4gaVc.ttf) format('truetype');
+        }
+
+        @@font-face {
+            font-family: 'Pinyon Script';
+            font-style: normal;
+            font-weight: 400;
+            src: url(https://fonts.gstatic.com/s/pinyonscript/v21/6xKpdSJbL9-e9LuoeQiDRQR8WOXaPw.ttf) format('truetype');
+        }
+
+        @@font-face {
+            font-family: 'Rochester';
+            font-style: normal;
+            font-weight: 400;
+            src: url(https://fonts.gstatic.com/s/rochester/v22/6ae-4KCqVa4Zy6Fif-UC2FHS.ttf) format('truetype');
+        }
+
+        @@import url('https://fonts.googleapis.com/css2?family=Berlin+Sans&display=swap');
+
+        .cursive {
+            font-family: 'Pinyon Script', cursive;
+        }
+
+        .sans {
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        .bold {
+            font-weight: bold;
+        }
+
+        .block {
+            display: block;
+        }
+
+        .underline {
+            border-bottom: 1px solid #777;
+            padding: 5px;
+            margin-bottom: 15px;
+        }
+
+        .margin-0 {
+            margin: 0;
+        }
+
+        .padding-0 {
+            padding: 0;
+        }
+
+        .pm-empty-space {
+            height: 40px;
+            width: 100%;
+        }
+
+        body {
+            padding: 20px 0;
+            background: #ccc;
+        }
+
+        .pm-certificate-container {
+            /*position: relative;
+            width: 800px;
+            height: 600px;
+            background-color: #618597;
+            padding: 30px;
+            color: #333;
+            font-family: 'Open Sans', sans-serif;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);*/
+            /*background: -webkit-repeating-linear-gradient(
+          45deg,
+          #618597,
+          #618597 1px,
+          #b2cad6 1px,
+          #b2cad6 2px
+        );
+        background: repeating-linear-gradient(
+          90deg,
+          #618597,
+          #618597 1px,
+          #b2cad6 1px,
+          #b2cad6 2px
+        );*/
+        }
+
+            .pm-certificate-container .outer-border {
+                width: 794px;
+                height: 594px;
+                position: absolute;
+                left: 50%;
+                margin-left: -397px;
+                top: 50%;
+                margin-top: -297px;
+                border: 2px solid #fff;
+            }
+
+            .pm-certificate-container .inner-border {
+                width: 730px;
+                height: 530px;
+                position: absolute;
+                left: 50%;
+                margin-left: -365px;
+                top: 50%;
+                margin-top: -265px;
+                border: 2px solid #fff;
+            }
+
+            .pm-certificate-container .pm-certificate-border {
+                /*position: relative;
+                width: 720px;
+                height: 520px;
+                padding: 0;
+                border: 1px solid #E1E5F0;
+                background-color: #ffffff;
+                background-image: none;
+                left: 50%;
+                margin-left: -360px;
+                top: 50%;
+                margin-top: -260px;*/
+            }
+
+                .pm-certificate-container .pm-certificate-border .pm-certificate-block {
+                    width: 650px;
+                    height: 200px;
+                    position: relative;
+                    left: 50%;
+                    margin-left: -325px;
+                    top: 70px;
+                    margin-top: 0;
+                }
+
+                .pm-certificate-container .pm-certificate-border .pm-certificate-header {
+                    margin-bottom: 10px;
+                }
+
+                .pm-certificate-container .pm-certificate-border .pm-certificate-title {
+                    position: relative;
+                    top: 40px;
+                }
+
+                    .pm-certificate-container .pm-certificate-border .pm-certificate-title h2 {
+                        font-size: 34px !important;
+                    }
+
+                .pm-certificate-container .pm-certificate-border .pm-certificate-body {
+                    padding: 20px;
+                }
+
+                    .pm-certificate-container .pm-certificate-border .pm-certificate-body .pm-name-text {
+                        font-size: 20px;
+                    }
+
+                .pm-certificate-container .pm-certificate-border .pm-earned {
+                    margin: 15px 0 20px;
+                }
+
+                    .pm-certificate-container .pm-certificate-border .pm-earned .pm-earned-text {
+                        font-size: 20px;
+                    }
+
+                    .pm-certificate-container .pm-certificate-border .pm-earned .pm-credits-text {
+                        font-size: 15px;
+                    }
+
+                .pm-certificate-container .pm-certificate-border .pm-course-title .pm-earned-text {
+                    font-size: 20px;
+                }
+
+                .pm-certificate-container .pm-certificate-border .pm-course-title .pm-credits-text {
+                    font-size: 15px;
+                }
+
+                .pm-certificate-container .pm-certificate-border .pm-certified {
+                    font-size: 12px;
+                }
+
+                    .pm-certificate-container .pm-certificate-border .pm-certified .underline {
+                        margin-bottom: 5px;
+                    }
+
+                /* .pm-certificate-container .pm-certificate-border .pm-certificate-footer {
+                    width: 650px;
+                    height: 100px;
+                    position: relative;
+                    left: 50%;
+                    margin-left: -325px;
+                    bottom: -105px;
+                }*/
+                .pm-certificate-container .pm-certificate-border .pm-certificate-footer {
+                    /* width: 650px; */
+                    height: 100px;
+                    position: relative;
+                    /* left: 50%; */
+                    /* margin-left: -325px; */
+                    /* bottom: -105px; */
+                }
+
+        .pm-certificate-container {
+            position: relative;
+            width: 1400px;
+            height: 960px;
+            background-color: #248000;
+            padding: 30px;
+            color: #333;
+            font-family: 'Open Sans', sans-serif;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        }
+
+            .pm-certificate-container .pm-certificate-border {
+                position: relative;
+                width: 1340px;
+                height: 900px;
+                padding: 0;
+                border: 1px solid #E1E5F0;
+                background-color: #ffffff;
+                background-image: none;
+                /* left: 50%; */
+                /* margin-left: -360px; */
+                /* top: 50%; */
+                /* margin-top: -260px; */
+            }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.debug.js"></script>
+</head>
+<body>
+    <div id="certificateContent" class="container pm-certificate-container">
+        <div class="outer-border"></div>
+        <div class="inner-border"></div>
+
+        <div class="pm-certificate-border col-xs-12">
+            <div class="row pm-certificate-header">
+                <div class="pm-certificate-title cursive col-xs-12 text-center">
+                    <img src="~/img/arm.png" style="height:150px;" />
+                    <h4 style="font-family:'Times New Roman', Times, serif;font-weight:700;font-size:32px;">Federal Ministry of Health and Social Welfare</h4>
+                </div>
+            </div>
+            <img src="@Model.Certificate.PassportUrl" style="height: 170px; float: right !important; margin-right: 106px; border: 2px solid black;" class="img-fluid" />
+
+            <div class="row pm-certificate-body" style="margin:0;">
+
+                <div class="pm-certificate-block">
+                    <div class="">
+                        <div class="">
+                            <div class=""><!-- LEAVE EMPTY --></div>
+                            <div class="pm-certificate-name margin-0 text-center">
+                                <span class="pm-name-text bold" style="font-size: 59px; font-family: math;">Certificate of Attendance</span>
+                                <br />
+                                <span style="text-align:center;">This is to certify that</span>
+                            </div>
+                            <div class=""><!-- LEAVE EMPTY --></div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <div class="">
+                            <div class=""><!-- LEAVE EMPTY --></div>
+                            <div class="pm-earned text-center">
+
+                                <span class="pm-credits-text block bold sans" style="font-size: 35px; font-weight: 900; font-family: 'Berlin Sans', sans-serif;">@Model.Certificate.FullName</span>
+                            </div>
+                            <div class=""><!-- LEAVE EMPTY --></div>
+                            <div class="col-xs-12"></div>
+                        </div>
+                    </div>
+
+                    <div class="">
+                        <div class="" style="margin-top:40px;">
+                            <div class="text-center">
+                                <span class="pm-earned-text block" style="font-family: auto; font-size: 18px; ">
+                                    has successfully completed the full <span style="font-weight:800;color:green;">
+                                        @Model.Training.CertificateCourseTitle
+                                    </span> on <span style="font-weight:800;color:green;">
+                                        @Model.Training.CertificateTitle
+                                    </span>
+                                </span>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="  text-center" style=" margin-top: 30px;">
+                        <div class="row text-center">
+                            <div class="pm-course-title   text-center" style="margin-bottom: 20px;">
+                                <span class="pm-credits-text block bold sans">
+                                    <span style="border-bottom:none;">held at </span>
+                                    <span style="border-bottom: 1px dotted black; padding-left: 100px; padding-right: 100px; ">@Model.Training.CertificateAddress</span>
+                                </span>
+
+                            </div>
+                        </div>
+
+                        <span style="margin-top:15px;">
+                            from @Model.Training.CertificateDate
+                        </span>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            .
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-xs-12" style="margin-top: 70px;">
+                    <div class="row">
+                        <div class="pm-certificate-footer" style="margin-top: 50px;">
+                            <div class="col-xs-4 pm-certified col-xs-4 text-center">
+                                <span class="underline">
+                                    @if (Model.Training.CertificateUseLeftSidePhysicalSignature == true)
+                                    {
+                                        <!-- Left Signature -->
+                                        <img src="~/img/blanksignature.png" alt="Left Signature" class="signature" style="height:50px;margin-bottom:10px;">
+                                        <!-- Line -->
+                                    }
+                                    else
+                                    {
+                                        <!-- Left Signature -->
+                                        <img src="@Model.Training.CertificateLeftSideSignatureUrl" alt="Left Signature" class="signature" style="height:50px;margin-bottom:10px;">
+                                        <!-- Line -->
+                                    }
+                                </span>
+                                <span class="bold block" style="font-size:15px;">@Model.Training.CertificateLeftSideName</span>
+                                <span class="block" style="font-weight:700;">@Model.Training.CertificateLeftSideOfficePosition</span>
+                                <span class="block">@Model.Training.CertificateLeftSideOfficeTitle</span>
+                            </div>
+                            <div class="col-xs-4">
+                                <div style="margin:20px auto 0 auto;text-align:center;">
+
+                                    <img class="" style="height: 70px; margin: 0 auto; text-align: center;" src="data:image/jpg;base64,@(Convert.ToBase64String(Model.BarcodeImage))">
+                                    <h6 style="margin-top:5px;font-weight:900;">@Model.Certificate.CerificateNumber</h6>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 pm-certified col-xs-4 text-center">
+                                <span class="underline">
+                                    <!-- Right Signature -->
+                                    @if (Model.Training.CertificateUseRightSidePhysicalSignature == true)
+                                    {
+                                        <!-- Right Signature -->
+                                        <img src="~/img/blanksignature.png" alt="Right Signature" class="signature" style="height:50px;margin-bottom:10px;">
+                                        <!-- Line -->
+                                    }
+                                    else
+                                    {
+                                        <!-- Right Signature -->
+                                        <img src="@Model.Training.CertificateRightSideSignatureUrl" alt="Right Signature" class="signature" style="height:50px;margin-bottom:10px;">
+                                        <!-- Line -->
+                                    }
+ 
+                                </span>
+                                <span class="bold block" style="font-size:15px;">@Model.Training.CertificateRightSideName</span>
+                                <span class="bold block" style="font-weight:700;">@Model.Training.CertificateRightSideOfficePosition</span>
+                                <span class="block">@Model.Training.CertificateRightSideOfficeTitle</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- Buttons to trigger download -->
+    <!--<button onclick="downloadPDF('Buffalo_Public_Schools_Certificate_of_Completion')">Download as PDF</button>
+    <button onclick="downloadPNG('Buffalo_Public_Schools_Certificate_of_Completion')">Download as PNG</button>-->
+    <!-- JavaScript for downloading the certificate -->
+    <script>
+        function downloadPDF(filename) {
+            // Get the certificate content
+            var certificateContent = document.getElementById('certificateContent');
+
+            // Convert certificate content to PDF
+            html2canvas(certificateContent, {
+                onrendered: function (canvas) {
+                    var imgData = canvas.toDataURL('image/png');
+                    var pdf = new jsPDF();
+                    pdf.addImage(imgData, 'PNG', 0, 0);
+                    pdf.save(filename + '.pdf');
+                }
+            });
+
+        }
+
+        function downloadPNG(filename) {
+            // Get the certificate content
+            var certificateContent = document.getElementById('certificateContent');
+
+            // Convert certificate content to PNG
+            html2canvas(certificateContent, {
+                /*scale:6,*/
+                onrendered: function (canvas) {
+                    var imgData = canvas.toDataURL('image/png');
+                    var a = document.createElement('a');
+                    a.href = imgData;
+                    a.download = filename + '.png';
+                    a.click();
+                }
+            });
+        }
+    </script>
+    <style>
+        @@media print {
+            body * {
+                visibility: visible;
+            }
+
+            body > *:not(#certificateContent) {
+                display: none;
+            }
+
+            #certificateContent,
+            #certificateContent * {
+                visibility: visible;
+            }
+
+            #certificateContent {
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+
+
+
+
+            @@font-face {
+                font-family: 'Open Sans';
+                font-style: normal;
+                font-weight: 400;
+                font-stretch: normal;
+                src: url(https://fonts.gstatic.com/s/opensans/v40/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsjZ0B4gaVc.ttf) format('truetype');
+            }
+
+            @@font-face {
+                font-family: 'Pinyon Script';
+                font-style: normal;
+                font-weight: 400;
+                src: url(https://fonts.gstatic.com/s/pinyonscript/v21/6xKpdSJbL9-e9LuoeQiDRQR8WOXaPw.ttf) format('truetype');
+            }
+
+            @@font-face {
+                font-family: 'Rochester';
+                font-style: normal;
+                font-weight: 400;
+                src: url(https://fonts.gstatic.com/s/rochester/v22/6ae-4KCqVa4Zy6Fif-UC2FHS.ttf) format('truetype');
+            }
+
+            .cursive {
+                font-family: 'Pinyon Script', cursive;
+            }
+
+            .sans {
+                font-family: 'Open Sans', sans-serif;
+            }
+
+            .bold {
+                font-weight: bold;
+            }
+
+            .block {
+                display: block;
+            }
+
+            .underline {
+                border-bottom: 1px solid #777 !important;
+                padding: 5px;
+                margin-bottom: 15px;
+            }
+
+            .margin-0 {
+                margin: 0;
+            }
+
+            .padding-0 {
+                padding: 0;
+            }
+
+            .pm-empty-space {
+                height: 40px;
+                width: 100%;
+            }
+
+            body {
+                padding: 20px 0;
+                background: #ccc !important;
+            }
+
+            .pm-certificate-container {
+                /*position: relative;
+            width: 800px;
+            height: 600px;
+            background-color: #618597;
+            padding: 30px;
+            color: #333;
+            font-family: 'Open Sans', sans-serif;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);*/
+                /*background: -webkit-repeating-linear-gradient(
+          45deg,
+          #618597,
+          #618597 1px,
+          #b2cad6 1px,
+          #b2cad6 2px
+        );
+        background: repeating-linear-gradient(
+          90deg,
+          #618597,
+          #618597 1px,
+          #b2cad6 1px,
+          #b2cad6 2px
+        );*/
+            }
+
+                .pm-certificate-container .outer-border {
+                    width: 794px;
+                    height: 594px;
+                    position: absolute;
+                    left: 50%;
+                    margin-left: -397px;
+                    top: 50%;
+                    margin-top: -297px;
+                    border: 2px solid #fff !important;
+                }
+
+                .pm-certificate-container .inner-border {
+                    width: 730px;
+                    height: 530px;
+                    position: absolute;
+                    left: 50%;
+                    margin-left: -365px;
+                    top: 50%;
+                    margin-top: -265px;
+                    border: 2px solid #fff !important;
+                }
+
+                .pm-certificate-container .pm-certificate-border {
+                    /*position: relative;
+                width: 720px;
+                height: 520px;
+                padding: 0;
+                border: 1px solid #E1E5F0;
+                background-color: #ffffff;
+                background-image: none;
+                left: 50%;
+                margin-left: -360px;
+                top: 50%;
+                margin-top: -260px;*/
+                }
+
+                    .pm-certificate-container .pm-certificate-border .pm-certificate-block {
+                        width: 650px;
+                        height: 200px;
+                        position: relative;
+                        left: 50%;
+                        margin-left: -325px;
+                        top: 70px;
+                        margin-top: 0;
+                    }
+
+                    .pm-certificate-container .pm-certificate-border .pm-certificate-header {
+                        margin-bottom: 10px;
+                    }
+
+                    .pm-certificate-container .pm-certificate-border .pm-certificate-title {
+                        position: relative;
+                        top: 40px;
+                    }
+
+                        .pm-certificate-container .pm-certificate-border .pm-certificate-title h2 {
+                            font-size: 34px !important;
+                        }
+
+                    .pm-certificate-container .pm-certificate-border .pm-certificate-body {
+                        padding: 20px;
+                    }
+
+                        .pm-certificate-container .pm-certificate-border .pm-certificate-body .pm-name-text {
+                            font-size: 20px;
+                        }
+
+                    .pm-certificate-container .pm-certificate-border .pm-earned {
+                        margin: 15px 0 20px;
+                    }
+
+                        .pm-certificate-container .pm-certificate-border .pm-earned .pm-earned-text {
+                            font-size: 20px;
+                        }
+
+                        .pm-certificate-container .pm-certificate-border .pm-earned .pm-credits-text {
+                            font-size: 15px;
+                        }
+
+                    .pm-certificate-container .pm-certificate-border .pm-course-title .pm-earned-text {
+                        font-size: 20px;
+                    }
+
+                    .pm-certificate-container .pm-certificate-border .pm-course-title .pm-credits-text {
+                        font-size: 15px;
+                    }
+
+                    .pm-certificate-container .pm-certificate-border .pm-certified {
+                        font-size: 12px;
+                    }
+
+                        .pm-certificate-container .pm-certificate-border .pm-certified .underline {
+                            margin-bottom: 5px;
+                        }
+                    /* .pm-certificate-container .pm-certificate-border .pm-certificate-footer {
+                    width: 650px;
+                    height: 100px;
+                    position: relative;
+                    left: 50%;
+                    margin-left: -325px;
+                    bottom: -105px;
+                }*/
+                    .pm-certificate-container .pm-certificate-border .pm-certificate-footer {
+                        /* width: 650px; */
+                        height: 100px;
+                        position: relative;
+                        /* left: 50%; */
+                        /* margin-left: -325px; */
+                        /* bottom: -105px; */
+                    }
+
+            .pm-certificate-container {
+                position: relative;
+                width: 1400px;
+                height: 960px;
+                background-color: #248000 !important;
+                padding: 30px;
+                color: #333;
+                font-family: 'Open Sans', sans-serif;
+                box-shadow: 0 0 5px rgba(0, 0, 0, 0.5) !important;
+            }
+
+                .pm-certificate-container .pm-certificate-border {
+                    position: relative;
+                    width: 1340px;
+                    height: 900px;
+                    padding: 0;
+                    border: 1px solid #E1E5F0 !important;
+                    background-color: #ffffff !important;
+                    background-image: none !important;
+                    /* left: 50%; */
+                    /* margin-left: -360px; */
+                    /* top: 50%; */
+                    /* margin-top: -260px; */
+                }
+        }
+
+
+        @@media print {
+            .pm-certificate-container {
+                background-color: #248000 !important; /* Use !important to override any conflicting styles */
+            }
+        }
+    </style>
+</body>
+</html>

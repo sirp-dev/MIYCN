@@ -1,0 +1,177 @@
+﻿@page
+@model RazorWebUI.Areas.ITrainings.Pages.Admin.ActivitiesModel
+@{
+}
+
+<div class="card card-default">
+    <div class="card-header">
+        <h3 class="card-title text-uppercase">
+            TRAINING DIALY ACTIVITIES
+        </h3>
+        <a asp-page="./Info" asp-route-id="@Model.Training.Id" class="btn bg-gradient-warning btn-sm" style="float:right;">Bact to Training</a>
+
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <h3 class="text-uppercase">Training Information</h3>
+        <h3 class="card-title">
+            @Model.Training.Title ( @Model.Training.StartDate.ToString("ddd dd MMM, yyyy") -
+            @Model.Training.EndDate.ToString("ddd dd MMM, yyyy"))
+        </h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>S/N</th>
+                            <th>Day</th>
+                            <th>
+                                Title
+                            </th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>SignIn (True/Not) </th>
+                            <th>SignOut (True/Not)</th>
+
+                        </tr>
+                    </thead>
+
+                    @{
+                        int sn = 0;
+                    }
+                    <tbody>
+                        @foreach (var item in Model.Datas.OrderBy(x => x.Date.Date))
+                        {
+                            <tr>
+
+                                <td>
+                                    @{
+                                        sn++;
+                                    }
+                                    @sn
+                                </td>
+                                <td>
+                                    <a asp-page="./ActivityDetails" asp-route-id="@item.Id">
+                                        @item.Date.ToString("dddd")
+
+                                    </a>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Title)
+                                </td>
+                                <td>
+                                    @item.Date.ToString("dd/MM/yyyy")
+                                </td>
+                                <td>
+                                    @item.StartTime - @item.FinishTime
+                                </td>
+                                <td>
+                                    @if (item.Attendances != null)
+                                    {
+                                        @if (item.Attendances.Count() > 0)
+                                        {
+                                            var signedIn = item.Attendances.Count(x => x.AttendanceSignInStatus == Domain.Models.EnumStatus.AttendanceSignInStatus.Present);
+                                            var notSignedIn = item.Attendances.Count(x => x.AttendanceSignInStatus == Domain.Models.EnumStatus.AttendanceSignInStatus.Absent);
+
+                                            <span>
+                                                @signedIn / @notSignedIn
+                                            </span>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <span>0/0</span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (item.Attendances != null)
+                                    {
+                                        @if (item.Attendances.Count() > 0)
+                                        {
+                                            var signedIn = item.Attendances.Count(x => x.AttendanceSignOutStatus == Domain.Models.EnumStatus.AttendanceSignOutStatus.Present);
+                                            var notSignedIn = item.Attendances.Count(x => x.AttendanceSignOutStatus == Domain.Models.EnumStatus.AttendanceSignOutStatus.Absent);
+
+                                            <span>
+                                                @signedIn / @notSignedIn
+                                            </span>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <span>0/0</span>
+                                    }
+                                </td>
+
+
+
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    @if (User.IsInRole("AdminEditor") || Model.Training.TrainingStatus != Domain.Models.EnumStatus.TrainingStatus.Completed)
+    {
+        <div class="card-body">
+            <div class="row">
+
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Add Training Activity</h3>
+
+                        </div>
+                        <div class="card-body">
+                            <form method="post">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <input type="hidden" asp-for="DialyActivity.TrainingId" value="@Model.Training.Id" />
+
+
+                                <div class="form-group">
+                                    <label asp-for="DialyActivity.Title" class="control-label"></label>
+                                    <input asp-for="DialyActivity.Title" class="form-control" />
+                                    <span asp-validation-for="DialyActivity.Title" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="DialyActivity.Description" class="control-label"></label>
+                                    <textarea asp-for="DialyActivity.Description" class="form-control"></textarea>
+                                    <span asp-validation-for="DialyActivity.Description" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="DialyActivity.Date" class="control-label"></label>
+                                    <input asp-for="DialyActivity.Date" class="form-control" type="date" />
+                                    <span asp-validation-for="DialyActivity.Date" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="DialyActivity.StartTime" class="control-label"></label>
+                                    <input asp-for="DialyActivity.StartTime" class="form-control" placeholder="00:00" type="time" />
+                                    <span asp-validation-for="DialyActivity.StartTime" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="DialyActivity.FinishTime" class="control-label"></label>
+                                    <input asp-for="DialyActivity.FinishTime" class="form-control" type="time" />
+                                    <span asp-validation-for="DialyActivity.FinishTime" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <input type="submit" value="Add Activity" class="btn btn-primary" />
+                                </div>
+                            </form>
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

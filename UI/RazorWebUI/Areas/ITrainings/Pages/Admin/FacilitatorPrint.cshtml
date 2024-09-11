@@ -1,0 +1,85 @@
+﻿@page
+@model RazorWebUI.Areas.ITrainings.Pages.Admin.FacilitatorPrintModel
+@{
+}
+@{
+    ViewData["Title"] = $"COMPREHENSIVE LIST OF FACILITATORS FOR SUB-NATIONAL TRAINING OF TRAINERS ON MIYCN IN ALL THE STATES ({@Model.Datas.Count()})";
+
+     ViewBag.isTitle = "yes";
+}
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">
+            SUB-NATIONAL TRAINING OF TRAINERS ON MIYCN IN ALL THE STATES
+        </h3>
+    </div>
+    <div class="card-header">
+        <h3 class="card-title">
+            COMPREHENSIVE LIST OF FACILITATORS (@Model.Datas.Count())
+        </h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <div class="table-responsive">
+            <table id="" class="example-table table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>S/N</th>
+                        <th>
+                            Fullname
+                        </th>
+
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Gender</th>
+                        <th>Place Of Work</th>
+                        <th>State</th>
+
+                    </tr>
+                </thead>
+
+                @{
+                    int sn = 0;
+                }
+                <tbody>
+                    @foreach (var item in Model.Datas.OrderBy(x => x.FullnameX))
+                    {
+                        <tr>
+
+                            <td>
+                                @{
+                                    sn++;
+                                }
+                                @sn
+                            </td>
+                            <td>
+                                <a asp-page="/Admin/Info" asp-route-area="User" asp-route-id="@item.Id">
+                                    @Html.DisplayFor(modelItem => item.FullnameX)
+
+                                </a>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Email)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PhoneNumber)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Gender)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PlaceOfWork)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.State)
+                            </td>
+
+
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,115 @@
+﻿@page
+@model RazorWebUI.Areas.Certificate.Pages.CertModel
+@{
+    Layout = null;
+}
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Title Here</title>
+    <!-- Add any additional meta tags, stylesheets, or scripts here -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <style>
+        @@font-face {
+            font-family: 'Open Sans';
+            font-style: normal;
+            font-weight: 400;
+            font-stretch: normal;
+            src: url(https://fonts.gstatic.com/s/opensans/v40/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsjZ0B4gaVc.ttf) format('truetype');
+        }
+
+        @@font-face {
+            font-family: 'Pinyon Script';
+            font-style: normal;
+            font-weight: 400;
+            src: url(https://fonts.gstatic.com/s/pinyonscript/v21/6xKpdSJbL9-e9LuoeQiDRQR8WOXaPw.ttf) format('truetype');
+        }
+
+        @@font-face {
+            font-family: 'Rochester';
+            font-style: normal;
+            font-weight: 400;
+            src: url(https://fonts.gstatic.com/s/rochester/v22/6ae-4KCqVa4Zy6Fif-UC2FHS.ttf) format('truetype');
+        }
+
+        .cursive {
+            font-family: 'Pinyon Script', cursive;
+        }
+
+        .sans {
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        .bold {
+            font-weight: bold;
+        }
+
+        .block {
+            display: block;
+        }
+
+        .underline {
+            border-bottom: 1px solid #777;
+            padding: 5px;
+            margin-bottom: 15px;
+        }
+
+        .margin-0 {
+            margin: 0;
+        }
+
+        .padding-0 {
+            padding: 0;
+        }
+
+        .pm-empty-space {
+            height: 40px;
+            width: 100%;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: #ccc;
+        }
+
+        .pm-certificate-container {
+            position: relative;
+            width: 100%; /* Adjusted to fit fullscreen */
+            max-width: 794px; /* Adjusted for A4 size */
+            margin: 0 auto;
+            padding: 30px;
+            background-color: #618597;
+            color: #333;
+            font-family: 'Open Sans', sans-serif;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Add other styles as before */
+
+        /* Adjustments for responsive design */
+        @@media screen and (max-width: 768px) {
+            .pm-certificate-container {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="certificateContent" class="container pm-certificate-container">
+        <!-- Certificate content -->
+    </div>
+
+    <!-- Buttons to trigger download -->
+    <button onclick="downloadPDF('Buffalo_Public_Schools_Certificate_of_Completion')">Download as PDF</button>
+    <button onclick="downloadPNG('Buffalo_Public_Schools_Certificate_of_Completion')">Download as PNG</button>
+
+    <!-- JavaScript for downloading the certificate -->
+    <!-- Add scripts as before -->
+</body>
+</html>

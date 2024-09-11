@@ -1,0 +1,128 @@
+﻿@page
+@model RazorWebUI.Areas.ITrainings.Pages.Admin.IndexModel
+@{
+}
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">
+            MANAGE TRAININGS
+            @if (Model.TrainingCategory != null)
+            {
+                <span>
+                    FOR @Model.TrainingCategory.Title
+                </span>} (@Model.Datas.Count())
+            </h3>
+
+            @if (User.IsInRole("Admin") || User.IsInRole("mSuperAdmin"))
+            {
+                <a asp-page="./Add" class="btn bg-primary btn-sm" style="float:right;">Register New Training</a>
+                <a asp-page="/Admin/ReportByCategory" asp-route-id="@Model.TrainingCategory.Id" class="btn bg-gradient-danger btn-sm" style="float:right;">Comprehensive Report</a>
+
+                <a asp-page="./TrainingReport" class="btn bg-gradient-warning btn-sm" style="float:right;">Participant and Facilitators By State</a>
+                <a asp-page="./FacilitatorPrint" class="btn bg-gradient-warning btn-sm" style="float:right;">All Facilitators</a>
+                <a asp-page="./PrintParticipants" class="btn bg-gradient-warning btn-sm" style="float:right;">All Participants</a>
+                <a asp-page="./TrainingStatistics" class="btn bg-gradient-warning btn-sm" style="float:right;">Training Statistics</a>
+            }
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>S/N</th>
+                            <th>
+                                Category
+                            </th>
+                            <th>
+                                Title
+                            </th>
+
+                            <th>State</th>
+
+                            <th>LGA</th>
+                            <th>Address</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Status</th>
+
+                            <th>Action</th>
+
+                        </tr>
+                    </thead>
+
+                    @{
+                        int sn = 0;
+                    }
+                    <tbody>
+                        @foreach (var item in Model.Datas.OrderByDescending(x => x.StartDate))
+                        {
+                            <tr>
+
+                                <td>
+                                    @{
+                                        sn++;
+                                    }
+                                    @sn
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TrainingCategory.Title)
+                                </td>
+                                <td>
+                                    <a asp-page="./Info" asp-route-id="@item.Id">
+                                        @Html.DisplayFor(modelItem => item.Title)
+
+                                    </a>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.State)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.LGA)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Address)
+                                </td>
+                                <td>
+                                    @item.StartDate.ToString("ddd dd MMM, yyyy")
+                                </td>
+                                <td>
+                                    @item.EndDate.ToString("ddd dd MMM, yyyy")
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TrainingStatus)
+                                </td>
+                                <td>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-success">Action</button>
+
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-success dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
+                                            </button>
+                                            <div class="dropdown-menu" style="">
+                                                @if (User.IsInRole("AdminEditor") || item.TrainingStatus != Domain.Models.EnumStatus.TrainingStatus.Completed)
+                                                {
+
+                                                    <a class="dropdown-item" asp-page="./Update" asp-route-id="@item.Id">Edit</a>
+
+                                                }
+                                                <a class="dropdown-item" asp-page="./Sponsors" asp-route-id="@item.Id">Sponsors</a>
+                                                <a class="dropdown-item" asp-page="./Facilitators" asp-route-id="@item.Id">Facilitators</a>
+                                                <a class="dropdown-item" asp-page="./Participants" asp-route-id="@item.Id">Participants</a>
+                                                <a class="dropdown-item" asp-page="./Activities" asp-route-id="@item.Id">Activities</a>
+                                                <a class="dropdown-item" asp-page="./Test" asp-route-id="@item.Id">Test</a>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>

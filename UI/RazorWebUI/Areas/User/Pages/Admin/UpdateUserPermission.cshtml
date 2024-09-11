@@ -1,0 +1,129 @@
+﻿@page
+@model RazorWebUI.Areas.User.Pages.Admin.UpdateUserPermissionModel
+@{
+}
+<div class="row">
+    <div class="card-columns mx-auto d-flex justify-content-center col-12">
+
+        <div class="card">
+            <div class="card-header">
+
+                <h3 class="card-title">
+                    User Permissions (@Model.UserDatas.Fullname)
+                    <br />
+                    Email: @Model.UserDatas.UserInfo.Email
+                </h3>
+            </div>
+            <div class="card-body">
+                <div class="">
+                    @foreach (var i in Model.UserDatas.UserRoles)
+                    {
+                        <button class="btn btn-primary">
+                            @i
+                        </button>
+                    }
+                </div>
+                <hr />
+                <div class="">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>Click to Remove Permision</h6>
+                            @foreach (var i in Model.UserDatas.UserRoles)
+                            {
+                                @await Component.InvokeAsync("RoleData", new { name = i, Userid = Model.UserDatas.UserInfo.Id, syle = "danger", fullname = Model.UserDatas.Fullname })
+                            }
+                        </div>
+                        <div class="col-md-6">
+                            <h6>Click to Add Permision</h6>
+                            @foreach (var i in Model.UserDatas.RemainingUserRoles)
+                            {
+                                @await Component.InvokeAsync("RoleData", new { name = i, Userid = Model.UserDatas.UserInfo.Id, syle = "warning", fullname = Model.UserDatas.Fullname })
+
+                            }
+                        </div>
+                    </div>
+
+
+                </div>
+                <a class="dropdown-item" asp-page="./Details" asp-route-id="@Model.UserDatas.UserInfo.Id">Details</a>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="card-columns mx-auto d-flex justify-content-center col-12">
+
+        <div class="card">
+            <div class="card-header">
+
+                <h3 class="card-title">
+                    User State Cordination (@Model.UserDatas.UserInfo.AssignedState)
+                </h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form method="post" asp-page-handler="UpdateState">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input asp-for="UserId" type="hidden" value="@Model.UserDatas.Id" />
+                            <div class="form-group">
+                                <label>Change/Update State</label>
+                                <select asp-for="State" class="form-control">
+                                    <option value="" selected disabled>Select State...</option>
+                                    <option value="Abia">Abia</option>
+                                    <option value="Adamawa">Adamawa</option>
+                                    <option value="AkwaIbom">AkwaIbom</option>
+                                    <option value="Anambra">Anambra</option>
+                                    <option value="Bauchi">Bauchi</option>
+                                    <option value="Bayelsa">Bayelsa</option>
+                                    <option value="Benue">Benue</option>
+                                    <option value="Borno">Borno</option>
+                                    <option value="Cross River">Cross River</option>
+                                    <option value="Delta">Delta</option>
+                                    <option value="Ebonyi">Ebonyi</option>
+                                    <option value="Edo">Edo</option>
+                                    <option value="Ekiti">Ekiti</option>
+                                    <option value="Enugu">Enugu</option>
+                                    <option value="FCT">FCT</option>
+                                    <option value="Gombe">Gombe</option>
+                                    <option value="Imo">Imo</option>
+                                    <option value="Jigawa">Jigawa</option>
+                                    <option value="Kaduna">Kaduna</option>
+                                    <option value="Kano">Kano</option>
+                                    <option value="Katsina">Katsina</option>
+                                    <option value="Kebbi">Kebbi</option>
+                                    <option value="Kogi">Kogi</option>
+                                    <option value="Kwara">Kwara</option>
+                                    <option value="Lagos">Lagos</option>
+                                    <option value="Nasarawa">Nasarawa</option>
+                                    <option value="Niger">Niger</option>
+                                    <option value="Ogun">Ogun</option>
+                                    <option value="Ondo">Ondo</option>
+                                    <option value="Osun">Osun</option>
+                                    <option value="Oyo">Oyo</option>
+                                    <option value="Plateau">Plateau</option>
+                                    <option value="Rivers">Rivers</option>
+                                    <option value="Sokoto">Sokoto</option>
+                                    <option value="Taraba">Taraba</option>
+                                    <option value="Yobe">Yobe</option>
+                                    <option value="Zamfara">Zamafara</option>
+                                </select>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <input type="submit" value="Update" class="btn btn-primary" />
+
+                                </div>
+                        </form>
+                    </div>
+                </div>
+
+
+                <!-- /.row -->
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,100 @@
+﻿@page
+@model RazorWebUI.Areas.User.Pages.Admin.UpdateModel
+@{
+}
+
+<div class="card card-default">
+    <div class="card-header">
+        <h3 class="card-title">UPDATE USER</h3>
+
+    </div>
+    <!-- /.card-header -->
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <form method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="UserDatas.Id" />
+
+
+                    <div class="form-group">
+                        <label asp-for="UserDatas.FirstName" class="control-label"></label>
+                        <input asp-for="UserDatas.FirstName" class="form-control" />
+                        <span asp-validation-for="UserDatas.FirstName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="UserDatas.MiddleName" class="control-label"></label>
+                        <input asp-for="UserDatas.LastName" class="form-control" />
+                        <span asp-validation-for="UserDatas.LastName" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="UserDatas.LastName" class="control-label"></label>
+                        <input asp-for="UserDatas.LastName" class="form-control" />
+                        <span asp-validation-for="UserDatas.LastName" class="text-danger"></span>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label asp-for="UserDatas.PhoneNumber" class="control-label"></label>
+                        <input asp-for="UserDatas.PhoneNumber" class="form-control" />
+                        <span asp-validation-for="UserDatas.PhoneNumber" class="text-danger"></span>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label asp-for="UserDatas.UserStatus" class="control-label"></label>
+                        @Html.DropDownListFor(model => model.UserDatas.UserStatus, new SelectList(Enum.GetValues(typeof(Domain.Models.EnumStatus.UserStatus))), new { @class = "form-control" })
+                        <span asp-validation-for="UserDatas.UserStatus" class="text-danger"></span>
+                    </div>
+
+                    <h4>BANK ACCOUNT INFORMATION</h4>
+                    <div class="form-group">
+                        <label asp-for="UserDatas.BankName" class="control-label"></label>
+                        <input asp-for="UserDatas.BankName" required="required" class="form-control" />
+                        <span asp-validation-for="UserDatas.BankName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="UserDatas.AccountNumber" class="control-label"></label>
+                        <input asp-for="UserDatas.AccountNumber" required="required" class="form-control" />
+                        <span asp-validation-for="UserDatas.AccountNumber" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="UserDatas.BankAccount" class="control-label">Account Name</label>
+                        <input asp-for="UserDatas.BankAccount" required="required" class="form-control" />
+                        <span asp-validation-for="UserDatas.BankAccount" class="text-danger"></span>
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <input type="submit" value="Submit" class="btn btn-primary" />
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin") || User.IsInRole("mSuperAdmin"))
+                        {
+                            <a asp-page="./Index" class="btn bg-gradient-warning btn-sm" style="float:right;">Back</a>
+                        }
+                        else
+                        {
+                            <a asp-page="/Admin/Index" asp-area="Dashboard" class="btn bg-gradient-warning btn-sm" style="float:right;">Back to Dashboard</a>
+
+                        }
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+        <!-- /.row -->
+    </div>
+    <!-- /.card-body -->
+    <div class="card-footer">
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

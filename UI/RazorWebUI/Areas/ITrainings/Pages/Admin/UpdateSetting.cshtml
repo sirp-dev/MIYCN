@@ -1,0 +1,143 @@
+﻿@page
+@model RazorWebUI.Areas.ITrainings.Pages.Admin.UpdateSettingModel
+@{
+}
+
+<div class="card card-default">
+    <div class="card-header">
+        <h3 class="card-title">UPDATE CERTIFICATE SETTING</h3>
+
+    </div>
+    <!-- /.card-header -->
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <form method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Setting.TrainingId" />
+                    <input type="hidden" asp-for="Setting.Id" />
+
+                    <div class="form-group">
+                        <label asp-for="Setting.CertificateAttendanceTitle" class="control-label"></label>
+                        <input asp-for="Setting.CertificateAttendanceTitle" class="form-control" />
+                        <span asp-validation-for="Setting.CertificateAttendanceTitle" class="text-danger"></span>
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <label asp-for="Setting.TrainingTitle" class="control-label"></label>
+                        <input asp-for="Setting.TrainingTitle" class="form-control" />
+                        <span asp-validation-for="Setting.TrainingTitle" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Setting.CourseTitle" class="control-label"></label>
+                        <input asp-for="Setting.CourseTitle" class="form-control" />
+                        <span asp-validation-for="Setting.CourseTitle" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Setting.Address" class="control-label"></label>
+                        <input asp-for="Setting.Address" class="form-control" />
+                        <span asp-validation-for="Setting.Address" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Setting.Date" class="control-label"></label>
+                        <input asp-for="Setting.Date" class="form-control" />
+                        <span asp-validation-for="Setting.Date" class="text-danger"></span>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            @if (!String.IsNullOrEmpty(Model.Setting.LeftSignatureUrl))
+                            {
+                                <div class="form-group">
+                                    <label class="control-label">Left Signature</label><br />
+                                    <img src="@Model.Setting.LeftSignatureUrl" style="max-height:200px;" />
+                                </div>
+                            }
+                            <div class="form-group">
+                                <label class="control-label">Upload Left Signature</label><br />
+                                <input type="file" class="control-label" asp-for="SignatureLeft" accept="image/*" />
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Setting.LeftOffSignature" class="control-label"></label>
+                                <input asp-for="Setting.LeftOffSignature" />
+                                <span asp-validation-for="Setting.LeftOffSignature" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Setting.LeftTitleName" class="control-label"></label>
+                                <input asp-for="Setting.LeftTitleName" class="form-control" />
+                                <span asp-validation-for="Setting.LeftTitleName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Setting.LeftPosition" class="control-label"></label>
+                                <input asp-for="Setting.LeftPosition" class="form-control" />
+                                <span asp-validation-for="Setting.LeftPosition" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Setting.LeftOccupation" class="control-label"></label>
+                                <input asp-for="Setting.LeftOccupation" class="form-control" />
+                                <span asp-validation-for="Setting.LeftOccupation" class="text-danger"></span>
+                            </div>
+
+                        </div>
+                        <div class="col-md-6">
+                            @if (!String.IsNullOrEmpty(Model.Setting.RightSignatureUrl))
+                            {
+                                <div class="form-group">
+                                    <label class="control-label">Right Signature</label><br />
+                                    <img src="@Model.Setting.RightSignatureUrl" style="max-height:200px;" />
+                                </div>
+                            }
+                            <div class="form-group">
+                                <label class="control-label">Upload Right Signature</label><br />
+                                <input type="file" class="control-label" asp-for="SignatureRight" accept="image/*" />
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Setting.RightOffSignature" class="control-label"></label>
+                                <input asp-for="Setting.RightOffSignature" />
+                                <span asp-validation-for="Setting.RightOffSignature" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Setting.RightTitleName" class="control-label"></label>
+                                <input asp-for="Setting.RightTitleName" class="form-control" />
+                                <span asp-validation-for="Setting.RightTitleName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Setting.RightPosition" class="control-label"></label>
+                                <input asp-for="Setting.RightPosition" class="form-control" />
+                                <span asp-validation-for="Setting.RightPosition" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Setting.RightOccupation" class="control-label"></label>
+                                <input asp-for="Setting.RightOccupation" class="form-control" />
+                                <span asp-validation-for="Setting.RightOccupation" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <input type="submit" value="Add" class="btn btn-primary" />
+                        <a asp-page="./Index" class="btn bg-gradient-warning btn-sm" style="float:right;">Back</a>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+        <!-- /.row -->
+    </div>
+    <!-- /.card-body -->
+    <div class="card-footer">
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,192 @@
+﻿@page
+@model RazorWebUI.Areas.ITrainings.Pages.Admin.DownloadModel
+@{
+    var training = ViewData["TrainingDto"] as Domain.DTOs.TrainingDto;}
+
+}
+<div class="row" id="reportContent">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h6 class="card-title">TRAINING REPORT</h6>
+
+
+            </div>
+            <div class="card" style="box-shadow: 1px 5px 5px 1px rgb(8 176 240 / 86%); ">
+
+            </div>
+            <div class="card-body">
+                <div class="card-header bg-primary">
+                    <h3 class="card-title">@Model.Training.Category</h3>
+                </div>
+                <table class="table table-bordered">
+                    <tbody>
+
+                        <tr>
+                            <th>State</th>
+                            <td>@Model.Training.State</td>
+                        </tr>
+                        <tr>
+                            <th>Venue</th>
+                            <td>@Model.Training.Address</td>
+                        </tr>
+                        <tr>
+                            <th>Date</th>
+                            <td>
+                                @Model.Training.StartDate.ToString("ddd dd MMM, yyyy") -
+                                @Model.Training.EndDate.ToString("ddd dd MMM, yyyy")
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Sponsor</th>
+                            <td>
+                                @foreach (var xmx in Model.Training.SponsorsList)
+                                {
+                                    @*<img src="@xmx.LogoUrl" style="height: 70px;" />
+                                        <br />*@
+                                    <h6>@xmx.Name</h6>
+
+                                }
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Facilitator</th>
+                            <td>@Model.Training.TrainingFacilitators</td>
+                        </tr>
+                        <tr>
+                            <th>Participants</th>
+                            <td>@Model.Training.TrainingParticipants</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="card-body">
+                <h4>FACILITATORS</h4>
+                <div class="table-responsive">
+                    <table id="" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>S/N</th>
+                                <th>
+                                    NAME
+                                </th>
+
+                                <th>EMAIL</th>
+
+                                <th>PHONE NUMBER</th>
+                                <th>PLACE OF WORK</th>
+
+
+                            </tr>
+                        </thead>
+
+                        @{
+                            int xsn = 0;
+                        }
+                        <tbody>
+
+                            @foreach (var participant in Model.Training.TrainingFacilitatorsList.Where(x => x.User != null && x.FacilitatorTrainingStatus == Domain.Models.EnumStatus.FacilitatorTrainingStatus.Active).OrderByDescending(x => x.User.FullnameX))
+                            {
+                                if (participant.FacilitatorTrainingStatus == Domain.Models.EnumStatus.FacilitatorTrainingStatus.Active)
+                                {
+
+                                    <tr>
+
+                                        <td>
+                                            @{
+                                                xsn++;
+                                            }
+                                            @xsn
+                                        </td>
+                                        <td>
+                                            <a asp-page="/Admin/Info" asp-route-area="User" asp-route-id="@participant.User">
+                                                @Html.DisplayFor(modelItem => participant.User.FullnameX)
+
+                                            </a>
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => participant.User.Email)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => participant.User.PhoneNumber)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => participant.User.PlaceOfWork)
+                                        </td>
+
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-body">
+                <h4>PARTICIPANTS</h4>
+                <div class="table-responsive">
+                    <table id="" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>S/N</th>
+                                <th>
+                                    NAME
+                                </th>
+
+                                <th>EMAIL</th>
+
+                                <th>PHONE NUMBER</th>
+                                <th>PLACE OF WORK</th>
+
+
+                            </tr>
+                        </thead>
+
+                        @{
+                            int sn = 0;
+                        }
+                        <tbody>
+
+                            @foreach (var participant in Model.Training.TrainingParticipantsList.Where(x => x.User != null && x.ParticipantTrainingStatus == Domain.Models.EnumStatus.ParticipantTrainingStatus.Active).OrderByDescending(x => x.User.FullnameX))
+                            {
+                                if (participant.ParticipantTrainingStatus == Domain.Models.EnumStatus.ParticipantTrainingStatus.Active)
+                                {
+                                    <tr>
+
+                                        <td>
+                                            @{
+                                                sn++;
+                                            }
+                                            @sn
+                                        </td>
+                                        <td>
+                                            <a asp-page="/Admin/Info" asp-route-area="User" asp-route-id="@participant.User">
+                                                @Html.DisplayFor(modelItem => participant.User.FullnameX)
+
+                                            </a>
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => participant.User.Email)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => participant.User.PhoneNumber)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => participant.User.PlaceOfWork)
+                                        </td>
+
+                                    </tr>
+
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>

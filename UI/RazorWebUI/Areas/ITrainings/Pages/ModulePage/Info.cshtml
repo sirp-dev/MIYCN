@@ -1,0 +1,122 @@
+﻿@page
+@model RazorWebUI.Areas.ITrainings.Pages.ModulePage.InfoModel
+@{
+}
+
+<div class="card card-default">
+    <div class="card-header">
+        <h3 class="card-title">MODULE DETAILS</h3>
+        <a asp-page="./Update" asp-route-id="@Model.Module.Id" class="btn bg-gradient-warning btn-sm" style="float:right;">Update</a>
+
+    </div>
+
+    <div class="card-body">
+
+        <div>
+            <h4>@Model.Module.Content</h4>
+        </div>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-header">
+            <h3 class="card-title">MANAGE MODULE TOPICS</h3>
+
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+            <div style=" box-shadow: 0px 10px 20px 0px rgb(50 50 50 / 83%);padding:10px;">
+                <div class="table-responsive">
+                    <table id="example1" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>S/N</th>
+                                <th>
+                                    Title
+                                </th>
+                                <th>Description</th>
+                                <th></th>
+
+                            </tr>
+                        </thead>
+
+                        @{
+                            int sn = 0;
+                        }
+                        <tbody>
+                            @foreach (var item in Model.Module.Topic)
+                            {
+                                <tr>
+
+                                    <td>
+                                        @{
+                                            sn++;
+                                        }
+                                        @sn
+                                    </td>
+                                    <td>
+                                        <a asp-page="./ModuleRead" asp-route-id="@item.Id">
+                                            @Html.DisplayFor(modelItem => item.Title)
+
+                                        </a>
+                                    </td>
+                                    <td>
+                                        @item.Description
+                                    </td>
+                                    <td>
+                                        <form method="post" enctype="multipart/form-data" asp-page-handler="Delete">
+                                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                            <input type="hidden" asp-for="ModuleTopic.Id" value="@item.Id" />
+                                            <input type="hidden" asp-for="ModuleTopic.ModuleId" value="@item.ModuleId" />
+                                            <a asp-page="./UpdateModuleTopic" asp-route-id="@item.Id" class="btn bg-gradient-warning btn-xs" style="">Update</a>
+
+                                            <button type="submit" class="btn btn-primary btn-xs">Delete</button>
+
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+            <div class="card-body">
+                <div style=" box-shadow: 0px 10px 20px 0px rgb(50 50 50 / 83%);padding:10px;">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form method="post" enctype="multipart/form-data">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <input type="hidden" asp-for="ModuleTopic.ModuleId" value="@Model.Module.Id" />
+
+                                <div class="form-group">
+                                    <label asp-for="ModuleTopic.Title" class="control-label"></label>
+                                    <input asp-for="ModuleTopic.Title" class="form-control" />
+                                    <span asp-validation-for="ModuleTopic.Title" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="ModuleTopic.Description" class="control-label"></label>
+                                    <textarea asp-for="ModuleTopic.Description" class="form-control"></textarea>
+                                    <span asp-validation-for="ModuleTopic.Description" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="ModuleTopic.Content" class="control-label"></label>
+                                    <textarea asp-for="ModuleTopic.Content" class="form-control summernote"></textarea>
+                                    <span asp-validation-for="ModuleTopic.Content" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <input type="submit" value="Add Module Topic" class="btn btn-primary" />
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    </div>
+
+
+                    <!-- /.row -->
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer">
+                </div>
+            </div>

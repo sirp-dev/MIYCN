@@ -1,0 +1,159 @@
+﻿@page
+@model RazorWebUI.Areas.User.Pages.Admin.RegistrationStatusModel
+@{
+}
+<div class="card card-default">
+    <div class="card-header">
+        <h3 class="card-title">REGISTRATION STATUS</h3>
+        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin") || User.IsInRole("mSuperAdmin"))
+        {
+            if (Model.Rx == "Participant")
+            {
+                <a asp-page="/Admin/Participants" asp-area="ITrainings" asp-route-id="@Model.TrId" class="btn bg-gradient-primary btn-sm" style="float:right;">Back to List</a>
+                <a asp-page="/Admin/AddUserToTraining" asp-area="ITrainings" asp-route-id="@Model.TrId" asp-route-rx="Participant" class="btn bg-danger btn-sm" style="float:right;">Register New Participant</a>
+
+            }
+            else if (Model.Rx == "Facilitator")
+            {
+                <a asp-page="/Admin/Facilitators" asp-area="ITrainings" asp-route-id="@Model.TrId" class="btn bg-gradient-primary btn-sm" style="float:right;">Back to List</a>
+                <a asp-page="/Admin/AddUserToTraining" asp-area="ITrainings" asp-route-id="@Model.TrId" asp-route-rx="Facilitator" class="btn bg-danger btn-sm" style="float:right;">Register New Facilitator</a>
+
+            }
+            else
+            {
+                <a asp-page="./Index" class="btn bg-gradient-primary btn-sm" style="float:right;">Back to List</a>
+                <a asp-page="./Add" class="btn bg-gradient-warning btn-sm" style="float:right;">Register New Account</a>
+
+            }
+        }
+        else
+        {
+    <a asp-page="/Admin/Index" asp-area="Dashboard" class="btn bg-gradient-warning btn-sm" style="float:right;">Back to Dashboard</a>
+
+        }
+
+
+    </div>
+    <!-- /.card-header -->
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <dl class="row">
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.UserDatas.FullnameX)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.UserDatas.FullnameX)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.UserDatas.Email)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.UserDatas.Email)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.UserDatas.PhoneNumber)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.UserDatas.PhoneNumber)
+                    </dd>
+                    <dt class="col-sm-2">
+                        Reg. No.
+                    </dt>
+                    <dd class="col-sm-10">
+
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.UserDatas.Role)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.UserDatas.Role)
+                    </dd>
+                    <dt class="col-sm-2">
+                        Registered Date
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Model.UserDatas.Date.ToString("dd MMM, yyyy")
+                    </dd>
+
+                    <dt class="col-sm-2">
+                        Registration Completion Link
+                    </dt>
+                    <dd class="col-sm-10">
+                        Email Sent
+
+                        @if (Model.UserDatas.EmailSent == true)
+                        {
+                            <span>
+                                (<i class="fa fa-check"></i>)
+                            </span>
+
+
+                        }
+                        else
+                        {
+
+                            <span>
+                                (<i class="fa fa-times"></i>)
+                            </span>
+
+                        }
+                        <form method="post">
+                            <input type="hidden" asp-for="UserId" value="@Model.UserDatas.Id" />
+                            <input type="hidden" asp-for="Rx" />
+                            <input type="hidden" asp-for="TrId" />
+
+
+                            <input asp-for="SendEmail" type="hidden" value="true" />
+                            <button type="submit" class="btn btn-primary btn-xs">Resend Email</button>
+                        </form>
+                        <br /> SMS Sent
+                        @if (Model.UserDatas.SmsSent == true)
+                        {
+                            <span>
+                                (<i class="fa fa-check"></i>)
+                            </span>
+                        }
+                        else
+                        {
+                            <span>
+                                (<i class="fa fa-times"></i>)
+                            </span>
+
+                        }
+                        <form method="post">
+                            <input type="hidden" asp-for="UserId" value="@Model.UserDatas.Id" />
+                            <input type="hidden" asp-for="Rx" />
+                            <input type="hidden" asp-for="TrId" />
+                            <input asp-for="SendSMS" type="hidden" value="true" />
+                            <button type="submit" class="btn btn-primary btn-xs">Resend SMS</button>
+                        </form>
+                    </dd>
+                    <dt class="col-sm-2">
+                        First Login Details
+                    </dt>
+                    <dd class="col-sm-10">
+                        Email: @Model.UserDatas.Email <br />
+                        @if (Model.UserDatas.ResetPassword == false)
+                        {
+                            <p>
+                                <i>User Already Login</i>
+                            </p>
+                        }
+                        else
+                        {
+                            <span> Temporal Password: @Model.UserDatas.TempPass</span>
+
+                            <br />
+                            <p>
+                                <i>Kindly copy and send to the user</i>
+                            </p>
+                        }
+                    </dd>
+                </dl>
+            </div>
+
+        </div>
+    </div>
+</div>

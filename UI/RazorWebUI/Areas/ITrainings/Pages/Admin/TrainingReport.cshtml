@@ -1,0 +1,152 @@
+﻿@page
+@model RazorWebUI.Areas.ITrainings.Pages.Admin.TrainingReportModel
+@{
+}
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">MIYCN TRAININGS (@Model.Datas.Count())</h3>
+
+    </div>
+    <!-- /.card-header -->
+    @foreach (var item in Model.Datas.OrderBy(x => x.State))
+    {
+        <div class="card" style="box-shadow: 1px 5px 5px 1px rgb(8 176 240 / 86%); ">
+
+        </div>
+        <div class="card-body">
+            <div class="card-header bg-primary">
+                <h3 class="card-title">@item.State</h3>
+            </div>
+            <div class="card-header">
+                <h3 class="card-title">@item.Title</h3>
+            </div>
+            <div class="card-header">
+                <h3 class="card-title">FROM <i>@item.StartDate.ToString("ddd dd MMM, yyyy")</i> TO <i>@item.EndDate.ToString("ddd dd MMM, yyyy")</i></h3>
+            </div>
+            <div class="card-header">
+                <button class="btn-success btn">PARTICIPANTS (@item.TrainingParticipants.Where(x => x.ParticipantTrainingStatus == Domain.Models.EnumStatus.ParticipantTrainingStatus.Active).Count())</button>
+                <button class="btn-success btn">FACILITATORS (@item.TrainingFacilitators.Where(x => x.FacilitatorTrainingStatus == Domain.Models.EnumStatus.FacilitatorTrainingStatus.Active).Count())</button>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <h4>PARTICIPANTS</h4>
+            <div class="table-responsive">
+                <table id="" class="example-table table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>S/N</th>
+                            <th>
+                                NAME
+                            </th>
+
+                            <th>EMAIL</th>
+
+                            <th>PHONE NUMBER</th>
+                            <th>PLACE OF WORK</th>
+
+
+                        </tr>
+                    </thead>
+
+                    @{
+                        int sn = 0;
+                    }
+                    <tbody>
+                        @foreach (var participant in item.TrainingParticipants.Where(x => x.User != null && x.ParticipantTrainingStatus == Domain.Models.EnumStatus.ParticipantTrainingStatus.Active).OrderByDescending(x => x.User.FullnameX))
+                        {
+                            if(participant.ParticipantTrainingStatus == Domain.Models.EnumStatus.ParticipantTrainingStatus.Active) { 
+                            <tr>
+
+                                <td>
+                                    @{
+                                        sn++;
+                                    }
+                                    @sn
+                                </td>
+                                <td>
+                                    <a asp-page="/Admin/Info" asp-route-area="User" asp-route-id="@participant.User">
+                                        @Html.DisplayFor(modelItem => participant.User.FullnameX)
+
+                                    </a>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => participant.User.Email)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => participant.User.PhoneNumber)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => participant.User.PlaceOfWork)
+                                </td>
+
+                            </tr>
+                                            }
+                                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-body">
+            <h4>FACILITATORS</h4>
+            <div class="table-responsive">
+                <table id="" class="example-table table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>S/N</th>
+                            <th>
+                                NAME
+                            </th>
+
+                            <th>EMAIL</th>
+
+                            <th>PHONE NUMBER</th>
+                            <th>PLACE OF WORK</th>
+
+
+                        </tr>
+                    </thead>
+
+                    @{
+                        int xsn = 0;
+                    }
+                    <tbody>
+                        @foreach (var participant in item.TrainingFacilitators.Where(x=>x.User != null && x.FacilitatorTrainingStatus == Domain.Models.EnumStatus.FacilitatorTrainingStatus.Active).OrderByDescending(x => x.User.FullnameX))
+                        {
+                            if (participant.FacilitatorTrainingStatus == Domain.Models.EnumStatus.FacilitatorTrainingStatus.Active)
+                            {
+
+                            <tr>
+
+                                <td>
+                                    @{
+                                        xsn++;
+                                    }
+                                    @xsn
+                                </td>
+                                <td>
+                                    <a asp-page="/Admin/Info" asp-route-area="User" asp-route-id="@participant.User">
+                                        @Html.DisplayFor(modelItem => participant.User.FullnameX)
+
+                                    </a>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => participant.User.Email)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => participant.User.PhoneNumber)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => participant.User.PlaceOfWork)
+                                </td>
+
+                            </tr>
+                                            }
+                                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    }
+</div>

@@ -1,0 +1,328 @@
+﻿@page
+@model RazorWebUI.Areas.ITrainings.Pages.Admin.InfoModel
+@{
+}
+
+<style>
+    .input-group-sm > .custom-select, .input-group-sm > .form-control:not(textarea) {
+        height: auto;
+    }
+
+    .daiv {
+        box-shadow: 0px 11px 35px 0px #c5b5b4;
+        padding: 20px;
+    }
+
+    .secdaiv {
+        box-shadow: 0px 4px 5px 0px #c5b5b4;
+        padding: 10px;
+    }
+
+    .m-border {
+        margin-bottom: 6px;
+    }
+</style>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h6 class="card-title">TRAINING MANAGEMENT</h6>
+
+                <a asp-page="./Report" asp-route-id="@Model.Training.Id" class="btn bg-gradient-warning btn-sm" style="float:right;">Download Report</a>
+
+            </div>
+            <div class="card-body">
+                <div class="row">
+
+                    <div class="col-md-4 m-border">
+                        <a asp-page="./Participants" asp-route-id="@Model.Training.Id" class="btn btn-primary" style="width:100%;">Participants (@Model.Training.TrainingParticipants)</a>
+                    </div>
+                    <div class="col-md-4 m-border">
+                        <a asp-page="./Facilitators" asp-route-id="@Model.Training.Id" class="btn btn-danger" style="width:100%;">Facilitators/Staff (@Model.Training.TrainingFacilitators)</a>
+                    </div>
+                    <div class="col-md-4 m-border">
+                        <a asp-page="/SponsorPage/Index" asp-route-id="@Model.Training.Id" class="btn btn-warning" style="width:100%;">Sponsors (@Model.Training.Sponsors)</a>
+                    </div>
+                    <div class="col-md-4 m-border">
+                        <a asp-page="./Activities" asp-route-id="@Model.Training.Id" class="btn btn-info" style="width:100%;">Activities (@Model.Training.DialyActivities)</a>
+                    </div>
+                    <div class="col-md-4 m-border">
+                        <a asp-page="./Test" asp-route-id="@Model.Training.Id" class="btn btn-dark" style="width:100%;">Test Result</a>
+                    </div>
+
+                    <div class="col-md-4 m-border">
+                        <a asp-page="./TrainingCertificate" asp-route-id="@Model.Training.Id" class="btn btn-success" style="width:100%;">Participant Certificate</a>
+                    </div>
+                    <div class="col-md-4 m-border">
+                        <a asp-page="/Index" class="btn btn-primary" style="width:100%;">Physical/Digital Designs</a>
+                    </div>
+                    <div class="col-md-4 m-border">
+                        <a asp-page="/TimetablePage/Index" asp-route-id="@Model.Training.Id" class="btn btn-danger" style="width:100%;">TimeTable</a>
+                    </div>
+                    <div class="col-md-4 m-border">
+                        <a asp-page="/GalleryPage/Index" asp-route-id="@Model.Training.Id" class="btn btn-warning" style="width:100%;">Gallery</a>
+                    </div>
+
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <dl class="row">
+
+
+                                        <dt class="col-sm-2">
+                                            @Html.DisplayNameFor(model => model.Training.Title)
+                                        </dt>
+                                        <dd class="col-sm-10">
+                                            @Html.DisplayFor(model => model.Training.Title)
+                                        </dd>
+                                        <dt class="col-sm-2">
+                                            @Html.DisplayNameFor(model => model.Training.Address)
+                                        </dt>
+                                        <dd class="col-sm-10">
+                                            @Html.DisplayFor(model => model.Training.Address)
+                                        </dd>
+
+
+
+                                        <dt class="col-sm-2">
+                                            @Html.DisplayNameFor(model => model.Training.State)
+                                        </dt>
+                                        <dd class="col-sm-10">
+                                            @Html.DisplayFor(model => model.Training.State)
+                                        </dd>
+
+                                        <dt class="col-sm-2">
+                                            @Html.DisplayNameFor(model => model.Training.LGA)
+                                        </dt>
+                                        <dd class="col-sm-10">
+                                            @Html.DisplayFor(model => model.Training.LGA)
+                                        </dd>
+
+
+                                        <dt class="col-sm-2">
+                                            Date
+                                        </dt>
+                                        <dd class="col-sm-10">
+                                            @Model.Training.StartDate.ToString("ddd dd MMM, yyyy") -
+                                            @Model.Training.EndDate.ToString("ddd dd MMM, yyyy")
+                                        </dd>
+                                        <dt class="col-sm-2">
+                                            Dialy Start/Finish Time
+                                        </dt>
+                                        <dd class="col-sm-10">
+                                            @Model.Training.DialyStartTime -
+                                            @Model.Training.DialyEndTime
+                                        </dd>
+
+                                        <dt class="col-sm-2">
+                                            @Html.DisplayNameFor(model => model.Training.TrainingStatus)
+                                        </dt>
+                                        <dd class="col-sm-10">
+                                            @Html.DisplayFor(model => model.Training.TrainingStatus)
+                                        </dd>
+                                        @if (User.IsInRole("Admin") || User.IsInRole("mSuperAdmin"))
+                                        {
+                                            <dt class="col-sm-2">
+                                                @Html.DisplayNameFor(model => model.Training.EnablePreTest)
+                                            </dt>
+                                            <dd class="col-sm-10">
+                                                @Html.DisplayFor(model => model.Training.EnablePreTest)
+                                            </dd>
+
+                                            <dt class="col-sm-2">
+                                                @Html.DisplayNameFor(model => model.Training.PreTestInstruction)
+                                            </dt>
+                                            <dd class="col-sm-10">
+                                                @Html.DisplayFor(model => model.Training.PreTestInstruction)
+                                            </dd>
+
+                                            <dt class="col-sm-2">
+                                                @Html.DisplayNameFor(model => model.Training.EnablePostTest)
+                                            </dt>
+                                            <dd class="col-sm-10">
+                                                @Html.DisplayFor(model => model.Training.EnablePostTest)
+                                            </dd>
+
+                                            <dt class="col-sm-2">
+                                                @Html.DisplayNameFor(model => model.Training.PostTestInstruction)
+                                            </dt>
+                                            <dd class="col-sm-10">
+                                                @Html.DisplayFor(model => model.Training.PostTestInstruction)
+                                            </dd>
+                                            <dt class="col-sm-2">
+                                                @Html.DisplayNameFor(model => model.Training.EvaluationInstruction)
+                                            </dt>
+                                            <dd class="col-sm-10">
+                                                @Html.Raw(Model.Training.PostTestInstruction)
+                                            </dd>
+
+                                            <dt class="col-sm-2">
+                                                @Html.DisplayNameFor(model => model.Training.SignInStartTime)
+                                            </dt>
+                                            <dd class="col-sm-10">
+                                                @Html.DisplayFor(model => model.Training.SignInStartTime)
+                                            </dd>
+
+                                            <dt class="col-sm-2">
+                                                @Html.DisplayNameFor(model => model.Training.SignInStopTime)
+                                            </dt>
+                                            <dd class="col-sm-10">
+                                                @Html.DisplayFor(model => model.Training.SignInStopTime)
+                                            </dd>
+
+                                            <dt class="col-sm-2">
+                                                @Html.DisplayNameFor(model => model.Training.SignOutStartTime)
+                                            </dt>
+                                            <dd class="col-sm-10">
+                                                @Html.DisplayFor(model => model.Training.SignOutStartTime)
+                                            </dd>
+
+                                            <dt class="col-sm-2">
+                                                @Html.DisplayNameFor(model => model.Training.SignOutStopTime)
+                                            </dt>
+                                            <dd class="col-sm-10">
+                                                @Html.DisplayFor(model => model.Training.SignOutStopTime)
+                                            </dd>
+
+
+
+                                            <dt class="col-sm-2">
+                                                @Html.DisplayNameFor(model => model.Training.PostTestStartTime)
+                                            </dt>
+                                            <dd class="col-sm-10">
+                                                @Html.DisplayFor(model => model.Training.PostTestStartTime)
+                                            </dd>
+
+                                            ////
+
+                                            <dt class="col-sm-2">
+                                                @Html.DisplayNameFor(model => model.Training.CertificateUseRightSidePhysicalSignature)
+                                            </dt>
+                                            <dd class="col-sm-10">
+                                                @Html.DisplayFor(model => model.Training.CertificateUseRightSidePhysicalSignature)
+                                            </dd>
+
+                                            <dt class="col-sm-2">
+                                                @Html.DisplayNameFor(model => model.Training.CertificateRightSideSignatureUrl)
+                                            </dt>
+                                            <dd class="col-sm-10">
+
+                                                <img src="@Model.Training.CertificateRightSideSignatureUrl" style="max-height:200px;" />
+
+                                            </dd>
+
+
+
+                                            <dt class="col-sm-2">
+                                                @Html.DisplayNameFor(model => model.Training.CertificateRightSideName)
+                                            </dt>
+                                            <dd class="col-sm-10">
+                                                @Html.DisplayFor(model => model.Training.CertificateRightSideName)
+                                            </dd>
+
+                                            <dt class="col-sm-2">
+                                                @Html.DisplayNameFor(model => model.Training.CertificateRightSideOfficePosition)
+                                            </dt>
+                                            <dd class="col-sm-10">
+                                                @Html.DisplayFor(model => model.Training.CertificateRightSideOfficePosition)
+                                            </dd>
+
+                                            <dt class="col-sm-2">
+                                                @Html.DisplayNameFor(model => model.Training.CertificateRightSideOfficeTitle)
+                                            </dt>
+                                            <dd class="col-sm-10">
+                                                @Html.DisplayFor(model => model.Training.CertificateRightSideOfficeTitle)
+                                            </dd>
+
+                                            <dt class="col-sm-2">
+                                                @Html.DisplayNameFor(model => model.Training.CertificateUseLeftSidePhysicalSignature)
+                                            </dt>
+                                            <dd class="col-sm-10">
+                                                @Html.DisplayFor(model => model.Training.CertificateUseLeftSidePhysicalSignature)
+                                            </dd>
+
+                                            <dt class="col-sm-2">
+                                                @Html.DisplayNameFor(model => model.Training.CertificateLeftSideSignatureUrl)
+                                            </dt>
+                                            <dd class="col-sm-10">
+
+                                                <img src="@Model.Training.CertificateLeftSideSignatureUrl" style="max-height:200px;" />
+
+                                            </dd>
+
+
+
+                                            <dt class="col-sm-2">
+                                                @Html.DisplayNameFor(model => model.Training.CertificateLeftSideName)
+                                            </dt>
+                                            <dd class="col-sm-10">
+                                                @Html.DisplayFor(model => model.Training.CertificateLeftSideName)
+                                            </dd>
+
+                                            <dt class="col-sm-2">
+                                                @Html.DisplayNameFor(model => model.Training.CertificateLeftSideOfficePosition)
+                                            </dt>
+                                            <dd class="col-sm-10">
+                                                @Html.DisplayFor(model => model.Training.CertificateLeftSideOfficePosition)
+                                            </dd>
+
+                                            <dt class="col-sm-2">
+                                                @Html.DisplayNameFor(model => model.Training.CertificateLeftSideOfficeTitle)
+                                            </dt>
+                                            <dd class="col-sm-10">
+                                                @Html.DisplayFor(model => model.Training.CertificateLeftSideOfficeTitle)
+                                            </dd>
+
+                                            <dt class="col-sm-2">
+                                                @Html.DisplayNameFor(model => model.Training.CertificateTitle)
+                                            </dt>
+                                            <dd class="col-sm-10">
+                                                @Html.DisplayFor(model => model.Training.CertificateTitle)
+                                            </dd>
+                                            <dt class="col-sm-2">
+                                                @Html.DisplayNameFor(model => model.Training.CertificateCourseTitle)
+                                            </dt>
+                                            <dd class="col-sm-10">
+                                                @Html.DisplayFor(model => model.Training.CertificateCourseTitle)
+                                            </dd>
+                                            <dt class="col-sm-2">
+                                                @Html.DisplayNameFor(model => model.Training.CertificateAddress)
+                                            </dt>
+                                            <dd class="col-sm-10">
+                                                @Html.DisplayFor(model => model.Training.CertificateAddress)
+                                            </dd>
+
+                                            <dt class="col-sm-2">
+                                                @Html.DisplayNameFor(model => model.Training.CertificateDate)
+                                            </dt>
+                                            <dd class="col-sm-10">
+                                                @Html.DisplayFor(model => model.Training.CertificateDate)
+                                            </dd>
+
+
+                                        }
+                                    </dl>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-footer">
+                <a href="javascript:history.back()" class="btn bg-gradient-warning btn-sm">Back</a>
+                @if (User.IsInRole("AdminEditor") || Model.Training.TrainingStatus != Domain.Models.EnumStatus.TrainingStatus.Completed)
+                {
+                    <a asp-page="./Update" asp-route-id="@Model.Training.Id" class="btn btn-danger btn-sm">Update</a>
+                }
+            </div>
+        </div>
+    </div>
+</div>

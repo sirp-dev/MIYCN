@@ -1,0 +1,122 @@
+﻿@page
+@model RazorWebUI.Areas.ITrainings.Pages.Admin.FacilitatorsModel
+@{
+}
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">
+            FACILITATORS ON @Model.Training.Title ( @Model.Training.StartDate.ToString("ddd dd MMM, yyyy") -
+            @Model.Training.EndDate.ToString("ddd dd MMM, yyyy"))
+        </h3>
+        @if (User.IsInRole("Admin"))
+        {
+
+            @if (User.IsInRole("AdminEditor") || Model.Training.TrainingStatus != Domain.Models.EnumStatus.TrainingStatus.Completed)
+            {
+
+                <a asp-page="./AddFacilitators" asp-route-id="@Model.Training.Id" asp-route-rx="Facilitator" class="btn bg-gradient-warning btn-sm" style="float:right;">Register New Facilitators</a>
+            }
+        }
+        <a asp-page="./DisabledFacilitators" asp-route-id="@Model.Training.Id" class="btn btn-danger btn-sm" style="float: right;">Disabled Facilitators (@Model.Disabled)</a>
+
+        <a asp-page="./Info" asp-route-id="@Model.Training.Id" class="btn bg-gradient-primary btn-sm" style="float:right;">Back</a>
+        <button class="btn btn-primary">
+            Total (@Model.Datas.Count())
+        </button>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <div class="table-responsive">
+            <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>S/N</th>
+                        <th>
+                            Fullname
+                        </th>
+
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Position</th>
+                        <th>Category</th>
+                        <th>Status</th>
+                        @if (User.IsInRole("AdminEditor") || Model.Training.TrainingStatus != Domain.Models.EnumStatus.TrainingStatus.Completed)
+                        {
+                            <th>Action</th>
+                        }
+                    </tr>
+                </thead>
+
+                @{
+                    int sn = 0;
+                }
+                <tbody>
+                    @foreach (var item in Model.Datas.OrderBy(x => x.FullnameX))
+                    {
+                        <tr>
+
+                            <td>
+                                @{
+                                    sn++;
+                                }
+                                @sn
+                            </td>
+                            <td>
+                                <a asp-page="/Admin/Info" asp-route-area="User" asp-route-id="@item.Id">
+                                    @Html.DisplayFor(modelItem => item.FullnameX)
+
+                                </a>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Email)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PhoneNumber)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Position)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Role)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FacilitatorTrainingStatus)
+                                @if (User.IsInRole("AdminEditor") || Model.Training.TrainingStatus != Domain.Models.EnumStatus.TrainingStatus.Completed)
+                                {
+                                    <br />
+                                    <a asp-page="./UpdateFacilitator" asp-route-id="@item.FacilitatorTrainingId" class="text-danger" style="font-size:12px;">
+                                        <span><i class="fas fa-times"></i> Disable</span>
+                                    </a>
+
+                                }
+                            </td>
+                            @if (User.IsInRole("AdminEditor") || Model.Training.TrainingStatus != Domain.Models.EnumStatus.TrainingStatus.Completed)
+                            {
+                                <td>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-success">Action</button>
+
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-success dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
+                                            </button>
+                                            <div class="dropdown-menu" style="">
+
+                                                <a class="dropdown-item" asp-page="./ParticipantTest" asp-route-id="@item.Id">Participant Test Result</a>
+                                                <a class="dropdown-item" asp-page="./Index" asp-route-id="@item.Id">Back Work Plan</a>
+                                                <a class="dropdown-item" asp-page="./Index" asp-route-id="@item.Id">Certificate</a>
+                                                <a class="dropdown-item" asp-page="/Admin/RegistrationStatus" asp-area="User" asp-route-id="@item.Id">Registration Status</a>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,76 @@
+﻿@page
+@model RazorWebUI.Areas.ITrainings.Pages.TestQuestions.UpdateModel
+@{
+}
+
+<div class="card card-default">
+    <div class="card-header">
+        <h3 class="card-title">UPDATE NEW PRE TEST/POST TEST QUESTIONS</h3>
+
+    </div>
+    <!-- /.card-header -->
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <form method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="TrainingTest.Id" />
+
+                    <div class="form-group">
+                        <label asp-for="TrainingTest.Question" class="control-label"></label>
+                        <textarea asp-for="TrainingTest.Question" class="form-control"></textarea>
+                        <span asp-validation-for="TrainingTest.Question" class="text-danger"></span>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label asp-for="TrainingTest.TrainingTestType" class="control-label"></label>
+                        @Html.DropDownListFor(model => model.TrainingTest.TrainingTestType, new SelectList(Enum.GetValues(typeof(Domain.Models.EnumStatus.TrainingTestType))), new { @class = "form-control" })
+                        <span asp-validation-for="TrainingTest.TrainingTestType" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="TrainingTest.Publish" class="control-label"></label>
+                        <input asp-for="TrainingTest.Publish" />
+                        <span asp-validation-for="TrainingTest.Publish" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="TrainingTest.SortOrder" class="control-label"></label>
+                        <input asp-for="TrainingTest.SortOrder" class="form-control" />
+                        <span asp-validation-for="TrainingTest.SortOrder" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="TrainingTest.CorrectAnswer" class="control-label"></label>
+                        <select asp-for="TrainingTest.CorrectAnswer" class="form-control">
+                            <option value="1">Yes</option>
+                            <option value="2">No</option>
+                            <option value="3">I Don't Know</option>
+                        </select>
+                        <span asp-validation-for="TrainingTest.CorrectAnswer" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Add" class="btn btn-primary" />
+                        <a asp-page="./Index" class="btn bg-gradient-warning btn-sm" style="float:right;">Back</a>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+        <!-- /.row -->
+    </div>
+    <!-- /.card-body -->
+    <div class="card-footer">
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script src="~/js/lga.js"></script>
+}

@@ -1,0 +1,89 @@
+﻿@page
+@model RazorWebUI.Areas.ITrainings.Pages.Admin.DisabledFacilitatorsModel
+@{
+}
+<div class="card">
+    <div class="card-header bg-danger">
+        <h3 class="card-title">DISABLED PARTICIPANTS</h3>
+
+    </div>
+    <div class="card-header">
+
+        <h3 class="card-title">
+            @Model.Training.Title ( @Model.Training.StartDate.ToString("ddd dd MMM, yyyy") -
+            @Model.Training.EndDate.ToString("ddd dd MMM, yyyy"))
+        </h3>
+
+
+        <a asp-page="./Facilitators" asp-route-id="@Model.Training.Id" class="btn bg-gradient-primary btn-sm" style="float:right;">Back</a>
+        <button class="btn btn-primary">
+            Total (@Model.Datas.Count())
+        </button>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <div class="table-responsive">
+            <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>S/N</th>
+                        <th>
+                            Fullname
+                        </th>
+
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Category</th>
+                        <th>Status</th>
+
+                    </tr>
+                </thead>
+
+                @{
+                    int sn = 0;
+                }
+                <tbody>
+                    @foreach (var item in Model.Datas.OrderBy(x => x.FullnameX))
+                    {
+                        <tr>
+
+                            <td>
+                                @{
+                                    sn++;
+                                }
+                                @sn
+                            </td>
+                            <td>
+                                <a asp-page="/Admin/Info" asp-route-area="User" asp-route-id="@item.Id">
+                                    @Html.DisplayFor(modelItem => item.FullnameX)
+
+                                </a>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Email)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PhoneNumber)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Role)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FacilitatorTrainingStatus)
+                                @if (User.IsInRole("AdminEditor") || Model.Training.TrainingStatus != Domain.Models.EnumStatus.TrainingStatus.Completed)
+                                {
+                                    <br />
+                                    <a asp-page="./UpdateFacilitator" asp-route-id="@item.FacilitatorTrainingId" class="text-success" style="font-size:12px;">
+                                        <span><i class="fas fa-times"></i> Restore</span>
+                                    </a>
+
+                                }
+                            </td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

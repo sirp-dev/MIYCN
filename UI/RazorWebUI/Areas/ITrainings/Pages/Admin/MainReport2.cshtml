@@ -1,0 +1,200 @@
+﻿@page
+@model RazorWebUI.Areas.ITrainings.Pages.Admin.MainReport2Model
+@{
+}
+
+@{
+    ViewData["Title"] = $"COMPREHENSIVE REPORT FOR MIYCN TRAINING";
+
+}
+<style>
+    @@media print {
+        body {
+            -webkit-print-color-adjust: exact;
+        }
+
+        #printableArea {
+            page-break-inside: avoid;
+        }
+
+        table {
+            page-break-inside: auto;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        thead {
+            display: table-header-group;
+        }
+
+        tfoot {
+            display: table-footer-group;
+        }
+
+        tr {
+            page-break-inside: avoid;
+            page-break-after: auto;
+        }
+
+        td, th {
+            page-break-inside: avoid;
+            page-break-after: auto;
+        }
+
+        .card-header, .table-responsive {
+            page-break-inside: avoid;
+        }
+
+        .keep-together {
+            page-break-inside: avoid;
+            page-break-after: auto;
+        }
+
+        a.btn {
+            display: none; /* Hide buttons on print */
+        }
+
+        .bg-primary {
+            background-color: #007bff !important; /* Ensure this matches your bg-primary color */
+            -webkit-print-color-adjust: exact;
+        }
+    }
+
+    @@media print {
+        /* Hide the comprehensive report header after the first page */
+        .print-only-first-page {
+            display: table-header-group;
+        }
+            /* Ensure the header only shows on the first page */
+            .print-only-first-page + thead {
+                display: none;
+            }
+        /* Ensure the next page-specific theads (Facilitators, Participants) are visible */
+        thead {
+            display: table-header-group;
+        }
+    }
+</style>
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card keep-together">
+
+
+            <div class="card-body">
+                <div class="">
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped" style="border-top:2px solid black;">
+
+
+
+                            @foreach (var group in Model.GroupedData)
+                            {
+                                <tbody class="print-only-first-page">
+                                    <tr>
+                                        <th colspan="6" style="text-align:center;font-size:20px;">
+
+                                        </th>
+
+                                    </tr>
+                                    <tr>
+                                        <th colspan="6" style="text-align:center;font-size:25px;font-weight:900;">
+                                            @group.First().CategoryAbbreviation TRAINING
+                                        </th>
+
+                                    </tr>
+
+                                </tbody>
+                                <thead>
+                                    <tr>
+                                        <th>S/N</th>
+                                        <th>STATE</th>
+                                        <th>START DATE</th>
+                                        <th>END DATE</th>
+                                        <th>TOTAL PARTICIPANT</th>
+                                        <th>TOTAL FACILITATOR</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @{ int xmsn = 0;}
+                                    @foreach (var item in group)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @{xmsn++; }
+                                                @xmsn
+                                            </td>
+                                            <td>@item.State</td>
+                                            <td> @item.StartDate.ToString("ddd dd MMM, yyyy")</td>
+                                            <td> @item.EndDate.ToString("ddd dd MMM, yyyy")</td>
+                                            <td>@item.TrainingFacilitators</td>
+                                            <td>@item.TrainingParticipants</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                                <tbody>
+
+                                    <tr>
+                                        <td colspan="4">
+                                            TOTAL
+                                        </td>
+                                        <td>
+                                            @group.Sum(x => x.TrainingFacilitators)
+                                        </td>
+                                        <td>@group.Sum(x => x.TrainingParticipants)</td>
+                                    </tr>
+
+                                </tbody>
+                            }
+
+
+                        </table>
+                    </div>
+
+
+
+                </div>
+            </div>
+            <a class="btn bg-gradient-primary btn-sm" style="float:right; margin-right: 10px;" onclick="printReport()">Print Report</a>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        string titlex = $"COMPREHENSIVE REPORT FOR MIYCN";
+        string mxtitle = titlex.ToUpper();
+    }
+
+    <script>
+        function printSection(sectionId) {
+            var originalContents = document.body.innerHTML;
+            var printContents = document.getElementById(sectionId).innerHTML;
+            document.body.innerHTML = printContents;
+            window.print();
+            document.body.innerHTML = originalContents;
+            location.reload(); // Reload to restore original contents
+        }
+
+        function printReport() {
+
+            // Save the original title
+            var originalTitle = document.title;
+
+            // Set a new title for printing
+            document.title = mxtitle;
+            ;
+
+            // Trigger the print dialog
+            window.print();
+
+            // Restore the original title after printing
+            document.title = originalTitle;
+        }
+    </script>
+}

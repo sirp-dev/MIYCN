@@ -1,0 +1,516 @@
+﻿@page
+@model RazorWebUI.Areas.User.Pages.Account.EducationModel
+@{
+}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h6 class="card-title">
+                    PROFILE MANAGER
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                    {
+                        <span> (@Model.UserDatas.FullnameX)</span>
+                    }
+                </h6>
+                @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                {
+
+                    <a asp-page="/Users/Index" asp-area="NIPSSADMIN" class="btn btn-primary" style="float:right;">Back</a>
+                }
+                else
+                {
+
+                    <a asp-page="./Profile" class="btn btn-primary btn-sm" style="float:right;">Back</a>
+                }
+            </div>
+            <div class="card-header">
+                <span class="btn btn-warning btn-xs">Page 2/3</span>
+            </div>
+            @if (TempData["noteerror"] != null)
+            {
+                <div class="alert alert-danger">
+                    <strong>@TempData["noteerror"]</strong>
+                </div>
+            }
+            <div class="card-body">
+                <div class="row">
+
+                    @foreach (var item in Model.ProfileCategories)
+                    {
+
+                        <div class="daiv" style="margin-bottom:20px;" id="@item.Title">
+                            <h4>@item.Title</h4>
+                            <div>
+                                @foreach (var list in item.ProfileCategoryLists)
+                                {
+
+
+                                    @if (item.Title.ToUpper().Contains("EDUCATION"))
+                                    {
+                                        <div class="secdaiv" id="edu">
+
+                                            <a asp-page="./EditData" asp-route-id="@list.Id" asp-route-lk="EDUCATION" class="btn btn-warning" style="float:right;">edit</a>
+
+                                            @if (!String.IsNullOrEmpty(list.Qualification))
+                                            {
+                                                <div>
+                                                    <strong>
+                                                        @if (!String.IsNullOrEmpty(list.FieldOfStudy))
+                                                        {
+                                                            @list.FieldOfStudy
+
+                                                        }
+
+                                                    </strong>
+                                                    <br />
+                                                    <strong>
+
+                                                        @if (!String.IsNullOrEmpty(list.Qualification))
+                                                        {
+                                                            @list.Qualification
+
+                                                        }
+                                                    </strong> <span>
+                                                        @if (!String.IsNullOrEmpty(list.StartDate))
+                                                        {
+
+                                                            <span>
+                                                                @list.StartDate
+                                                            </span>
+
+                                                        } -  @if (list.Currently == false)
+                                                        {
+                                                            @if (!String.IsNullOrEmpty(list.EndDate))
+                                                            {
+
+                                                                @list.EndDate
+
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            <text>Current</text>
+
+                                                        }
+                                                    </span>
+                                                    <br />
+                                                    <strong>
+                                                        @if (!String.IsNullOrEmpty(list.Title))
+                                                        {
+
+                                                            @list.Title
+
+                                                        }
+                                                    </strong> @if (!String.IsNullOrEmpty(list.City))
+                                                    {
+                                                        <span>
+                                                            - @list.City
+                                                        </span>
+
+                                                    }
+                                                </div>
+
+                                            }
+                                        </div>}
+
+
+                                    @if (item.Title.ToUpper().Contains("EXPERIENCE"))
+                                    {
+                                        <div class="secdaiv" id="exp">
+                                            @if (!String.IsNullOrEmpty(list.Title))
+                                            {
+                                                <div>
+                                                    <strong>
+                                                        @if (!String.IsNullOrEmpty(list.Title))
+                                                        {
+
+                                                            @list.Title
+
+                                                        }
+                                                    </strong> <span>
+                                                        @if (!String.IsNullOrEmpty(list.StartDate))
+                                                        {
+
+                                                            @list.StartDate
+
+                                                        } @if (list.Currently == false)
+                                                        {
+                                                            @if (!String.IsNullOrEmpty(list.EndDate))
+                                                            {
+
+                                                                <text> -</text> @list.EndDate
+
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            <text>Current</text>
+
+                                                        }
+                                                    </span>
+                                                    <br />
+                                                    <strong>
+                                                        @if (!String.IsNullOrEmpty(list.Employer))
+                                                        {
+
+                                                            @list.Employer
+
+                                                        }
+                                                    </strong> @if (!String.IsNullOrEmpty(list.City))
+                                                    {
+                                                        <span>
+                                                            - @list.City
+                                                        </span>
+
+                                                    }
+                                                    <br />
+                                                    @if (!String.IsNullOrEmpty(list.Description))
+                                                    {
+                                                        <span>
+                                                            @Html.Raw(list.Description)
+                                                        </span>
+
+                                                    }
+                                                </div>
+
+                                            }
+                                        </div>
+                                    }
+
+
+                                    @if (item.Title.ToUpper().Contains("CERTIFICATIONS"))
+                                    {
+                                        <div class="secdaiv" id="cert">
+                                            @if (!String.IsNullOrEmpty(list.Title))
+                                            {
+                                                <div>
+                                                    <strong>
+                                                        @if (!String.IsNullOrEmpty(list.Title))
+                                                        {
+
+                                                            @list.Title
+
+                                                        }
+                                                    </strong> <span>
+                                                        @if (!String.IsNullOrEmpty(list.StartDate))
+                                                        {
+
+                                                            <span>- @list.StartDate</span>
+
+                                                        }
+                                                    </span>
+
+                                                </div>
+
+                                            }
+                                        </div>
+                                    }
+
+
+                                    @if (item.Title.ToUpper().Contains("AWARDS"))
+                                    {
+                                        <div class="secdaiv">
+                                            @if (!String.IsNullOrEmpty(list.Title))
+                                            {
+                                                <div>
+                                                    <span>
+                                                        @if (!String.IsNullOrEmpty(list.Title))
+                                                        {
+
+                                                            @list.Title
+
+                                                        }
+                                                    </span>
+
+                                                </div>
+
+                                            }
+                                        </div>
+                                    }
+
+
+
+                                    @if (item.Title.ToUpper().Contains("SKILLS"))
+                                    {
+                                        <div class="secdaiv">
+                                            @if (!String.IsNullOrEmpty(list.Title))
+                                            {
+                                                <div>
+                                                    <span>
+                                                        @if (!String.IsNullOrEmpty(list.Title))
+                                                        {
+
+                                                            @list.Title
+
+                                                        }
+                                                    </span>
+
+                                                </div>
+
+                                            }
+                                        </div>
+                                    }
+
+
+
+                                    @if (item.Title.ToUpper().Contains("LANGUAGES"))
+                                    {
+                                        <div class="secdaiv">
+                                            @if (!String.IsNullOrEmpty(list.Title))
+                                            {
+                                                <div>
+                                                    <span>
+                                                        @if (!String.IsNullOrEmpty(list.Title))
+                                                        {
+
+                                                            @list.Title
+
+                                                        }
+                                                    </span>
+
+                                                </div>
+
+                                            }
+
+                                        </div>}
+
+
+                                    @if (item.Title.ToUpper().Contains("INTEREST"))
+                                    {
+                                        <div class="secdaiv">
+                                            @if (!String.IsNullOrEmpty(list.Title))
+                                            {
+                                                <div>
+                                                    <span>
+                                                        @if (!String.IsNullOrEmpty(list.Title))
+                                                        {
+
+                                                            @list.Title
+
+                                                        }
+                                                    </span>
+
+                                                </div>
+
+                                            }
+                                        </div>
+                                    }
+
+
+
+                                    @if (item.Title.ToUpper().Contains("REFERENCES"))
+                                    {
+                                        <div class="secdaiv">
+                                            @if (!String.IsNullOrEmpty(list.Description))
+                                            {
+                                                <div>
+                                                    <span>
+                                                        @if (!String.IsNullOrEmpty(list.Description))
+                                                        {
+
+                                                            @list.Description
+
+                                                        }
+                                                    </span>
+
+                                                </div>
+
+                                            }
+                                        </div>
+                                    }
+
+
+                                }
+                            </div>
+
+                            <form method="post" asp-page-handler="Categories" style="margin-top:30px;">
+                                <input type="hidden" asp-for="ProfileCategoryList.AppUserId" value="@Model.UserDatas.Id" />
+                                <input type="hidden" asp-for="ProfileCategoryList.ProfileCategoryId" value="@item.Id" />
+                                @if (item.Title.ToUpper().Contains("EDUCATION"))
+                                {
+
+                                    <div class="form-group">
+                                        <label asp-for="ProfileCategoryList.Title" class="control-label">Institution</label>
+                                        <input asp-for="ProfileCategoryList.Title" class="form-control" />
+                                        <span asp-validation-for="ProfileCategoryList.Title" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label asp-for="ProfileCategoryList.FieldOfStudy" class="control-label"></label>
+                                        <input asp-for="ProfileCategoryList.FieldOfStudy" class="form-control" />
+                                        <span asp-validation-for="ProfileCategoryList.FieldOfStudy" class="text-danger"></span>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label asp-for="ProfileCategoryList.Qualification" class="control-label"></label>
+                                        <input asp-for="ProfileCategoryList.Qualification" class="form-control" />
+                                        <span asp-validation-for="ProfileCategoryList.Qualification" class="text-danger"></span>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label asp-for="ProfileCategoryList.City" class="control-label"></label>
+                                        <input asp-for="ProfileCategoryList.City" class="form-control" />
+                                        <span asp-validation-for="ProfileCategoryList.City" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label asp-for="ProfileCategoryList.StartDate" class="control-label"></label>
+                                        <input asp-for="ProfileCategoryList.StartDate" class="form-control" />
+                                        <span asp-validation-for="ProfileCategoryList.StartDate" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label asp-for="ProfileCategoryList.EndDate" class="control-label"></label>
+                                        <input asp-for="ProfileCategoryList.EndDate" class="form-control" />
+                                        <span asp-validation-for="ProfileCategoryList.EndDate" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label asp-for="ProfileCategoryList.Currently" class="control-label"></label>
+                                        <input asp-for="ProfileCategoryList.Currently" class="checkbox" />
+                                        <span asp-validation-for="ProfileCategoryList.Currently" class="text-danger"></span>
+                                    </div>
+
+                                }
+
+                                @if (item.Title.ToUpper().Contains("EXPERIENCE"))
+                                {
+
+                                    <div class="form-group">
+                                        <label asp-for="ProfileCategoryList.Title" class="control-label"></label>
+                                        <input asp-for="ProfileCategoryList.Title" class="form-control" />
+                                        <span asp-validation-for="ProfileCategoryList.Title" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label asp-for="ProfileCategoryList.Description" class="control-label"></label>
+                                        <textarea asp-for="ProfileCategoryList.Description" class="form-control summernote"></textarea>
+                                        <span asp-validation-for="ProfileCategoryList.Description" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label asp-for="ProfileCategoryList.Employer" class="control-label"></label>
+                                        <input asp-for="ProfileCategoryList.Employer" class="form-control" />
+                                        <span asp-validation-for="ProfileCategoryList.Employer" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label asp-for="ProfileCategoryList.City" class="control-label"></label>
+                                        <input asp-for="ProfileCategoryList.City" class="form-control" />
+                                        <span asp-validation-for="ProfileCategoryList.City" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label asp-for="ProfileCategoryList.StartDate" class="control-label"></label>
+                                        <input asp-for="ProfileCategoryList.StartDate" class="form-control" />
+                                        <span asp-validation-for="ProfileCategoryList.StartDate" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label asp-for="ProfileCategoryList.EndDate" class="control-label"></label>
+                                        <input asp-for="ProfileCategoryList.EndDate" class="form-control" />
+                                        <span asp-validation-for="ProfileCategoryList.EndDate" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label asp-for="ProfileCategoryList.Currently" class="control-label"></label>
+                                        <input asp-for="ProfileCategoryList.Currently" class="checkbox" />
+                                        <span asp-validation-for="ProfileCategoryList.Currently" class="text-danger"></span>
+                                    </div>
+
+                                }
+
+                                @if (item.Title.ToUpper().Contains("CERTIFICATIONS"))
+                                {
+                                    <div class="form-group">
+                                        <label asp-for="ProfileCategoryList.Title" class="control-label"></label>
+                                        <input asp-for="ProfileCategoryList.Title" class="form-control" />
+                                        <span asp-validation-for="ProfileCategoryList.Title" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label asp-for="ProfileCategoryList.StartDate" class="control-label">Date</label>
+                                        <input asp-for="ProfileCategoryList.StartDate" class="form-control" />
+                                        <span asp-validation-for="ProfileCategoryList.StartDate" class="text-danger"></span>
+                                    </div>
+
+                                }
+
+                                @if (item.Title.ToUpper().Contains("AWARDS"))
+                                {
+                                    <div class="form-group">
+                                        <label asp-for="ProfileCategoryList.Title" class="control-label"></label>
+                                        <input asp-for="ProfileCategoryList.Title" class="form-control" />
+                                        <span asp-validation-for="ProfileCategoryList.Title" class="text-danger"></span>
+                                    </div>
+
+                                }
+
+                                @if (item.Title.ToUpper().Contains("SKILLS"))
+                                {
+                                    <div class="form-group">
+                                        <label asp-for="ProfileCategoryList.Title" class="control-label"></label>
+                                        <input asp-for="ProfileCategoryList.Title" class="form-control" />
+                                        <span asp-validation-for="ProfileCategoryList.Title" class="text-danger"></span>
+                                    </div>
+
+                                }
+
+                                @if (item.Title.ToUpper().Contains("LANGUAGES"))
+                                {
+                                    <div class="form-group">
+                                        <label asp-for="ProfileCategoryList.Title" class="control-label"></label>
+                                        <input asp-for="ProfileCategoryList.Title" class="form-control" />
+                                        <span asp-validation-for="ProfileCategoryList.Title" class="text-danger"></span>
+                                    </div>
+                                }
+
+                                @if (item.Title.ToUpper().Contains("INTEREST"))
+                                {
+                                    <div class="form-group">
+                                        <label asp-for="ProfileCategoryList.Title" class="control-label"></label>
+                                        <input asp-for="ProfileCategoryList.Title" class="form-control" />
+                                        <span asp-validation-for="ProfileCategoryList.Title" class="text-danger"></span>
+                                    </div>
+                                }
+
+                                @if (item.Title.ToUpper().Contains("REFERENCES"))
+                                {
+                                    <div class="form-group">
+                                        @*<label asp-for="ProfileCategoryList.Description" class="control-label"></label>*@
+                                        <textarea asp-for="ProfileCategoryList.Description" class="form-control summernote"></textarea>
+                                        <span asp-validation-for="ProfileCategoryList.Description" class="text-danger"></span>
+                                    </div>
+                                }
+
+
+
+                                <div class="form-group">
+                                    <input type="submit" value="Add" class="btn btn-primary" />
+
+                                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                                    {
+                                        <a asp-page="./Experience" asp-route-id="@item.AppUserId" class="btn btn-primary" style="float:right;">Next</a>
+                                        <a asp-page="./UpdateProfile" asp-route-id="@item.AppUserId" class="btn btn-danger" style="float:right;">Previous</a>
+
+                                    }
+                                    else
+                                    { <a asp-page="./Experience" class="btn btn-primary" style="float:right;">Next</a>
+                                        <a asp-page="./UpdateProfile" class="btn btn-danger" style="float:right;">Previous</a>
+
+                                    }
+
+                                </div> <p class="text-center"><i>Save and click on Next</i></p>
+                            </form>
+                        </div>
+                    }
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

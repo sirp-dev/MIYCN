@@ -1,0 +1,98 @@
+﻿@page
+@model RazorWebUI.Areas.ITrainings.Pages.Admin.ParticipantCertificateModel
+@{
+}
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">
+            PARTICIPANTS ON @Model.Training.Title ( @Model.Training.StartDate.ToString("ddd dd MMM, yyyy") -
+            @Model.Training.EndDate.ToString("ddd dd MMM, yyyy"))
+        </h3>
+
+
+    </div>
+    <!-- /.card-header -->
+    <form method="post">
+        <input asp-for="TrainingId" type="hidden" value="@Model.Training.Id" />
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>S/N</th>
+                            <th>
+                                Participant Data (Surname firstname lastname)
+                            </th>
+
+                            <th>Pretest</th>
+                            <th>Posttest</th>
+                            <th>SignIn (Present/Absent)</th>
+                            <th>SignOut (Present/Absent)</th>
+
+                            <th>Activate Certificate</th>
+
+                        </tr>
+                    </thead>
+
+                    @{
+                        int sn = 0;
+                    }
+                    <tbody>
+                        @foreach (var item in Model.Datas)
+                        {
+                            <tr>
+
+                                <td>
+                                    @{
+                                        sn++;
+                                    }
+                                    @sn
+                                </td>
+                                <td>
+                                    <a asp-page="/Admin/Info" asp-route-area="User" asp-route-id="@item.ParticipantId">
+                                        <h5>@Html.DisplayFor(modelItem => item.Fullname)</h5>
+                                        <h6>@Html.DisplayFor(modelItem => item.Email) (@Html.DisplayFor(modelItem => item.Phone))</h6>
+
+
+                                    </a>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PretestScore)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PostestScore)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SignInAttendancePresent)/
+                                    @Html.DisplayFor(modelItem => item.SignInAttendanceAbsent)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SignOutAttendancePresent)/
+                                    @Html.DisplayFor(modelItem => item.SignOutAttendanceAbsent)
+                                </td>
+                                <td>
+                                    @if (item.AddedToCertificate == true)
+                                    {
+
+
+                                        <span>Added</span>
+                                    }
+                                    else
+                                    {
+                                        <input type="checkbox" id="@($"CertificateStatus_{item.UserId}")" name="@($"CertificateStatus_{item.UserId}")" class="" style=" width: 20px; height: 20px;" />
+
+                                    }
+                                </td>
+
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="margin-left: 20px;">Accept Select Participants for Certificate</button>
+
+    </form>
+</div>

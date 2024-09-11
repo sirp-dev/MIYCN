@@ -1,0 +1,56 @@
+﻿@page
+@model RazorWebUI.Areas.User.Pages.Admin.UpdateEmailModel
+@{
+}
+
+<div class="card card-default">
+    <div class="card-header">
+        <h3 class="card-title">@Model.UserData.FullnameX Change Email</h3>
+
+    </div>
+
+    <!-- /.card-header -->
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <h4>Current Email: @Model.UserData.Email</h4>
+                <form id="change-password-form" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="UserData.Id" />
+
+                    <div class="form-group">
+                        <label asp-for="Input.NewEmail" class="form-label"></label>
+                        <input asp-for="Input.NewEmail" class="form-control" />
+
+                        <span asp-validation-for="Input.NewEmail" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="Change Email" class="btn btn-primary" />
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin") || User.IsInRole("mSuperAdmin"))
+                        {
+                            <a asp-page="./Index" class="btn bg-gradient-warning btn-sm" style="float:right;">Back</a>
+                        }
+                        else
+                        {
+                            <a asp-page="/Admin/Index" asp-area="Dashboard" class="btn bg-gradient-warning btn-sm" style="float:right;">Back to Dashboard</a>
+
+                        }
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+        <!-- /.row -->
+    </div>
+    <!-- /.card-body -->
+    <div class="card-footer">
+    </div>
+</div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
